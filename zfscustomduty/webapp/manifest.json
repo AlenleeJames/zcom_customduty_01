@@ -1,0 +1,120 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "customduty.ui.invoiceposting",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.15.1",
+      "toolsId": "7cefc42a-7011-4937-be83-6647ab71b0f8"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "config": {
+      "fullWidth": true
+    },
+    "dependencies": {
+      "minUI5Version": "1.129.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "customduty.ui.invoiceposting.i18n.i18n"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ],
+      "js": [
+                {
+                    "uri": "thirdParty/Jszip.js"
+                },
+                {
+                    "uri": "thirdParty/Xlsx.js"
+                },
+                {
+                    "uri": "thirdParty/xlsx.js"
+                },
+                {
+                    "uri": "thirdParty/xlsx_min.js"
+                }
+            ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "customduty.ui.invoiceposting.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "RouteSelectionScreen",
+          "pattern": ":?query:",
+          "target": [
+            "TargetSelectionScreen"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetSelectionScreen": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "SelectionScreen",
+          "viewName": "SelectionScreen"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "customduty.ui.invoiceposting.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "customduty.ui.invoiceposting"
+  }
+}

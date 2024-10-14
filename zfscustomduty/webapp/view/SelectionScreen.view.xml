@@ -1,0 +1,239 @@
+<mvc:View
+    controllerName="customduty.ui.invoiceposting.controller.SelectionScreen"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+>
+    <f:DynamicPage
+        id="selectionScreen"
+        showFooter="true"
+        fitContent="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idSelectionScreenTitle">
+                <f:heading>
+                    <Title
+                        id="idSelectionScreenTitleText"
+                        text="{i18n>SelectionScreenTitle}"
+                    />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox
+                id="idSelectionScreenViewVBox"
+                class="sapUiSmallMargin"
+            >
+                <form:SimpleForm
+                    id="idUploadForm"
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4"
+                    labelSpanL="3"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0"
+                    emptySpanL="4"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="2"
+                    columnsL="1"
+                    columnsM="1"
+                    singleContainerFullSize="false"
+                >
+                    <form:content>
+                        <!--  Plant Field  -->
+                        <Label
+                            id="idSelectionScreenViewPlantLabel"
+                            text="{i18n>PlantDetails}"
+                            labelFor="idSelectionScreenViewPlantInput"
+                            required="true"
+                        />
+                        <MultiInput
+                            id="idSelectionScreenViewPlantSelect"
+                            showValueHelp="true"
+                            width="50%"
+                        />
+                        <!--  <Input id="idSelectionScreenViewPlantInput" valueState="{= ${uploadChaFileModel>/isPlantFieldFilled} ? 'None' : 'Error'}" valueStateText="{i18n>FieldcanNotBeEmptyMsg}" value="" required="true" liveChange="onInputChange" width="{AppControl>/sizes/inputSize1}"/>  -->
+                        <!--  PO vendor Field  -->
+                        <!-- <Label
+                            id="idSelectionScreenViewPOVendorLabel"
+                            text="{i18n>POVendorDetails}"
+                            labelFor="idSelectionScreenViewPOVendorInput"
+                            required="true"
+                        />
+                        <ComboBox
+                            id="idSelectionScreenViewPOVendorSelect"
+                            items="{path: '/SupplierSet'}"
+                            showSecondaryValues="true"
+                            change="onSelectFromComboBox"
+                            width="50%"
+                        >
+                            <core:ListItem
+                                id="idSelectionScreenViewPOVendorItem"
+                                key="{Lifnr}"
+                                text="{Lifnr}"
+                                additionalText="{Venname}"
+                            />
+                        </ComboBox> -->
+                        <!--  CHA vendor Field  -->
+                        <!-- <Label
+                            id="idSelectionScreenViewCHAVendorLabel"
+                            text="{i18n>CHAVendorDetails}"
+                            labelFor="idSelectionScreenViewCHAVendorInput"
+                            required="true"
+                        />
+                        <ComboBox
+                            id="idSelectionScreenViewCHAVendorSelect"
+                            items="{path: '/SupplierSet'}"
+                            showSecondaryValues="true"
+                            change="onSelectFromComboBox"
+                            width="50%"
+                        >
+                            <core:ListItem
+                                id="idSelectionScreenViewCHAVendorItem"
+                                key="{Lifnr}"
+                                text="{Lifnr}"
+                                additionalText="{Venname}"
+                            />
+                        </ComboBox> -->
+                        <!--  Supplier Invoice Number Field  -->
+                        <Label
+                            id="idSelectionScreenViewSuppierInvoiceNumberLabel"
+                            text="{i18n>SuppierInvoiceNumber}"
+                            labelFor="idSelectionScreenViewSuppierInvoiceNumberInput"
+                        />
+                        <Input
+                            id="idSelectionScreenViewSuppierInvoiceNumberInputHigh"
+                            value=""
+                            width="50%"
+                            required="false"
+                            liveChange="onAlphaNumericValidation"
+                            showValueHelp="true"
+                            class="sapUiSmallMarginEnd"
+                        />
+                        <!--  CHA File Browse  -->
+                        <Label
+                            id="idSelectionScreenViewCHAFileLabel"
+                            text="{i18n>CHAFile}"
+                            labelFor="idSelectionScreenViewSuppierInvoiceNumberInput"
+                            required="true"
+                        />
+                        <unified:FileUploader
+                            uploadComplete="onUploadComplete"
+                            valueState="{= ${uploadChaFileModel>/isChaFileFilled} ? 'None' : 'Error'}"
+                            valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
+                            id="fileUploader"
+                            mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            useMultipart="false"
+                            placeholder="{i18n>CHAFile}"
+                            sameFilenameAllowed="true"
+                            iconOnly="false"
+                            buttonOnly="false"
+                            fileType="XLSX,xlsx"
+                            icon="sap-icon://upload"
+                            iconFirst="true"
+                            style="Emphasized"
+                            change="onInputChange"
+                        />
+                        <Label
+                            id="idSelectionScreenViewFlexBoxLabel"
+                            text=""
+                        />
+                        <FlexBox
+                            id="idSelectionScreenViewFlexBox"
+                            justifyContent="Start"
+                            class="sapUiSmallMarginTop"
+                        >
+                            <Button
+                                id="idSelectionScreenViewClearButton"
+                                text="{i18n>Clear}"
+                                press="onClearForm"
+                                class="sapUiSmallMarginEnd"
+                            />
+                            <Button
+                                id="idSelectionScreenViewUploadButton"
+                                text="{i18n>Upload}"
+                                press="onSubmitFile"
+                                class="sapUiSmallMarginEnd"
+                                enabled="{= ${uploadChaFileModel>/isChaFileFilled}}"
+                            />
+                            <!--  <Button
+                                id="idUploadCHAFileViewDownloadTemplateButton"
+                                type="{AppControl>/style/buttonType}"
+                                text="{i18n>DownloadTemplate}"
+                                visible="{AppControl>/visibility/isDownloadTemplateVisible}"
+                            />  -->
+                        </FlexBox>
+                    </form:content>
+                </form:SimpleForm>
+                <t:Table
+                    rows="{ChaFileData>/}"
+                    selectionMode="MultiToggle"
+                    paste="onPaste"
+                    class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                    ariaLabelledBy="title"
+                >
+                    <t:extension>
+                        <OverflowToolbar style="Clear">
+                            <Title
+                                class="sapUiTinyMargin"
+                                id="title"
+                                text="{i18n>InvoiceTableTitle}"
+                            />
+                            <ToolbarSpacer />
+                            <Button
+                                class="sapUiTinyMargin"
+                                text="Validate"
+                                type="Emphasized"
+                            />
+                        </OverflowToolbar>
+                    </t:extension>
+                    <t:columns>
+                        <t:Column width="11rem">
+                            <Label text="{i18n>InvoiceNumber}" />
+                            <t:template>
+                                <Text
+                                    text="{ChaFileData>InvoiceId}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>TotalAmount}" />
+                            <t:template>
+                                <unified:Currency
+                                    value="{ChaFileData>TotalAmount}"
+                                    currency="{ChaFileData>CurrencyCode}"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </VBox>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button
+                    icon="sap-icon://message-popup"
+                    text="{/messagesLength}"
+                    type="Emphasized"
+                    press="onMessageButtonPress"
+                    visible="false"
+                />
+                <ToolbarSpacer />
+                <Button
+                    type="Accept"
+                    text="Proceed"
+                />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

@@ -12,7 +12,10 @@ sap.ui.define([
                 this.getView().setModel(
                     new JSONModel({
                         isChaFileFilled: false,
-                        isPlantFilled: false
+                        isPlantFilled: false,
+                        isCustomVendorFieldFilled: false,
+                        isLocalVendorFieldFilled: false,
+                        isInsuranceVendorFieldFilled: false
                     }),
                     "uploadChaFileModel"
                 );
@@ -68,6 +71,7 @@ sap.ui.define([
                         //fn to process excel data into local model for displaying unique Invoice ID data
                         this.processUniqueInvoiceData(excelData);
                         sap.ui.core.BusyIndicator.hide();
+                        this.byId("idValidateBtn").setEnabled(true);
                     }
                     reader.readAsArrayBuffer(this.file);
                 }
@@ -78,8 +82,14 @@ sap.ui.define([
             onClearForm: function () {
 
                 // Clearing all the forms
-                this.getById("idSelectionScreenViewSuppierInvoiceNumberInputHigh").setValue("");
-                this.getById("idSelectionScreenViewPlantSelect").setSelectedKey("");
+                this.getById("idSelectionScreenViewPlantMultiInput").setTokens([]);
+                this.getById("idSelectionScreenViewBENumberInputFrom").setValue("");
+                this.getById("idSelectionScreenViewBENumberInputTo").setValue("");
+                this.getById("idSelectionScreenViewPOVendorMultiInput").setTokens([]);
+                this.getById("idSelectionScreenViewCustomVendortMultiInput").setTokens([]);
+                this.getById("idSelectionScreenViewOverseasVendorMultiInput").setTokens([]);
+                this.getById("idSelectionScreenViewLocalVendortMultiInput").setTokens([]);
+                this.getById("idSelectionScreenViewInsuranceVendortMultiInput").setTokens([]);
                 this.getById("fileUploader").setValue("");
                 // Setting the model for Upload Button Active or not
                 this.setModelProperty("uploadChaFileModel", "isPoVendFieldFilled", false);
@@ -106,7 +116,12 @@ sap.ui.define([
                         invoiceList.push({
                             "InvoiceId": sItem["Invoice Number"].toString(),
                             "TotalAmount": sItem["Total Amount"],
-                            "CurrencyCode": sItem["Invoice Currency"]
+                            "CurrencyCode": sItem["Invoice Currency"],
+                            "OverseasFreightAmount": sItem["Overseas Freight Amount\r\n\r\n(in FC)"],
+                            "POVendor": "",
+                            "ExchangeRate": "",
+                            "OverseasFreightVendor": "",
+                            "ForeignCurrency": ""
                         });
                     }
                 });

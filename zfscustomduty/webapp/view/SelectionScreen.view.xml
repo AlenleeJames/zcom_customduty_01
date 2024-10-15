@@ -52,73 +52,96 @@
                         <!--  Plant Field  -->
                         <Label
                             id="idSelectionScreenViewPlantLabel"
-                            text="{i18n>PlantDetails}"
-                            labelFor="idSelectionScreenViewPlantInput"
+                            text="{i18n>Plant}"
                             required="true"
                         />
                         <MultiInput
-                            id="idSelectionScreenViewPlantSelect"
+                            id="idSelectionScreenViewPlantMultiInput"
                             showValueHelp="true"
                             width="50%"
+                            valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
+                            valueState="{= ${uploadChaFileModel>/isPlantFieldFilled} ? 'None' : 'Error'}"
                         />
-                        <!--  <Input id="idSelectionScreenViewPlantInput" valueState="{= ${uploadChaFileModel>/isPlantFieldFilled} ? 'None' : 'Error'}" valueStateText="{i18n>FieldcanNotBeEmptyMsg}" value="" required="true" liveChange="onInputChange" width="{AppControl>/sizes/inputSize1}"/>  -->
-                        <!--  PO vendor Field  -->
-                        <!-- <Label
-                            id="idSelectionScreenViewPOVendorLabel"
-                            text="{i18n>POVendorDetails}"
-                            labelFor="idSelectionScreenViewPOVendorInput"
-                            required="true"
-                        />
-                        <ComboBox
-                            id="idSelectionScreenViewPOVendorSelect"
-                            items="{path: '/SupplierSet'}"
-                            showSecondaryValues="true"
-                            change="onSelectFromComboBox"
-                            width="50%"
-                        >
-                            <core:ListItem
-                                id="idSelectionScreenViewPOVendorItem"
-                                key="{Lifnr}"
-                                text="{Lifnr}"
-                                additionalText="{Venname}"
-                            />
-                        </ComboBox> -->
-                        <!--  CHA vendor Field  -->
-                        <!-- <Label
-                            id="idSelectionScreenViewCHAVendorLabel"
-                            text="{i18n>CHAVendorDetails}"
-                            labelFor="idSelectionScreenViewCHAVendorInput"
-                            required="true"
-                        />
-                        <ComboBox
-                            id="idSelectionScreenViewCHAVendorSelect"
-                            items="{path: '/SupplierSet'}"
-                            showSecondaryValues="true"
-                            change="onSelectFromComboBox"
-                            width="50%"
-                        >
-                            <core:ListItem
-                                id="idSelectionScreenViewCHAVendorItem"
-                                key="{Lifnr}"
-                                text="{Lifnr}"
-                                additionalText="{Venname}"
-                            />
-                        </ComboBox> -->
-                        <!--  Supplier Invoice Number Field  -->
+                        <!--  BE Number Field  -->
                         <Label
-                            id="idSelectionScreenViewSuppierInvoiceNumberLabel"
-                            text="{i18n>SuppierInvoiceNumber}"
-                            labelFor="idSelectionScreenViewSuppierInvoiceNumberInput"
+                            id="idSelectionScreenViewBENumberLabel"
+                            text="{i18n>BENumber}"
                         />
-                        <Input
-                            id="idSelectionScreenViewSuppierInvoiceNumberInputHigh"
-                            value=""
+                        <FlexBox
+                            id="idSelectionScreenViewBENumberFlexBox"
+                            justifyContent="Start"
+                        >
+                            <Input
+                                id="idSelectionScreenViewBENumberInputFrom"
+                            />
+                            <Text
+                                text="to"
+                                class="sapUiTinyMarginBegin"
+                            />
+                            <Input
+                                id="idSelectionScreenViewBENumberInputTo"
+                                class="sapUiTinyMarginBegin"
+                            />
+                        </FlexBox>
+
+                        <!--  PO vendor Field  -->
+                        <Label
+                            id="idSelectionScreenViewPOVendorLabel"
+                            text="{i18n>POVendor}"
+                        />
+                        <MultiInput
+                            id="idSelectionScreenViewPOVendorMultiInput"
                             width="50%"
-                            required="false"
-                            liveChange="onAlphaNumericValidation"
-                            showValueHelp="true"
-                            class="sapUiSmallMarginEnd"
                         />
+                        <!--  Custom vendor Field  -->
+                        <Label
+                            id="idSelectionScreenViewCustomVendorLabel"
+                            text="{i18n>CustomVendor}"
+                            required="true"
+                        />
+                        <MultiInput
+                            id="idSelectionScreenViewCustomVendortMultiInput"
+                            showValueHelp="true"
+                            width="50%"
+                            valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
+                            valueState="{= ${uploadChaFileModel>/isCustomVendorFieldFilled} ? 'None' : 'Error'}"
+                        />
+                        <!--  Overseas Freight vendor Field  -->
+                        <Label
+                            id="idSelectionScreenViewOverseasVendorLabel"
+                            text="{i18n>OverseasFreightVendor}"
+                        />
+                        <MultiInput
+                            id="idSelectionScreenViewOverseasVendorMultiInput"
+                            width="50%"
+                        />
+                        <!--  Local Freight vendor Field  -->
+                        <Label
+                            id="idSelectionScreenViewLocalFrieghtVendorLabel"
+                            text="{i18n>LocalFreightVendor}"
+                            required="true"
+                        />
+                        <MultiInput
+                            id="idSelectionScreenViewLocalVendortMultiInput"
+                            showValueHelp="true"
+                            width="50%"
+                            valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
+                            valueState="{= ${uploadChaFileModel>/isLocalVendorFieldFilled} ? 'None' : 'Error'}"
+                        />
+                        <!--  Insurance vendor Field  -->
+                        <Label
+                            id="idSelectionScreenViewInsuranceVendorLabel"
+                            text="{i18n>InsuranceVendor}"
+                            required="true"
+                        />
+                        <MultiInput
+                            id="idSelectionScreenViewInsuranceVendortMultiInput"
+                            showValueHelp="true"
+                            width="50%"
+                            valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
+                            valueState="{= ${uploadChaFileModel>/isInsuranceVendorFieldFilled} ? 'None' : 'Error'}"
+                        />
+
                         <!--  CHA File Browse  -->
                         <Label
                             id="idSelectionScreenViewCHAFileLabel"
@@ -189,16 +212,16 @@
                                 text="{i18n>InvoiceTableTitle}"
                             />
                             <ToolbarSpacer />
-                            <Button
+                            <Button id="idValidateBtn"
                                 class="sapUiTinyMargin"
-                                text="Validate"
+                                text="Validate" enabled="false"
                                 type="Emphasized"
                             />
                         </OverflowToolbar>
                     </t:extension>
                     <t:columns>
                         <t:Column width="11rem">
-                            <Label text="{i18n>InvoiceNumber}" />
+                            <Label text="{i18n>Invoice}" />
                             <t:template>
                                 <Text
                                     text="{ChaFileData>InvoiceId}"
@@ -207,12 +230,61 @@
                             </t:template>
                         </t:Column>
                         <t:Column width="9rem">
-                            <Label text="{i18n>TotalAmount}" />
+                            <Label text="{i18n>LocalFreightAmount}" wrapping="true"/>
                             <t:template>
-                                <unified:Currency
+                                <!-- <unified:Currency
                                     value="{ChaFileData>TotalAmount}"
                                     currency="{ChaFileData>CurrencyCode}"
+                                /> -->
+                                <Input value="{ChaFileData>Freight}" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>InsuranceAmount}" wrapping="true"/>
+                            <t:template>
+                                <!-- <unified:Currency
+                                    value="{ChaFileData>TotalAmount}"
+                                    currency="{ChaFileData>CurrencyCode}"
+                                /> -->
+                                <Input value="{ChaFileData>TotalAmount}" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>OverseasFreightAmount}" wrapping="true"/>
+                            <t:template>
+                                <!-- <unified:Currency
+                                    value="{ChaFileData>TotalAmount}"
+                                    currency="{ChaFileData>CurrencyCode}"
+                                /> -->
+                                <Input
+                                    value="{ChaFileData>OverseasFreightAmount}"
                                 />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>ForeignCurrency}" wrapping="true"/>
+                            <t:template>
+                                <Input value="{ChaFileData>ForeignCurrency}" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>ExchangeRate}" wrapping="true"/>
+                            <t:template>
+                                <Input value="{ChaFileData>ExchangeRate}" />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>OverseasFreightVendor}" wrapping="true"/>
+                            <t:template>
+                                <Input
+                                    value="{ChaFileData>OverseasFreightVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>POVendor}" wrapping="true"/>
+                            <t:template>
+                                <Input value="{ChaFileData>POVendor}" />
                             </t:template>
                         </t:Column>
                     </t:columns>

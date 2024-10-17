@@ -24,6 +24,10 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        backend:
+          - url: https://andreas-stihl-ag---co--kg-stihl-b2b-non-prod-2gn8zc77-d36a1ec02.cfapps.eu10-004.hana.ondemand.com
+            path: /odata
+            destination: CustomDuty
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

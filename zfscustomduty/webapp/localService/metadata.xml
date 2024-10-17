@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0"
+xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+</edmx:Reference>
+<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+</edmx:Reference>
+<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+</edmx:Reference>
+<edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Measures.V1.xml">
+    <edmx:Include Alias="Measures" Namespace="Org.OData.Measures.V1"/>
+</edmx:Reference>
+<edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+</edmx:Reference>
+<edmx:DataServices>
+    <Schema Namespace="CustomDutyAppSrv"
+    xmlns="http://docs.oasis-open.org/odata/ns/edm">
+    <Annotation Term="Core.Links">
+        <Collection>
+            <Record>
+                <PropertyValue Property="rel" String="author"/>
+                <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+            </Record>
+        </Collection>
+    </Annotation>
+    <EntityContainer Name="EntityContainer">
+        <EntitySet Name="POVendorVH" EntityType="CustomDutyAppSrv.POVendorVH"/>
+        <EntitySet Name="PlantVH" EntityType="CustomDutyAppSrv.PlantVH"/>
+        <EntitySet Name="ZA_MM_CustomDutyInvDetails" EntityType="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails"/>
+    </EntityContainer>
+    <EntityType Name="POVendorVH">
+        <Key>
+            <PropertyRef Name="Supplier"/>
+        </Key>
+        <Property Name="Supplier" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="SupplierName" Type="Edm.String" MaxLength="35" Nullable="false"/>
+        <Property Name="BusinessPartnerName1" Type="Edm.String" MaxLength="40" Nullable="false"/>
+        <Property Name="BPSupplierName" Type="Edm.String" MaxLength="81" Nullable="false"/>
+        <Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4" Nullable="false"/>
+        <Property Name="SupplierAccountGroup" Type="Edm.String" MaxLength="4" Nullable="false"/>
+        <Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1" Nullable="false"/>
+        <Property Name="BusinessPartner" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="BusinessPartnerType" Type="Edm.String" MaxLength="4" Nullable="false"/>
+        <Property Name="DataControllerSet" Type="Edm.String" MaxLength="1" Nullable="false"/>
+        <Property Name="DataController1" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController2" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController3" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController4" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController5" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController6" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController7" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController8" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController9" Type="Edm.String" MaxLength="30" Nullable="false"/>
+        <Property Name="DataController10" Type="Edm.String" MaxLength="30" Nullable="false"/>
+    </EntityType>
+    <EntityType Name="PlantVH">
+        <Key>
+            <PropertyRef Name="Plant"/>
+        </Key>
+        <Property Name="Plant" Type="Edm.String" MaxLength="4" Nullable="false"/>
+        <Property Name="PlantName" Type="Edm.String" MaxLength="30" Nullable="false"/>
+    </EntityType>
+    <EntityType Name="ZA_MM_CustomDutyInvDetails">
+        <Key>
+            <PropertyRef Name="IBDNumber"/>
+            <PropertyRef Name="IBDItemNumber"/>
+        </Key>
+        <Property Name="IBDNumber" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="IBDItemNumber" Type="Edm.String" MaxLength="6" Nullable="false"/>
+        <Property Name="Plant" Type="Edm.String" MaxLength="4" Nullable="false"/>
+        <Property Name="Material" Type="Edm.String" MaxLength="18" Nullable="false"/>
+        <Property Name="PurchaseorderNumber" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="POItemNumber" Type="Edm.String" MaxLength="5" Nullable="false"/>
+        <Property Name="POVendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="25" Nullable="false"/>
+        <Property Name="POQuantity" Type="Edm.Decimal" Precision="13" Scale="3" Nullable="false"/>
+        <Property Name="GRQuantity" Type="Edm.Decimal" Precision="13" Scale="3" Nullable="false"/>
+        <Property Name="PurchaseOrderQuantityUnit" Type="Edm.String" MaxLength="3" Nullable="false"/>
+        <Property Name="HSNCode" Type="Edm.String" MaxLength="16" Nullable="false"/>
+        <Property Name="BCDVendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="SWSVendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="BCDRate" Type="Edm.Decimal" Precision="24" Scale="9" Nullable="false"/>
+        <Property Name="SWSRate" Type="Edm.Decimal" Precision="24" Scale="9" Nullable="false"/>
+        <Property Name="OverseasFreightVendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="DomesticFreightVendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+        <Property Name="Miscvendor" Type="Edm.String" MaxLength="10" Nullable="false"/>
+    </EntityType>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH">
+        <Annotation Term="Common.Label" String="Supplier"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.EntityContainer/POVendorVH">
+        <Annotation Term="Capabilities.SearchRestrictions">
+            <Record Type="Capabilities.SearchRestrictionsType">
+                <PropertyValue Property="Searchable" Bool="true"/>
+                <PropertyValue Property="UnsupportedExpressions" EnumMember="Capabilities.SearchExpressions/phrase"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+            <Record Type="Capabilities.InsertRestrictionsType">
+                <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record Type="Capabilities.DeleteRestrictionsType">
+                <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record Type="Capabilities.UpdateRestrictionsType">
+                <PropertyValue Property="Updatable" Bool="false"/>
+                <PropertyValue Property="QueryOptions">
+                    <Record Type="Capabilities.ModificationQueryOptionsType">
+                        <PropertyValue Property="SelectSupported" Bool="true"/>
+                    </Record>
+                </PropertyValue>
+            </Record>
+        </Annotation>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/Supplier">
+        <Annotation Term="Common.Text" Path="BPSupplierName"/>
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Supplier"/>
+        <Annotation Term="Common.QuickInfo" String="Account Number of Supplier"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/SupplierName">
+        <Annotation Term="Common.Label" String="Supplier Name1"/>
+        <Annotation Term="Common.QuickInfo" String="Supplier Name"/>
+        <Annotation Term="Common.Heading" String="Name"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/BusinessPartnerName1">
+        <Annotation Term="Common.Label" String="Business Partner Name1"/>
+        <Annotation Term="Common.QuickInfo" String="Business Partner Name1"/>
+        <Annotation Term="Common.Heading" String="Name"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/BPSupplierName">
+        <Annotation Term="Common.Label" String="Business Partner Supplier Name"/>
+        <Annotation Term="Common.Heading" String="Supplier Name"/>
+        <Annotation Term="Common.QuickInfo" String="Supplier Name"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/AuthorizationGroup">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Authorization"/>
+        <Annotation Term="Common.Heading" String="AuGr"/>
+        <Annotation Term="Common.QuickInfo" String="Authorization Group"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/SupplierAccountGroup">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Account Group"/>
+        <Annotation Term="Common.Heading" String="Group"/>
+        <Annotation Term="Common.QuickInfo" String="Supplier Account Group"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/IsBusinessPurposeCompleted">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Purpose Completed"/>
+        <Annotation Term="Common.Heading" String="Business Purpose Completed Flag"/>
+        <Annotation Term="Common.QuickInfo" String="Business Purpose Completed Flag"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/BusinessPartner">
+        <Annotation Term="Common.Label" String="Business Partner"/>
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Heading" String="Business Partner"/>
+        <Annotation Term="Common.QuickInfo" String="Business Partner Number"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/BusinessPartnerType">
+        <Annotation Term="Common.Label" String="Business Partner Type"/>
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Heading" String="Type"/>
+        <Annotation Term="Common.QuickInfo" String="Business Partner Type"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataControllerSet">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Ctrlr. Set"/>
+        <Annotation Term="Common.Heading" String="Data Controller Set Flag"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller Set Flag"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController1">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController2">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController3">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController4">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController5">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController6">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController7">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController8">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController9">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.POVendorVH/DataController10">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Data Controller"/>
+        <Annotation Term="Common.QuickInfo" String="BP: Data Controller (Internal Use Only)"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.PlantVH">
+        <Annotation Term="Common.Label" String="Plant"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.EntityContainer/PlantVH">
+        <Annotation Term="Capabilities.SearchRestrictions">
+            <Record Type="Capabilities.SearchRestrictionsType">
+                <PropertyValue Property="Searchable" Bool="true"/>
+                <PropertyValue Property="UnsupportedExpressions" EnumMember="Capabilities.SearchExpressions/phrase"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+            <Record Type="Capabilities.InsertRestrictionsType">
+                <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record Type="Capabilities.DeleteRestrictionsType">
+                <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record Type="Capabilities.UpdateRestrictionsType">
+                <PropertyValue Property="Updatable" Bool="false"/>
+                <PropertyValue Property="QueryOptions">
+                    <Record Type="Capabilities.ModificationQueryOptionsType">
+                        <PropertyValue Property="SelectSupported" Bool="true"/>
+                    </Record>
+                </PropertyValue>
+            </Record>
+        </Annotation>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.PlantVH/Plant">
+        <Annotation Term="Common.Text" Path="PlantName"/>
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Plant"/>
+        <Annotation Term="Common.Heading" String="Plnt"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.PlantVH/PlantName">
+        <Annotation Term="Common.Label" String="Plant Name"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails">
+        <Annotation Term="Common.Label" String="API View - Customs Invoice Details"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.EntityContainer/ZA_MM_CustomDutyInvDetails">
+        <Annotation Term="Capabilities.SearchRestrictions">
+            <Record Type="Capabilities.SearchRestrictionsType">
+                <PropertyValue Property="Searchable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+            <Record Type="Capabilities.InsertRestrictionsType">
+                <PropertyValue Property="Insertable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.DeleteRestrictions">
+            <Record Type="Capabilities.DeleteRestrictionsType">
+                <PropertyValue Property="Deletable" Bool="false"/>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+            <Record Type="Capabilities.UpdateRestrictionsType">
+                <PropertyValue Property="Updatable" Bool="false"/>
+                <PropertyValue Property="QueryOptions">
+                    <Record Type="Capabilities.ModificationQueryOptionsType">
+                        <PropertyValue Property="SelectSupported" Bool="true"/>
+                    </Record>
+                </PropertyValue>
+            </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.FilterRestrictions">
+            <Record Type="Capabilities.FilterRestrictionsType">
+                <PropertyValue Property="FilterExpressionRestrictions">
+                    <Collection>
+                        <Record Type="Capabilities.FilterExpressionRestrictionType">
+                            <PropertyValue Property="Property" PropertyPath="POQuantity"/>
+                            <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                        </Record>
+                        <Record Type="Capabilities.FilterExpressionRestrictionType">
+                            <PropertyValue Property="Property" PropertyPath="GRQuantity"/>
+                            <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                        </Record>
+                    </Collection>
+                </PropertyValue>
+            </Record>
+        </Annotation>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/IBDNumber">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Delivery"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/IBDItemNumber">
+        <Annotation Term="Common.IsDigitSequence" Bool="true"/>
+        <Annotation Term="Common.Label" String="Item"/>
+        <Annotation Term="Common.QuickInfo" String="Delivery Item"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/Plant">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Plant"/>
+        <Annotation Term="Common.Heading" String="Plnt"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/Material">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Product"/>
+        <Annotation Term="Common.QuickInfo" String="Product Number"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/PurchaseorderNumber">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Purchase Order"/>
+        <Annotation Term="Common.Heading" String="Purchase Order Number"/>
+        <Annotation Term="Common.QuickInfo" String="Purchase Order Number"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/POItemNumber">
+        <Annotation Term="Common.IsDigitSequence" Bool="true"/>
+        <Annotation Term="Common.Label" String="Purchase Order Item"/>
+        <Annotation Term="Common.Heading" String="Item Number of Purchase Order"/>
+        <Annotation Term="Common.QuickInfo" String="Item Number of Purchase Order"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/POVendor">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Supplier"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/InvoiceNumber">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Reference"/>
+        <Annotation Term="Common.QuickInfo" String="Reference Document Number"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/POQuantity">
+        <Annotation Term="Measures.Unit" Path="PurchaseOrderQuantityUnit"/>
+        <Annotation Term="Common.Label" String="Order Quantity"/>
+        <Annotation Term="Common.Heading" String="PO Quantity"/>
+        <Annotation Term="Common.QuickInfo" String="Purchase Order Quantity"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/GRQuantity">
+        <Annotation Term="Measures.Unit" Path="PurchaseOrderQuantityUnit"/>
+        <Annotation Term="Common.Label" String="Quantity"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/PurchaseOrderQuantityUnit">
+        <Annotation Term="Common.IsUnit" Bool="true"/>
+        <Annotation Term="Common.Label" String="Order Unit"/>
+        <Annotation Term="Common.Heading" String="OUn"/>
+        <Annotation Term="Common.QuickInfo" String="Purchase Order Unit of Measure"/>
+    </Annotations>
+    <Annotations Target="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails/HSNCode">
+        <Annotation Term="Common.IsUpperCase" Bool="true"/>
+        <Annotation Term="Common.Label" String="Control Code"/>
+        <Annotation Term="Common.QuickInfo" String="Control code for consumption taxes in foreign trade"/>
+    </Annotations>
+</Schema>
+</edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,68 @@
+<mvc:View
+    controllerName="customduty.ui.invoiceposting.controller.InvoicePosting"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+>
+    <f:DynamicPage
+        id="invoicePosting"
+        showFooter="true"
+        fitContent="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idInvoicePostingTitle">
+                <f:heading>
+                    <Title
+                        id="idInvoicePostingTitleText"
+                        text="{i18n>InvoicePostingTitle}"
+                    />
+                </f:heading>
+                <f:content>
+                    <OverflowToolbar id="idCFURPageHeaderOverFlowToolbar">
+                        <GenericTag
+                            id="idPlantTag"
+                            status="Error"
+                            text="{i18n>Plant}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/Plant} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idPlantDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/Plant}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idVendorTag"
+                            status="Error"
+                            text="{i18n>POVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/POVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idPOVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/POVendor}"
+                            />
+                        </GenericTag>
+                    </OverflowToolbar>
+                </f:content>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox
+                id="idIPVVBox"
+                class="sapUiSmallMargin"
+            />
+        </f:content>
+        <f:footer />
+    </f:DynamicPage>
+</mvc:View>

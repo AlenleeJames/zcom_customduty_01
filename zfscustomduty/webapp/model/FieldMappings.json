@@ -1,0 +1,218 @@
+{
+    "ChaFileFields": [
+        {
+            "ColumnName": "Country Of Origin",
+            "Property": "CountryOrigin",
+            "Position": 0
+        },
+        {
+            "ColumnName": "BE No",
+            "Property": "BENumber",
+            "Position": 1
+        },
+        {
+            "ColumnName": "BE Date",
+            "Property": "BEDate",
+            "Position": 2
+        },
+        {
+            "ColumnName": "HAWB/ HBL Date",
+            "Property": "HAWBHBLDate",
+            "Position": 3
+        },
+        {
+            "ColumnName": "Total BCD",
+            "Property": "TotalBCD",
+            "Position": 4
+        },
+        {
+            "ColumnName": "Total SWS",
+            "Property": "TotalSWS",
+            "Position": 5
+        },
+        {
+            "ColumnName": "Total IGST",
+            "Property": "TotalIGST",
+            "Position": 6
+        },
+        {
+            "ColumnName": "Total Duty",
+            "Property": "TotalDuty",
+            "Position": 7
+        },
+        {
+            "ColumnName": "Invoice Number",
+            "Property": "InvoiceNumber",
+            "Position": 8
+        },
+        {
+            "ColumnName": "Invoice Date",
+            "Property": "InvoiceDate",
+            "Position": 9
+        },
+        {
+            "ColumnName": "Invoice Value in FC",
+            "Property": "InvoiceValueFC",
+            "Position": 10
+        },
+        {
+            "ColumnName": "Invoice Currency",
+            "Property": "InvoiceCurrency",
+            "Position": 11
+        },
+        {
+            "ColumnName": "Exc.Rate for Invoice",
+            "Property": "InvoiceExcRate",
+            "Position": 12
+        },
+        {
+            "ColumnName": "Overseas Freight Amount (in FC)",
+            "Property": "OverseasFreightAmtFC",
+            "Position": 13
+        },
+        {
+            "ColumnName": "Freight Percentage",
+            "Property": "FreightPercentage",
+            "Position": 14
+        },
+        {
+            "ColumnName": "Freight Currency",
+            "Property": "FreightCurrency",
+            "Position": 15
+        },
+        {
+            "ColumnName": "Freight Exc rate",
+            "Property": "FreightExcRate",
+            "Position": 16
+        },
+        {
+            "ColumnName": "Domestic Freight Amount",
+            "Property": "DomesticFreightAmount",
+            "Position": 17
+        },
+        {
+            "ColumnName": "Insurance Amount ",
+            "Property": "InsuranceAmount",
+            "Position": 18
+        },
+        {
+            "ColumnName": "Insurance Percentage",
+            "Property": "InsurancePercentage",
+            "Position": 19
+        },
+        {
+            "ColumnName": "Insurance Currency ",
+            "Property": "InsuranceCurrency",
+            "Position": 20
+        },
+        {
+            "ColumnName": "Insurance Ex Rate",
+            "Property": "InsuranceExcRate",
+            "Position": 21
+        },
+        {
+            "ColumnName": "Misc Charges",
+            "Property": "MiscCharges",
+            "Position": 22
+        },
+        {
+            "ColumnName": "Material",
+            "Property": "Material",
+            "Position": 23
+        },
+        {
+            "ColumnName": "Material Description",
+            "Property": "MaterialDesc",
+            "Position": 24
+        },
+        {
+            "ColumnName": "HSN Code",
+            "Property": "HSNCode",
+            "Position": 25
+        },
+        {
+            "ColumnName": "Unit Price",
+            "Property": "UnitPrice",
+            "Position": 26
+        },
+        {
+            "ColumnName": "Quantity",
+            "Property": "Quantity",
+            "Position": 27
+        },
+        {
+            "ColumnName": "Unit",
+            "Property": "Unit",
+            "Position": 28
+        },
+        {
+            "ColumnName": "BCD Amount",
+            "Property": "BCDAmount",
+            "Position": 29
+        },
+        {
+            "ColumnName": "Rate of BCD %",
+            "Property": "BCDPercentage",
+            "Position": 30
+        },
+        {
+            "ColumnName": "SWS Charges",
+            "Property": "SWSCharges",
+            "Position": 31
+        },
+        {
+            "ColumnName": "SWS %",
+            "Property": "SWSPercentage",
+            "Position": 32
+        },
+        {
+            "ColumnName": "IGST Amount",
+            "Property": "IGSTAmount",
+            "Position": 33
+        },
+        {
+            "ColumnName": "IGST %",
+            "Property": "IGSTPercentage",
+            "Position": 34
+        },
+        {
+            "ColumnName": "Assessable Value",
+            "Property": "AssessableValue",
+            "Position": 35
+        }
+    ],
+    "ValueHelpConfig": [
+        {
+            "InputId": "idSSVPlantInput",
+            "Columns" : {
+                "cols": [{
+                    "label": "Plant",
+                    "template": "Plant"
+                }, {
+                    "label": "Plant Name",
+                    "template": "PlantName"
+                }]
+            },
+            "EntityPath" : "/PlantVH",
+            "FragmentName": "PlantValueHelp"
+        },
+        {
+            "InputId": "idSSVPOVendorInput",
+            "Columns" : {
+                "cols": [{
+                    "label": "Supplier",
+                    "template": "Supplier"
+                }, {
+                    "label": "Supplier Name",
+                    "template": "SupplierName"
+                }]
+            },
+            "EntityPath" : "/POVendorVH",
+            "FragmentName": "POVendorValueHelp"
+        }
+    ],
+    "SelectionFields": {
+        "Plant": "",
+        "POVendor": ""
+    }
+}

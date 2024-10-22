@@ -9,6 +9,8 @@
     xmlns:f="sap.f"
     xmlns:form="sap.ui.layout.form"
     xmlns:unified="sap.ui.unified"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <f:DynamicPage
         id="invoicePosting"
@@ -61,7 +63,32 @@
             <VBox
                 id="idIPVVBox"
                 class="sapUiSmallMargin"
-            />
+            >
+                <!-- <smartTable:SmartTable
+                    id="LineItemsSmartTable"
+                    entitySet="CustomDutyMaster"
+                    tableType="Table"
+                    enableExport="true"
+                    beforeExport="onBeforeExport"
+                    useVariantManagement="true"
+                    useTablePersonalisation="true"
+                    header="Line Items"
+                    showRowCount="true"
+                    persistencyKey="SmartTableAnalytical_Explored"
+                    enableAutoBinding="true"
+                    class="sapUiResponsiveContentPadding"
+                    enableAutoColumnWidth="true"
+                    editTogglable="true"
+                    app:useSmartToggle="true"
+                >
+                    <smartTable:layoutData>
+                        <FlexItemData
+                            growFactor="1"
+                            baseSize="0%"
+                        />
+                    </smartTable:layoutData>
+                </smartTable:SmartTable> -->
+            </VBox>
         </f:content>
         <f:footer />
     </f:DynamicPage>

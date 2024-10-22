@@ -4,9 +4,13 @@ sap.ui.define([
     "sap/m/BusyDialog",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/m/Token"
+    "sap/m/Token",
+    "sap/m/MessageToast",
+    "sap/m/MessageBox",
+    "sap/ui/core/format/DateFormat",
+    "sap/ui/core/format/NumberFormat"
 ],
-    function (BaseController, JSONModel, BusyDialog, Filter, FilterOperator, Token) {
+    function (BaseController, JSONModel, BusyDialog, Filter, FilterOperator, Token, MessageToast, MessageBox, DateFormat, NumberFormat) {
         "use strict";
 
         return BaseController.extend("customduty.ui.invoiceposting.controller.SelectionScreen", {
@@ -27,7 +31,9 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel([]), "ChaFileModel");
                 this.busyDialog = new BusyDialog();
             },
-
+            /* 
+                fn to initialize Multi input token validator
+            */
             onAfterRendering: function () {
                 const BENumber = this.byId("idSSVBENumberMultiInput");
                 // add validator
@@ -98,49 +104,53 @@ sap.ui.define([
             processUniqueInvoiceData: function (excelData) {
                 const BETokens = this.byId("idSSVBENumberMultiInput").getTokens(),
                     POVendorValue = this.byId("idSSVPOVendorInput").getValue(),
-                    OverseasVendorValue = this.byId("idSSVOverseasVendorInput").getValue();
-                let uniqInvoices = [], invoiceList = [];
+                    OverseasVendorValue = this.byId("idSSVOverseasVendorInput").getValue(),
+                    defaultObject = {
+                        "LocalFreightAmount": "",
+                        "InsuranceAmount": "",
+                        "OverseasFreightAmount": "",
+                        "ForeignCurrency": "",
+                        "ExchangeRate": "",
+                        "OverseasFreightVendor": OverseasVendorValue,
+                        "POVendor": POVendorValue,
+                        "OverseasFreightVendorEditable": OverseasVendorValue.length > 0 ? false : true,
+                        "POVendorEditable": POVendorValue.length > 0 ? false : true,
+                        "LocalFreightAmountVS": "None",
+                        "InsuranceAmountVS": "None",
+                        "OverseasFreightAmountVS": "None",
+                        "ForeignCurrencyVS": "None",
+                        "ExchangeRateVS": "None"
+                    },
+                    uniqInvoices = [], invoiceList = [];
                 if (BETokens.length > 0) {
                     BETokens.forEach((BENumber) => {
                         excelData.forEach((sItem) => {
                             const chaObjectKeys = Object.keys(sItem);
+                            let selObject = {};
                             if (BENumber.getKey() === sItem[chaObjectKeys[1]].toString())
                                 if (!uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
                                     uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
-                                    invoiceList.push({
-                                        "InvoiceId": sItem[chaObjectKeys[8]].toString(),
-                                        "TotalAmount": "",
-                                        "CurrencyCode": "",
-                                        "OverseasFreightAmount": "",
-                                        "POVendor": POVendorValue,
-                                        "ExchangeRate": "",
-                                        "OverseasFreightVendor": OverseasVendorValue,
-                                        "ForeignCurrency": "",
-                                        "POVendorEditable": POVendorValue.length > 0 ? false : true,
-                                        "OverseasFreightVendorEditable": OverseasVendorValue.length > 0 ? false : true
-                                    });
+                                    selObject.InvoiceId = sItem[chaObjectKeys[8]].toString();
+                                    Object.keys(defaultObject).forEach((defObject) => {
+                                        selObject[defObject] = defaultObject[defObject];
+                                    })
+                                    invoiceList.push(selObject);
                                 }
-                        })
+                        });
                     });
                     if (uniqInvoices.length === 0)
-                        sap.m.MessageToast.show("No Data matched for provided BE Numbers");
+                        MessageToast.show("No Data matched for provided BE Numbers");
                 } else {
                     excelData.forEach((sItem) => {
                         const chaObjectKeys = Object.keys(sItem);
+                        let selObject = {};
                         if (!uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
                             uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
-                            invoiceList.push({
-                                "InvoiceId": sItem[chaObjectKeys[8]].toString(),
-                                "TotalAmount": "",
-                                "CurrencyCode": "",
-                                "OverseasFreightAmount": "",
-                                "POVendor": POVendorValue,
-                                "ExchangeRate": "",
-                                "OverseasFreightVendor": OverseasVendorValue,
-                                "ForeignCurrency": "",
-                                "POVendorEditable": POVendorValue.length > 0 ? false : true,
-                                "OverseasFreightVendorEditable": OverseasVendorValue.length > 0 ? false : true
+                            selObject.InvoiceId = sItem[chaObjectKeys[8]].toString();
+                            Object.keys(defaultObject).forEach((defObject) => {
+                                selObject[defObject] = defaultObject[defObject];
                             });
+                            invoiceList.push(selObject);
                         }
                     });
                 }
@@ -148,6 +158,9 @@ sap.ui.define([
                 this.getView().getModel("InvoiceModel").setData(invoiceList);
                 this.getView().getModel("InvoiceModel").refresh(true);
             },
+            /* 
+                fn to read all chaFile data and store in local model
+            */
             constructChaFileModel: function (excelData) {
                 const chaFileData = [],
                     fieldMappingData = this.getView().getModel("FieldMappings").getData().ChaFileFields;
@@ -155,7 +168,22 @@ sap.ui.define([
                     const ObjectKeys = Object.keys(oRecord),
                         chaFileObject = {};
                     fieldMappingData.forEach((mappingObject) => {
-                        chaFileObject[mappingObject.Property] = oRecord[ObjectKeys[mappingObject.Position]];
+                        if (mappingObject.FieldSource === "CHAFile") {
+                            const sValue = oRecord[ObjectKeys[mappingObject.Position]];
+                            if (mappingObject.Type === "Date") {
+                               const calDays = Math.floor(sValue - 25569), oDateFormat = DateFormat.getDateInstance({
+                                    pattern: "yyyy-MM-dd"
+                                });
+                                chaFileObject[mappingObject.Property] = oDateFormat.format(new Date(calDays * 86400 * 1000));
+                            } else if (mappingObject.Type === "Decimal") {
+                                const oNumberFormat = NumberFormat.getFloatInstance({
+                                    minFractionDigits : 2, maxFractionDigits: 3
+                                }), formattedValue = oNumberFormat.format(sValue.toString());
+                                chaFileObject[mappingObject.Property] = isNaN(Number(formattedValue.replaceAll(",",""))) ? 0 : Number(formattedValue.replaceAll(",",""));
+                            } else
+                                chaFileObject[mappingObject.Property] = oRecord[ObjectKeys[mappingObject.Position]].toString();
+                        } else
+                            chaFileObject[mappingObject.Property] = "";
                     });
                     chaFileData.push(chaFileObject);
                 })
@@ -190,7 +218,9 @@ sap.ui.define([
                 this.byId("idValidateBtn").setEnabled(false);
                 this.byId("idProceedToInvoicePosting").setEnabled(false);
             },
-
+            /* 
+                fn to set value for input fields via suggestion selection
+            */
             onSuggestionItemSelected: function (oEvent) {
                 const oSource = oEvent.getSource(),
                     sKey = oSource.getSelectedKey(),
@@ -202,7 +232,9 @@ sap.ui.define([
                     this.getView().getModel("uploadChaFileModel").refresh(true);
                 }
             },
-
+            /* 
+                fn to read and display valuehelp dialog for input fields
+            */
             onInputValueHelpDialog: function (oEvent) {
                 const sInputId = oEvent.getSource().getId().split("SelectionScreen--")[1],
                     ValueHelpConfig = this.getView().getModel("FieldMappings").getData().ValueHelpConfig;
@@ -215,7 +247,9 @@ sap.ui.define([
                 if (valueHelpObject !== null)
                     this.loadValueHelpDialog(valueHelpObject.Columns, valueHelpObject.EntityPath, this, valueHelpObject.FragmentName);
             },
-
+            /* 
+                fn to read s4 data and update PO, PO item number and hsn code system values
+            */
             onValidateInvoiceModel: function () {
                 const oModel = this.getView().getModel(),
                     sInputIds = ["idSSVPlantInput", "idSSVPOVendorInput", "idSSVCustomVendortInput", "idSSVOverseasVendorInput", "idSSVLocalVendortInput", "idSSVInsuranceVendortInput"],
@@ -236,18 +270,61 @@ sap.ui.define([
                             CustInvData.push(sContext.getObject())
                         })
                         this.byId("idProceedToInvoicePosting").setEnabled(true);
-                    }
+                    } else
+                        MessageBox.information("No data matched for the provided values")
                     this.busyDialog.close();
                 });
             },
+            /* 
+                fn to construct final output data to send for calcualtion and on success
+                send to output screen for displaying data in table
+            */
             onProceedToInvoicePostingScreen: function () {
                 const FieldMappings = this.getOwnerComponent().getModel("FieldMappings"),
-                    oRouter = this.getOwnerComponent().getRouter();
-                // Setting the Plant anf Po Number for Upload result File header
-                FieldMappings.getData().SelectionFields.Plant = this.getById("idSSVPlantInput").getValue();
-                FieldMappings.getData().SelectionFields.POVendor = this.getById("idSSVPOVendorInput").getValue();
-                FieldMappings.refresh(true);
-                oRouter.navTo("InvoicePosting");
+                    oRouter = this.getOwnerComponent().getRouter(),
+                    toContinue = this.validateInvoiceTableFields();
+                this.busyDialog.open();
+                if (toContinue) {
+                    // Setting the Plant anf Po Number for Upload result File header
+                    FieldMappings.getData().SelectionFields.Plant = this.getById("idSSVPlantInput").getValue();
+                    FieldMappings.getData().SelectionFields.POVendor = this.getById("idSSVPOVendorInput").getValue();
+                    FieldMappings.refresh(true);
+                    this.busyDialog.close();
+                    oRouter.navTo("InvoicePosting");
+                } else {
+                    MessageToast.show("Please Fill all mandatory fields");
+                    this.busyDialog.close();
+                }
+
+            },
+            /* 
+                fn to validate all input fields from Invoice table 
+            */
+            validateInvoiceTableFields: function () {
+                const InvoiceModel = this.getView().getModel("InvoiceModel").getData(),
+                    mandFields = ["LocalFreightAmount", "InsuranceAmount", "OverseasFreightAmount", "ForeignCurrency", "ExchangeRate"];
+                let proceedToPost = true;
+                // Check all mandatory values from table 
+                InvoiceModel.forEach((sRecord) => {
+                    mandFields.forEach((sProperty) => {
+                        if (sRecord[sProperty].length === 0) {
+                            sRecord[sProperty + "VS"] = "Error";
+                            proceedToPost = false;
+                        }
+                    })
+                });
+                this.getView().getModel("InvoiceModel").updateBindings(true);
+                return proceedToPost;
+            },
+            /* 
+                fn to set valuestate for all input fields in Invoice table
+            */
+            onInvoiceTableInputChange: function (oEvent) {
+                const oSoruce = oEvent.getSource(), sValue = oSoruce.getValue();
+                if (sValue.length > 0)
+                    oSoruce.setValueState("None");
+                else
+                    oSoruce.setValueState("Error");
             }
         });
     });

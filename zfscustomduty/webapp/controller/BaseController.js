@@ -131,6 +131,7 @@ sap.ui.define(
           inputId = oEvent.getSource().data("InputId"),
           fieldProperty = this.byId(inputId).data("CHAModelProperty");
         this.byId(inputId).setValue(aTokens[0].getKey());
+        this.byId(inputId).setValueState("None");
         this.setModelProperty("uploadChaFileModel", fieldProperty, true);
         this.getView().getModel("uploadChaFileModel").refresh(true);
         this.oValueHelpDialog.close();

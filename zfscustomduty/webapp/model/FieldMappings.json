@@ -2,183 +2,395 @@
     "ChaFileFields": [
         {
             "ColumnName": "Country Of Origin",
-            "Property": "CountryOrigin",
-            "Position": 0
+            "Property": "CountryOfOrigin",
+            "Position": 0,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "BE No",
-            "Property": "BENumber",
-            "Position": 1
+            "Property": "BENo",
+            "Position": 1,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "BE Date",
             "Property": "BEDate",
-            "Position": 2
+            "Position": 2,
+            "FieldSource": "CHAFile",
+            "Type": "Date"
         },
         {
             "ColumnName": "HAWB/ HBL Date",
-            "Property": "HAWBHBLDate",
-            "Position": 3
+            "Property": "HAWB_HBLDate",
+            "Position": 3,
+            "FieldSource": "CHAFile",
+            "Type": "Date"
         },
         {
             "ColumnName": "Total BCD",
             "Property": "TotalBCD",
-            "Position": 4
+            "Position": 4,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Total SWS",
             "Property": "TotalSWS",
-            "Position": 5
+            "Position": 5,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Total IGST",
             "Property": "TotalIGST",
-            "Position": 6
+            "Position": 6,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Total Duty",
-            "Property": "TotalDuty",
-            "Position": 7
+            "Property": "TotalAmount",
+            "Position": 7,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Invoice Number",
             "Property": "InvoiceNumber",
-            "Position": 8
+            "Position": 8,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "Invoice Date",
-            "Property": "InvoiceDate",
-            "Position": 9
+            "Property": "Invoicedate",
+            "Position": 9,
+            "FieldSource": "CHAFile",
+            "Type": "Date"
         },
         {
             "ColumnName": "Invoice Value in FC",
             "Property": "InvoiceValueFC",
-            "Position": 10
+            "Position": 10,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Invoice Currency",
-            "Property": "InvoiceCurrency",
-            "Position": 11
+            "Property": "InvoiceCurrency_code",
+            "Position": 11,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "Exc.Rate for Invoice",
-            "Property": "InvoiceExcRate",
-            "Position": 12
+            "Property": "ExcRateforInvoice",
+            "Position": 12,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Overseas Freight Amount (in FC)",
-            "Property": "OverseasFreightAmtFC",
-            "Position": 13
+            "Property": "OverseasFreightAmount",
+            "Position": 13,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Freight Percentage",
             "Property": "FreightPercentage",
-            "Position": 14
+            "Position": 14,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Freight Currency",
-            "Property": "FreightCurrency",
-            "Position": 15
+            "Property": "FreightCurrency_code",
+            "Position": 15,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "Freight Exc rate",
-            "Property": "FreightExcRate",
-            "Position": 16
+            "Property": "FreightExrate",
+            "Position": 16,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Domestic Freight Amount",
             "Property": "DomesticFreightAmount",
-            "Position": 17
+            "Position": 17,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Insurance Amount ",
             "Property": "InsuranceAmount",
-            "Position": 18
+            "Position": 18,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Insurance Percentage",
             "Property": "InsurancePercentage",
-            "Position": 19
+            "Position": 19,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Insurance Currency ",
-            "Property": "InsuranceCurrency",
-            "Position": 20
+            "Property": "InsuranceCurrency_code",
+            "Position": 20,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "Insurance Ex Rate",
-            "Property": "InsuranceExcRate",
-            "Position": 21
+            "Property": "InsuranceExrate",
+            "Position": 21,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Misc Charges",
             "Property": "MiscCharges",
-            "Position": 22
+            "Position": 22,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Material",
             "Property": "Material",
-            "Position": 23
+            "Position": 23,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "Material Description",
-            "Property": "MaterialDesc",
-            "Position": 24
+            "Property": "ProductDescription",
+            "Position": 24,
+            "FieldSource": "CHAFile",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Purchase Order Number",
+            "Property": "PurchaseOrder",
+            "Position": null,
+            "FieldSource": "S4System",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Purchase order Item number",
+            "Property": "PurchaseorderItem",
+            "Position": null,
+            "FieldSource": "S4System",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "HSN Code",
-            "Property": "HSNCode",
-            "Position": 25
+            "Property": "HSNCodefromCHA",
+            "Position": 25,
+            "FieldSource": "CHAFile",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "HSN Code System",
+            "Property": "HSNCodeSystem",
+            "Position": null,
+            "FieldSource": "S4System",
+            "Type": "String"
         },
         {
             "ColumnName": "Unit Price",
             "Property": "UnitPrice",
-            "Position": 26
+            "Position": 26,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Quantity",
             "Property": "Quantity",
-            "Position": 27
+            "Position": 27,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
+        },
+        {
+            "ColumnName": "Open PO Qty",
+            "Property": "OpenPOQty",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Unit",
             "Property": "Unit",
-            "Position": 28
+            "Position": 28,
+            "FieldSource": "CHAFile",
+            "Type": "String"
         },
         {
             "ColumnName": "BCD Amount",
             "Property": "BCDAmount",
-            "Position": 29
+            "Position": 29,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Rate of BCD %",
-            "Property": "BCDPercentage",
-            "Position": 30
+            "Property": "RateofBCDPercent",
+            "Position": 30,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "SWS Charges",
-            "Property": "SWSCharges",
-            "Position": 31
+            "Property": "SocWelSurDutyAmt",
+            "Position": 31,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "SWS %",
-            "Property": "SWSPercentage",
-            "Position": 32
+            "Property": "SocWelSurDutyPer",
+            "Position": 32,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "IGST Amount",
-            "Property": "IGSTAmount",
-            "Position": 33
+            "Property": "IGST",
+            "Position": 33,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "IGST %",
-            "Property": "IGSTPercentage",
-            "Position": 34
+            "Property": "IGSTRateDutyPer",
+            "Position": 34,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
         },
         {
             "ColumnName": "Assessable Value",
             "Property": "AssessableValue",
-            "Position": 35
+            "Position": 35,
+            "FieldSource": "CHAFile",
+            "Type": "Decimal"
+        },
+        {
+            "ColumnName": "Overseas Freight charges per item",
+            "Property": "OverFreightperitem",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "Decimal"
+        },
+        {
+            "ColumnName": "Domestic Freight charges per item",
+            "Property": "DomesticFreightperitem",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "Decimal"
+        },
+        {
+            "ColumnName": "Insurance charges per item",
+            "Property": "Inschargesperitem",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "Decimal"
+        },
+        {
+            "ColumnName": "Misc charges per item",
+            "Property": "Miscchargesperitem",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "Decimal"
+        },
+        {
+            "ColumnName": "Custom Invoice Vendor",
+            "Property": "CustomInvoiceVendor",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Custom Invoice Number",
+            "Property": "CustomInvoice",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Overseas Freight Vendor",
+            "Property": "OverFreightVendor",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Overseas Freight Invoice Number",
+            "Property": "OverFreighInvoice",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Domestic Freight Vendor",
+            "Property": "DomFreightVendor",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Domestic Freight Invoice Number",
+            "Property": "DomFreightInvoice",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Insurance Vendor",
+            "Property": "InsuranceVendor",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Insurance Invoice Number",
+            "Property": "InsInvoNum",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Misc Charges Vendor",
+            "Property": "MiscChargesVen",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Misc Charge Invoice Number",
+            "Property": "MiscChargeInvoice",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Remarks",
+            "Property": "Remarks",
+            "Position": null,
+            "FieldSouStringrce": "BTP",
+            "Type": "String"
+        },
+        {
+            "ColumnName": "Status",
+            "Property": "status",
+            "Position": null,
+            "FieldSource": "BTP",
+            "Type": "String"
         }
     ],
     "ValueHelpConfig": [

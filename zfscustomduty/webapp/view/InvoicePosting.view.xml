@@ -62,32 +62,159 @@
         <f:content>
             <VBox
                 id="idIPVVBox"
-                class="sapUiSmallMargin"
             >
-                <!-- <smartTable:SmartTable
-                    id="LineItemsSmartTable"
-                    entitySet="CustomDutyMaster"
-                    tableType="Table"
-                    enableExport="true"
-                    beforeExport="onBeforeExport"
-                    useVariantManagement="true"
-                    useTablePersonalisation="true"
-                    header="Line Items"
-                    showRowCount="true"
-                    persistencyKey="SmartTableAnalytical_Explored"
-                    enableAutoBinding="true"
-                    class="sapUiResponsiveContentPadding"
-                    enableAutoColumnWidth="true"
-                    editTogglable="true"
-                    app:useSmartToggle="true"
+                <t:Table
+                    rows="{InvoicePostingModel>/}"
+                    selectionMode="None"
+                    class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                    ariaLabelledBy="title"
                 >
-                    <smartTable:layoutData>
-                        <FlexItemData
-                            growFactor="1"
-                            baseSize="0%"
-                        />
-                    </smartTable:layoutData>
-                </smartTable:SmartTable> -->
+                    <t:extension>
+                        <OverflowToolbar style="Clear">
+                            <Title
+                                class="sapUiTinyMargin"
+                                id="title"
+                                text="{i18n>PostingTitle}"
+                            />
+                            <ToolbarSpacer />
+                            <Button
+                                id="idSettings"
+                                class="sapUiTinyMargin"
+                                icon="sap-icon://settings"
+                            />
+                        </OverflowToolbar>
+                    </t:extension>
+                    <t:columns>
+                        <t:Column width="8rem">
+                            <Label text="{i18n>CountryOfOrigin}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>CountryOfOrigin}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>BENo}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>BENo}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>Invoice}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceNumber}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>Material}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>Material}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="12rem">
+                            <Label
+                                text="{i18n>ProductDesc}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                                <Text
+                                    text = "{InvoicePostingModel>ProductDescription}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>DomesticFreightAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>DomesticFreightAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>InsuranceAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                                <Text
+                                    text = "{InvoicePostingModel>InsuranceAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>OverseasFreightAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>OverseasFreightAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>ForeignCurrency}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>FreightCurrency_code}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>ExchangeRate}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>FreightExrate}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>OverseasFreightVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>OverFreightVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>POVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>InsuranceVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
             </VBox>
         </f:content>
         <f:footer />

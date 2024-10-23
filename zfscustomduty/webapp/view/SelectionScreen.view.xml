@@ -284,6 +284,7 @@
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
                                 <Input
+                                    type="Number"
                                     value="{InvoiceModel>LocalFreightAmount}"
                                     valueState="{InvoiceModel>LocalFreightAmountVS}"
                                     change="onInvoiceTableInputChange"
@@ -302,6 +303,7 @@
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
                                 <Input
+                                    type="Number"
                                     value="{InvoiceModel>InsuranceAmount}"
                                     valueState="{InvoiceModel>InsuranceAmountVS}"
                                     change="onInvoiceTableInputChange"
@@ -320,8 +322,28 @@
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
                                 <Input
+                                    type="Number"
                                     value="{InvoiceModel>OverseasFreightAmount}"
                                     valueState="{InvoiceModel>OverseasFreightAmountVS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>MiscAmount}"
+                                wrapping="true"
+                                required="true"
+                            />
+                            <t:template>
+                                <!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+                                <Input
+                                    type="Number"
+                                    value="{InvoiceModel>MiscAmount}"
+                                    valueState="{InvoiceModel>MiscAmountVS}"
                                     change="onInvoiceTableInputChange"
                                 />
                             </t:template>
@@ -334,6 +356,7 @@
                             />
                             <t:template>
                                 <Input
+                                    type="Text"
                                     value="{InvoiceModel>ForeignCurrency}"
                                     maxLength="3"
                                     valueState="{InvoiceModel>ForeignCurrencyVS}"
@@ -349,6 +372,7 @@
                             />
                             <t:template>
                                 <Input
+                                    type="Number"
                                     value="{InvoiceModel>ExchangeRate}"
                                     maxLength="10"
                                     valueState="{InvoiceModel>ExchangeRateVS}"
@@ -363,7 +387,9 @@
                             />
                             <t:template>
                                 <Input
+                                    type="Text"
                                     value="{InvoiceModel>OverseasFreightVendor}"
+                                    valueState="{InvoiceModel>OverseasFreightVendorVS}"
                                     editable="{InvoiceModel>OverseasFreightVendorEditable}"
                                 />
                             </t:template>
@@ -375,7 +401,9 @@
                             />
                             <t:template>
                                 <Input
+                                    type="Text"
                                     value="{InvoiceModel>POVendor}"
+                                    valueState="{InvoiceModel>POVendorVS}"
                                     editable="{InvoiceModel>POVendorEditable}"
                                 />
                             </t:template>

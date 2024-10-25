@@ -33,20 +33,8 @@
                 <form:SimpleForm
                     id="idUploadForm"
                     editable="true"
-                    layout="ResponsiveGridLayout"
-                    labelSpanXL="4"
-                    labelSpanL="3"
-                    labelSpanM="4"
-                    labelSpanS="12"
-                    adjustLabelSpan="false"
-                    emptySpanXL="0"
-                    emptySpanL="4"
-                    emptySpanM="0"
-                    emptySpanS="0"
-                    columnsXL="2"
-                    columnsL="1"
-                    columnsM="1"
-                    singleContainerFullSize="false"
+                    layout="ColumnLayout"
+                   
                 >
                     <form:content>
                         <!--  Plant Field  -->
@@ -224,7 +212,7 @@
                             useMultipart="false"
                             placeholder="{i18n>CHAFile}"
                             sameFilenameAllowed="true"
-                            iconOnly="false"
+                            iconOnly="true"
                             buttonOnly="false"
                             fileType="XLSX,xlsx"
                             icon="sap-icon://upload"
@@ -236,22 +224,21 @@
                             id="idSSVFlexBoxLabel"
                             text=""
                         />
-                        <FlexBox
-                            id="idSSVFlexBox"
-                            justifyContent="Start"
-                            class="sapUiSmallMarginTop"
-                        >
-                            <Button
+                          <Button
                                 id="idSSVClearButton"
                                 text="{i18n>Clear}"
                                 press="onClearForm"
-                                class="sapUiSmallMarginEnd"
+                                class="sapUiSmallMarginEnd" width="50%"
                             />
+                             <Label
+                            id="idSSVFlexBoxLabel1"
+                            text=""
+                        />
                             <Button
                                 id="idSSVUploadButton"
                                 text="{i18n>Upload}"
                                 press="onSubmitFile"
-                                class="sapUiSmallMarginEnd"
+                                class="sapUiSmallMarginEnd" width="50%"
                                 enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}}"
                             />
                             <!--  <Button
@@ -260,7 +247,8 @@
                                 text="{i18n>DownloadTemplate}"
                                 visible="{AppControl>/visibility/isDownloadTemplateVisible}"
                             />  -->
-                        </FlexBox>
+
+                       
                     </form:content>
                 </form:SimpleForm>
                 <t:Table
@@ -282,7 +270,7 @@
                                 class="sapUiTinyMargin"
                                 text="Validate"
                                 enabled="false"
-                                type="Emphasized"
+                                
                                 press="onValidateInvoiceModel"
                             />
                         </OverflowToolbar>

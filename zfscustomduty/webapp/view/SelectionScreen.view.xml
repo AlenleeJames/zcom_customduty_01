@@ -137,7 +137,7 @@
                         />
                         <Input
                             id="idSSVCustomVendortInput"
-                            showValueHelp="true"
+                            showValueHelp="false"
                             showValueStateMessage="false"
                             width="50%"
                             valueState="{= ${uploadChaFileModel>/isCustomVendorFilled} ? 'None' : 'Error'}"
@@ -151,7 +151,7 @@
                         <Input
                             id="idSSVOverseasVendorInput"
                             width="50%"
-                            showValueHelp="true"
+                            showValueHelp="false"
                             maxLength="10"
                         />
                         <!--  Local Freight vendor Field  -->
@@ -162,7 +162,7 @@
                         />
                         <Input
                             id="idSSVLocalVendortInput"
-                            showValueHelp="true"
+                            showValueHelp="false"
                             width="50%"
                             showValueStateMessage="false"
                             valueState="{= ${uploadChaFileModel>/isLocalVendorFilled} ? 'None' : 'Error'}"
@@ -176,7 +176,7 @@
                         />
                         <Input
                             id="idSSVInsuranceVendortInput"
-                            showValueHelp="true"
+                            showValueHelp="false"
                             width="50%"
                             showValueStateMessage="false"
                             valueState="{= ${uploadChaFileModel>/isInsuranceVendorFilled} ? 'None' : 'Error'}"

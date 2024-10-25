@@ -460,6 +460,11 @@
     ],
     "SelectionFields": {
         "Plant": "",
-        "POVendor": ""
+        "POVendor": "",
+        "BENo": "",
+        "CustomVendor": "",
+        "OverseasVendor": "",
+        "LocalVendor": "",
+        "InsuranceVendor": ""
     }
 }

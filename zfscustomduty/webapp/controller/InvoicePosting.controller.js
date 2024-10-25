@@ -22,6 +22,9 @@ sap.ui.define([
                 this.getView().getModel("InvoicePostingModel").refresh(true);
                 }
                 
+            },
+            onPersoButtonPress : function(oEvent){
+                this.getPersoController(this,"idInvoicePostingTable").openDialog({});
             }
         });
     });

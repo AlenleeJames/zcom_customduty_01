@@ -6,12 +6,15 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
+    "sap/ui/model/FilterOperator",
+    "sap/ui/table/TablePersoController",
+    "./PersoService"
   ],
-  function (Controller, UIComponent, SearchField, JSONModel, Fragment, Filter, FilterOperator) {
+  function (Controller, UIComponent, SearchField, JSONModel, Fragment, Filter, FilterOperator, TablePersoController, PersoService) {
     "use strict";
 
     return Controller.extend("customduty.ui.invoiceposting.BaseController", {
+      PersoService: PersoService,
       // just this.getRouter() ...
       getRouter: function () {
         return UIComponent.getRouterFor(this);
@@ -144,6 +147,15 @@ sap.ui.define(
       onValueHelpAfterClose: function () {
         this.oValueHelpDialog.destroy();
         this.oValueHelpDialog = undefined;
+      },
+
+      getPersoController: function (view, tableId) {
+        const sTable = view.byId(tableId),
+          sSettings = new TablePersoController({
+            table: sTable,
+            PersoService: new PersoService()
+          });
+
       }
 
     });

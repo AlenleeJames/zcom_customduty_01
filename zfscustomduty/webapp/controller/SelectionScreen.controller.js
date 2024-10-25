@@ -30,6 +30,7 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel([]), "InvoiceModel");
                 this.getView().setModel(new JSONModel([]), "ChaFileModel");
                 this.busyDialog = new BusyDialog();
+                this.uniqInvoices = []
             },
             /* 
                 fn to initialize Multi input token validator
@@ -202,7 +203,7 @@ sap.ui.define([
                     chaFileData.push(chaFileObject);
                 });
                 if (fieldErrors.length > 0) {
-                    const columns = fieldErrors.join(" , ");
+                    const columns = fieldErrors.join(", ");
                     MessageBox.error("Please enter correct format values for the columns " + fieldErrors + " and Re-upload again");
                     this.getView().getModel("ChaFileModel").setData([]);
                     this.byId("idValidateBtn").setEnabled(false);
@@ -245,7 +246,7 @@ sap.ui.define([
             */
             onValidateInvoiceModel: function () {
                 const oModel = this.getView().getModel(),
-                    sInputIds = ["idSSVPlantInput", "idSSVPOVendorInput", "idSSVCustomVendortInput", "idSSVOverseasVendorInput", "idSSVLocalVendortInput", "idSSVInsuranceVendortInput"],
+                    sInputIds = ["idSSVPlantInput", "idSSVPOVendorInput"],
                     sFilters = [],
                     chaFileData = this.getView().getModel("ChaFileModel").getData();
                 this.busyDialog.open();
@@ -312,9 +313,18 @@ sap.ui.define([
                         })
                     });
                     if (sObjects.length > 0) {
+                        const BETokens = this.getById("idSSVPlantInput").getTokens(), tokenKeys = [];
+                        BETokens.forEach((sToken) => {
+                            tokenKeys.push(sToken.getKey());
+                        })
                         // Setting the Plant anf Po Number for Upload result File header
                         FieldMappings.getData().SelectionFields.Plant = this.getById("idSSVPlantInput").getValue();
                         FieldMappings.getData().SelectionFields.POVendor = this.getById("idSSVPOVendorInput").getValue();
+                        FieldMappings.getData().SelectionFields.CustomVendor = this.getById("idSSVCustomVendortInput").getValue();
+                        FieldMappings.getData().SelectionFields.OverseasVendor = this.getById("idSSVOverseasVendorInput").getValue();
+                        FieldMappings.getData().SelectionFields.InsuranceVendor = this.getById("idSSVInsuranceVendortInput").getValue();
+                        FieldMappings.getData().SelectionFields.LocalVendor = this.getById("idSSVLocalVendortInput").getValue();
+                        FieldMappings.getData().SelectionFields.POVendor = tokenKeys.join(", ");
                         FieldMappings.refresh(true);
                         calculateDutyContext.setParameter("fileData", sObjects);
                         calculateDutyContext.execute().then(() => {

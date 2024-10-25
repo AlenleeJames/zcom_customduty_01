@@ -33,6 +33,7 @@
             "Property": "TotalBCD",
             "Position": 4,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -40,6 +41,7 @@
             "Property": "TotalSWS",
             "Position": 5,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -47,6 +49,7 @@
             "Property": "TotalIGST",
             "Position": 6,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -54,6 +57,7 @@
             "Property": "TotalAmount",
             "Position": 7,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -75,6 +79,7 @@
             "Property": "InvoiceValueFC",
             "Position": 10,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -89,6 +94,7 @@
             "Property": "ExcRateforInvoice",
             "Position": 12,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -96,6 +102,7 @@
             "Property": "OverseasFreightAmount",
             "Position": 13,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -103,6 +110,7 @@
             "Property": "FreightPercentage",
             "Position": 14,
             "FieldSource": "CHAFile",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -117,6 +125,7 @@
             "Property": "FreightExrate",
             "Position": 16,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -124,6 +133,7 @@
             "Property": "DomesticFreightAmount",
             "Position": 17,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -131,6 +141,7 @@
             "Property": "InsuranceAmount",
             "Position": 18,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -138,6 +149,7 @@
             "Property": "InsurancePercentage",
             "Position": 19,
             "FieldSource": "CHAFile",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -152,6 +164,7 @@
             "Property": "InsuranceExrate",
             "Position": 21,
             "FieldSource": "CHAFile",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -159,6 +172,7 @@
             "Property": "MiscCharges",
             "Position": 22,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -187,6 +201,7 @@
             "Property": "PurchaseorderItem",
             "Position": null,
             "FieldSource": "S4System",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -208,6 +223,7 @@
             "Property": "UnitPrice",
             "Position": 26,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -215,6 +231,7 @@
             "Property": "Quantity",
             "Position": 27,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -222,6 +239,7 @@
             "Property": "OpenPOQty",
             "Position": null,
             "FieldSource": "BTP",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -236,6 +254,7 @@
             "Property": "BCDAmount",
             "Position": 29,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -243,6 +262,7 @@
             "Property": "RateofBCDPercent",
             "Position": 30,
             "FieldSource": "CHAFile",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -250,6 +270,7 @@
             "Property": "SocWelSurDutyAmt",
             "Position": 31,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -257,6 +278,7 @@
             "Property": "SocWelSurDutyPer",
             "Position": 32,
             "FieldSource": "CHAFile",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -264,6 +286,7 @@
             "Property": "IGST",
             "Position": 33,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -271,6 +294,7 @@
             "Property": "IGSTRateDutyPer",
             "Position": 34,
             "FieldSource": "CHAFile",
+            "Scale": 0,
             "Type": "Decimal"
         },
         {
@@ -278,6 +302,7 @@
             "Property": "AssessableValue",
             "Position": 35,
             "FieldSource": "CHAFile",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -285,6 +310,7 @@
             "Property": "OverFreightperitem",
             "Position": null,
             "FieldSource": "BTP",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -292,6 +318,7 @@
             "Property": "DomesticFreightperitem",
             "Position": null,
             "FieldSource": "BTP",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -299,6 +326,7 @@
             "Property": "Inschargesperitem",
             "Position": null,
             "FieldSource": "BTP",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -306,6 +334,7 @@
             "Property": "Miscchargesperitem",
             "Position": null,
             "FieldSource": "BTP",
+            "Scale": 3,
             "Type": "Decimal"
         },
         {
@@ -396,35 +425,46 @@
     "ValueHelpConfig": [
         {
             "InputId": "idSSVPlantInput",
-            "Columns" : {
-                "cols": [{
-                    "label": "Plant",
-                    "template": "Plant"
-                }, {
-                    "label": "Plant Name",
-                    "template": "PlantName"
-                }]
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Plant",
+                        "template": "Plant"
+                    },
+                    {
+                        "label": "Plant Name",
+                        "template": "PlantName"
+                    }
+                ]
             },
-            "EntityPath" : "/PlantVH",
+            "EntityPath": "/PlantVH",
             "FragmentName": "PlantValueHelp"
         },
         {
             "InputId": "idSSVPOVendorInput",
-            "Columns" : {
-                "cols": [{
-                    "label": "Supplier",
-                    "template": "Supplier"
-                }, {
-                    "label": "Supplier Name",
-                    "template": "SupplierName"
-                }]
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Supplier",
+                        "template": "Supplier"
+                    },
+                    {
+                        "label": "Supplier Name",
+                        "template": "SupplierName"
+                    }
+                ]
             },
-            "EntityPath" : "/POVendorVH",
+            "EntityPath": "/POVendorVH",
             "FragmentName": "POVendorValueHelp"
         }
     ],
     "SelectionFields": {
         "Plant": "",
-        "POVendor": ""
+        "POVendor": "",
+        "BENo": "",
+        "CustomVendor": "",
+        "OverseasVendor": "",
+        "LocalVendor": "",
+        "InsuranceVendor": ""
     }
 }

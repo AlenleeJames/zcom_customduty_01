@@ -24,6 +24,16 @@
                 <fb:filterGroupItems>
                     <fb:FilterGroupItem
                         groupName="__$INTERNAL$"
+                        name="Supplier"
+                        label="Plant"
+                        visibleInFilterBar="false"
+                    >
+                        <fb:control>
+                            <m:Input name="Supplier" />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
                         name="SupplierName"
                         label="Plant"
                         visibleInFilterBar="false"

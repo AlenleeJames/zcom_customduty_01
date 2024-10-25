@@ -29,6 +29,7 @@ sap.ui.define([
                 );
                 this.getView().setModel(new JSONModel([]), "InvoiceModel");
                 this.getView().setModel(new JSONModel([]), "ChaFileModel");
+                this.getView().setModel(new JSONModel([]), "ValidatedModel");
                 this.busyDialog = new BusyDialog();
                 this.uniqInvoices = []
             },
@@ -126,15 +127,16 @@ sap.ui.define([
                         "OverseasFreightVendorVS": "None",
                         "POVendorVS": "None"
                     },
-                    uniqInvoices = [], invoiceList = [];
+                    invoiceList = [];
+                this.uniqInvoices = [];
                 if (BETokens.length > 0) {
                     BETokens.forEach((BENumber) => {
                         excelData.forEach((sItem) => {
                             const chaObjectKeys = Object.keys(sItem);
                             let selObject = {};
                             if (BENumber.getKey() === sItem[chaObjectKeys[1]].toString())
-                                if (!uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
-                                    uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
+                                if (!this.uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
+                                    this.uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
                                     selObject.InvoiceId = sItem[chaObjectKeys[8]].toString();
                                     Object.keys(defaultObject).forEach((defObject) => {
                                         selObject[defObject] = defaultObject[defObject];
@@ -143,14 +145,14 @@ sap.ui.define([
                                 }
                         });
                     });
-                    if (uniqInvoices.length === 0)
+                    if (this.uniqInvoices.length === 0)
                         MessageToast.show("No Data matched for provided BE Numbers");
                 } else {
                     excelData.forEach((sItem) => {
                         const chaObjectKeys = Object.keys(sItem);
                         let selObject = {};
-                        if (!uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
-                            uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
+                        if (!this.uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
+                            this.uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
                             selObject.InvoiceId = sItem[chaObjectKeys[8]].toString();
                             Object.keys(defaultObject).forEach((defObject) => {
                                 selObject[defObject] = defaultObject[defObject];
@@ -159,7 +161,7 @@ sap.ui.define([
                         }
                     });
                 }
-                uniqInvoices.length > 0 ? this.byId("idValidateBtn").setEnabled(true) : this.byId("idValidateBtn").setEnabled(false);
+                this.uniqInvoices.length > 0 ? this.byId("idValidateBtn").setEnabled(true) : this.byId("idValidateBtn").setEnabled(false);
                 this.getView().getModel("InvoiceModel").setData(invoiceList);
                 this.getView().getModel("InvoiceModel").refresh(true);
             },
@@ -195,6 +197,11 @@ sap.ui.define([
                                 const oNumberFormat = NumberFormat.getFloatInstance({
                                     minFractionDigits: 1, maxFractionDigits: 3
                                 }), formattedValue = oNumberFormat.format(sValue.toString());
+                                if(mappingObject.Property === "InvoiceValueINR"){
+                                    const invoiceValue = oRecord[ObjectKeys[10]] * oRecord[ObjectKeys[12]],
+                                        formattedInvoiceValue = oNumberFormat.format(invoiceValue.toString());
+                                    chaFileObject[mappingObject.Property] = isNaN(Number(formattedInvoiceValue.replaceAll(",", ""))) ? 0 : Number(formattedInvoiceValue.replaceAll(",", ""));
+                                }else
                                 chaFileObject[mappingObject.Property] = isNaN(Number(formattedValue.replaceAll(",", ""))) ? 0 : Number(formattedValue.replaceAll(",", ""));
                             }
                         } else
@@ -247,7 +254,7 @@ sap.ui.define([
             onValidateInvoiceModel: function () {
                 const oModel = this.getView().getModel(),
                     sInputIds = ["idSSVPlantInput", "idSSVPOVendorInput"],
-                    sFilters = [],
+                    allFilters = [], iFilters = [], sFilters = [],
                     chaFileData = this.getView().getModel("ChaFileModel").getData();
                 this.busyDialog.open();
                 sInputIds.forEach((sId) => {
@@ -257,10 +264,17 @@ sap.ui.define([
                         sFilters.push(new Filter(filterProperty, FilterOperator.EQ, sValue))
                     }
                 });
+                this.uniqInvoices.forEach((invoiceNo) => {
+                    sFilters.push(new Filter("InvoiceNumber", FilterOperator.EQ, invoiceNo))
+                });
+                allFilters.push(new Filter({
+                    filters: [sFilters, iFilters],
+                    bAnd: false
+                }))
                 const CustInvMMContext = oModel.bindList("/ZA_MM_CustomDutyInvDetails").filter(sFilters);
                 CustInvMMContext.requestContexts().then((sReponse) => {
                     if (sReponse.length > 0) {
-                        const CustInvData = [];
+                        const CustInvData = [], chaFileMatchedRecords = [];
                         sReponse.forEach((sContext) => {
                             CustInvData.push(sContext.getObject())
                         });
@@ -271,10 +285,11 @@ sap.ui.define([
                                     chaFileRecord.PurchaseOrder = MMCustDutyRecord.PurchaseorderNumber;
                                     chaFileRecord.PurchaseorderItem = isNaN(Number(MMCustDutyRecord.POItemNumber)) ? 0 : Number(MMCustDutyRecord.POItemNumber);
                                     chaFileRecord.HSNCodeSystem = MMCustDutyRecord.HSNCode;
+                                    chaFileMatchedRecords.push(chaFileRecord);
                                 }
                             });
                         })
-                        this.getView().getModel("ChaFileModel").refresh(true);
+                        this.getView().getModel("ValidatedModel").setData(chaFileMatchedRecords);
                         this.byId("idProceedToInvoicePosting").setEnabled(true);
                     } else
                         MessageBox.information("No data matched for the provided values")
@@ -294,9 +309,9 @@ sap.ui.define([
                     const sObjects = [], finalData = new JSONModel(),
                         oModel = this.getView().getModel(),
                         calculateDutyContext = oModel.bindContext("/calculateDuty(...)"),
-                        chaFileData = this.getView().getModel("ChaFileModel").getData(),
+                        chaFileValidatedData = this.getView().getModel("ValidatedModel").getData(),
                         invoiceTableData = this.getView().getModel("InvoiceModel").getData();
-                    chaFileData.forEach((chaFileRecord) => {
+                    chaFileValidatedData.forEach((chaFileRecord) => {
                         const chaFileInvoice = chaFileRecord.InvoiceNumber;
                         invoiceTableData.forEach((invoiceRecord) => {
                             if (chaFileInvoice === invoiceRecord.InvoiceId) {
@@ -313,7 +328,7 @@ sap.ui.define([
                         })
                     });
                     if (sObjects.length > 0) {
-                        const BETokens = this.getById("idSSVPlantInput").getTokens(), tokenKeys = [];
+                        const BETokens = this.getById("idSSVBENumberMultiInput").getTokens(), tokenKeys = [];
                         BETokens.forEach((sToken) => {
                             tokenKeys.push(sToken.getKey());
                         })

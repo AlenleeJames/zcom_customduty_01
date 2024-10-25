@@ -98,6 +98,14 @@
             "Type": "Decimal"
         },
         {
+            "ColumnName": "Invoice Value INR",
+            "Property": "InvoiceValueINR",
+            "Position": null,
+            "FieldSource": "Calc",
+            "Scale": 3,
+            "Type": "Decimal"
+        },
+        {
             "ColumnName": "Overseas Freight Amount (in FC)",
             "Property": "OverseasFreightAmount",
             "Position": 13,

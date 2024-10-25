@@ -142,7 +142,15 @@
                             width="50%"
                             valueState="{= ${uploadChaFileModel>/isCustomVendorFilled} ? 'None' : 'Error'}"
                             maxLength="10"
-                        />
+                            change="onInputChange"
+                        >
+                         <customData>
+                                <core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isCustomVendorFilled"
+                                />
+                            </customData>
+                        </Input>
                         <!--  Overseas Freight vendor Field  -->
                         <Label
                             id="idSSVOverseasVendorLabel"
@@ -153,6 +161,7 @@
                             width="50%"
                             showValueHelp="false"
                             maxLength="10"
+                            change="onInputChange"
                         />
                         <!--  Local Freight vendor Field  -->
                         <Label
@@ -167,7 +176,15 @@
                             showValueStateMessage="false"
                             valueState="{= ${uploadChaFileModel>/isLocalVendorFilled} ? 'None' : 'Error'}"
                             maxLength="10"
-                        />
+                            change="onInputChange"
+                        >
+                         <customData>
+                                <core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isLocalVendorFilled"
+                                />
+                            </customData>
+                        </Input>
                         <!--  Insurance vendor Field  -->
                         <Label
                             id="idSSVInsuranceVendorLabel"
@@ -181,7 +198,15 @@
                             showValueStateMessage="false"
                             valueState="{= ${uploadChaFileModel>/isInsuranceVendorFilled} ? 'None' : 'Error'}"
                             maxLength="10"
-                        />
+                            change="onInputChange"
+                        >
+                         <customData>
+                                <core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isInsuranceVendorFilled"
+                                />
+                            </customData>
+                        </Input>
 
                         <!--  CHA File Browse  -->
                         <Label
@@ -391,6 +416,7 @@
                                     value="{InvoiceModel>OverseasFreightVendor}"
                                     valueState="{InvoiceModel>OverseasFreightVendorVS}"
                                     editable="{InvoiceModel>OverseasFreightVendorEditable}"
+                                    change="onInvoiceTableInputChange"
                                 />
                             </t:template>
                         </t:Column>
@@ -405,6 +431,7 @@
                                     value="{InvoiceModel>POVendor}"
                                     valueState="{InvoiceModel>POVendorVS}"
                                     editable="{InvoiceModel>POVendorEditable}"
+                                    change="onInvoiceTableInputChange"
                                 />
                             </t:template>
                         </t:Column>

@@ -152,10 +152,9 @@ sap.ui.define(
       getPersoController: function (view, tableId) {
         const sTable = view.byId(tableId),
           sSettings = new TablePersoController({
-            table: sTable,
-            PersoService: new PersoService()
+            table: sTable
           });
-
+        return sSettings;
       }
 
     });

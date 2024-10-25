@@ -281,7 +281,7 @@ sap.ui.define([
                         chaFileData.forEach((chaFileRecord) => {
                             const chaFileMaterial = chaFileRecord.Material;
                             CustInvData.forEach((MMCustDutyRecord) => {
-                                if (chaFileMaterial === MMCustDutyRecord.Material) {
+                                if (chaFileMaterial === MMCustDutyRecord.Material &&  chaFileRecord.Quantity === MMCustDutyRecord.POQuantity) {
                                     chaFileRecord.PurchaseOrder = MMCustDutyRecord.PurchaseorderNumber;
                                     chaFileRecord.PurchaseorderItem = isNaN(Number(MMCustDutyRecord.POItemNumber)) ? 0 : Number(MMCustDutyRecord.POItemNumber);
                                     chaFileRecord.HSNCodeSystem = MMCustDutyRecord.HSNCode;

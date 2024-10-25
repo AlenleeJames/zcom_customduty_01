@@ -114,7 +114,7 @@
                         <GenericTag
                             id="idInsuranceVendorTag"
                             status="Error"
-                            text="{i18n>LocalFreightVendor}"
+                            text="{i18n>InsuranceVendor}"
                             design="StatusIconHidden"
                             visible="{= ${FieldMappings>/SelectionFields/InsuranceVendor} ? true : false}"
                         >
@@ -769,6 +769,23 @@
                 </t:Table>
             </VBox>
         </f:content>
-        <f:footer />
+        <f:footer>
+            <OverflowToolbar>
+                <Button
+                    icon="sap-icon://message-popup"
+                    text="{MessageModel>/messagesLength}"
+                    type="Emphasized"
+                    press="handlePopoverPress"
+                    visible="{= !!${MessageModel>/messagesLength}}"
+                />
+                <ToolbarSpacer />
+                <Button
+                    id="idGenerateInvoice"
+                    type="Accept"
+                    text="Generate Invoice"
+                    press="handleInvoicePosting"
+                />
+            </OverflowToolbar>
+        </f:footer>
     </f:DynamicPage>
 </mvc:View>

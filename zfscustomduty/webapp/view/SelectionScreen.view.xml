@@ -34,7 +34,6 @@
                     id="idUploadForm"
                     editable="true"
                     layout="ColumnLayout"
-                   
                 >
                     <form:content>
                         <!--  Plant Field  -->
@@ -132,7 +131,7 @@
                             maxLength="10"
                             change="onInputChange"
                         >
-                         <customData>
+                            <customData>
                                 <core:CustomData
                                     key="CHAModelProperty"
                                     value="isCustomVendorFilled"
@@ -166,7 +165,7 @@
                             maxLength="10"
                             change="onInputChange"
                         >
-                         <customData>
+                            <customData>
                                 <core:CustomData
                                     key="CHAModelProperty"
                                     value="isLocalVendorFilled"
@@ -188,7 +187,7 @@
                             maxLength="10"
                             change="onInputChange"
                         >
-                         <customData>
+                            <customData>
                                 <core:CustomData
                                     key="CHAModelProperty"
                                     value="isInsuranceVendorFilled"
@@ -224,31 +223,31 @@
                             id="idSSVFlexBoxLabel"
                             text=""
                         />
-                          <Button
-                                id="idSSVClearButton"
-                                text="{i18n>Clear}"
-                                press="onClearForm"
-                                class="sapUiSmallMarginEnd" width="50%"
-                            />
-                             <Label
+                        <Button
+                            id="idSSVClearButton"
+                            text="{i18n>Clear}"
+                            press="onClearForm"
+                            class="sapUiSmallMarginEnd"
+                            width="50%"
+                        />
+                        <Label
                             id="idSSVFlexBoxLabel1"
                             text=""
                         />
-                            <Button
-                                id="idSSVUploadButton"
-                                text="{i18n>Upload}"
-                                press="onSubmitFile"
-                                class="sapUiSmallMarginEnd" width="50%"
-                                enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}}"
-                            />
-                            <!--  <Button
+                        <Button
+                            id="idSSVUploadButton"
+                            text="{i18n>Upload}"
+                            press="onSubmitFile"
+                            class="sapUiSmallMarginEnd"
+                            width="50%"
+                            enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}}"
+                        />
+                        <!--  <Button
                                 id="idUploadCHAFileViewDownloadTemplateButton"
                                 type="{AppControl>/style/buttonType}"
                                 text="{i18n>DownloadTemplate}"
                                 visible="{AppControl>/visibility/isDownloadTemplateVisible}"
                             />  -->
-
-                       
                     </form:content>
                 </form:SimpleForm>
                 <t:Table
@@ -270,7 +269,6 @@
                                 class="sapUiTinyMargin"
                                 text="Validate"
                                 enabled="false"
-                                
                                 press="onValidateInvoiceModel"
                             />
                         </OverflowToolbar>

@@ -197,12 +197,12 @@ sap.ui.define([
                                 const oNumberFormat = NumberFormat.getFloatInstance({
                                     minFractionDigits: 1, maxFractionDigits: 3
                                 }), formattedValue = oNumberFormat.format(sValue.toString());
-                                if(mappingObject.Property === "InvoiceValueINR"){
+                                if (mappingObject.Property === "InvoiceValueINR") {
                                     const invoiceValue = oRecord[ObjectKeys[10]] * oRecord[ObjectKeys[12]],
                                         formattedInvoiceValue = oNumberFormat.format(invoiceValue.toString());
                                     chaFileObject[mappingObject.Property] = isNaN(Number(formattedInvoiceValue.replaceAll(",", ""))) ? 0 : Number(formattedInvoiceValue.replaceAll(",", ""));
-                                }else
-                                chaFileObject[mappingObject.Property] = isNaN(Number(formattedValue.replaceAll(",", ""))) ? 0 : Number(formattedValue.replaceAll(",", ""));
+                                } else
+                                    chaFileObject[mappingObject.Property] = isNaN(Number(formattedValue.replaceAll(",", ""))) ? 0 : Number(formattedValue.replaceAll(",", ""));
                             }
                         } else
                             chaFileObject[mappingObject.Property] = sValue.toString();
@@ -281,7 +281,7 @@ sap.ui.define([
                         chaFileData.forEach((chaFileRecord) => {
                             const chaFileMaterial = chaFileRecord.Material;
                             CustInvData.forEach((MMCustDutyRecord) => {
-                                if (chaFileMaterial === MMCustDutyRecord.Material &&  chaFileRecord.Quantity === MMCustDutyRecord.POQuantity) {
+                                if (chaFileMaterial === MMCustDutyRecord.Material && chaFileRecord.Quantity === MMCustDutyRecord.POQuantity) {
                                     chaFileRecord.PurchaseOrder = MMCustDutyRecord.PurchaseorderNumber;
                                     chaFileRecord.PurchaseorderItem = isNaN(Number(MMCustDutyRecord.POItemNumber)) ? 0 : Number(MMCustDutyRecord.POItemNumber);
                                     chaFileRecord.HSNCodeSystem = MMCustDutyRecord.HSNCode;
@@ -322,7 +322,10 @@ sap.ui.define([
                                 chaFileRecord.FreightCurrency_code = invoiceRecord.ForeignCurrency;
                                 chaFileRecord.FreightExrate = Number(invoiceRecord.ExchangeRate);
                                 chaFileRecord.OverFreightVendor = invoiceRecord.OverseasFreightVendor;
-                                chaFileRecord.InsuranceVendor = invoiceRecord.POVendor;
+                                //chaFileRecord.POVendor = invoiceRecord.POVendor;
+                                chaFileRecord.InsuranceVendor = this.getById("idSSVInsuranceVendortInput").getValue();
+                                chaFileRecord.DomFreightVendor = this.getById("idSSVLocalVendortInput").getValue();
+                                chaFileRecord.CustomInvoiceVendor = this.getById("idSSVCustomVendortInput").getValue();
                                 sObjects.push(chaFileRecord);
                             }
                         })
@@ -344,6 +347,19 @@ sap.ui.define([
                         calculateDutyContext.setParameter("fileData", sObjects);
                         calculateDutyContext.execute().then(() => {
                             const sResponse = calculateDutyContext.getBoundContext().getObject();
+                            const oNumberFormat = NumberFormat.getFloatInstance({
+                                minFractionDigits: 1, maxFractionDigits: 2
+                            });
+                            sResponse.value.forEach((sObject) => {
+                                const overFreightItem = oNumberFormat.format(sObject.OverFreightperitem),
+                                    domesticFreightItem = oNumberFormat.format(sObject.DomesticFreightperitem),
+                                    InsFreightItem = oNumberFormat.format(sObject.Inschargesperitem),
+                                    MiscFreightItem = oNumberFormat.format(sObject.Miscchargesperitem);
+                                sObject.OverFreightperitem = isNaN(Number(overFreightItem.replaceAll(",", ""))) ? 0 : Number(overFreightItem.replaceAll(",", ""));
+                                sObject.DomesticFreightperitem = isNaN(Number(domesticFreightItem.replaceAll(",", ""))) ? 0 : Number(domesticFreightItem.replaceAll(",", ""));
+                                sObject.Inschargesperitem = isNaN(Number(InsFreightItem.replaceAll(",", ""))) ? 0 : Number(InsFreightItem.replaceAll(",", ""));
+                                sObject.Miscchargesperitem = isNaN(Number(MiscFreightItem.replaceAll(",", ""))) ? 0 : Number(MiscFreightItem.replaceAll(",", ""));
+                            });
                             finalData.setData(sResponse.value);
                             sap.ui.getCore().setModel(finalData, "FinalModel");
                             this.busyDialog.close();

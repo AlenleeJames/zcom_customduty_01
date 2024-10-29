@@ -417,6 +417,7 @@ sap.ui.define([
                 this.getById("idSSVOverseasVendorInput").setValue("");
                 this.getById("idSSVLocalVendortInput").setValue("");
                 this.getById("idSSVInsuranceVendortInput").setValue("");
+                this.getById("idSSVMiscVendortInput").setValue("");
                 this.getById("fileUploader").setValue("");
                 // Setting the model for Upload Button Active or not
                 this.setModelProperty("uploadChaFileModel", "isChaFileFilled", false);

@@ -328,21 +328,43 @@ sap.ui.define([
                 //const createPromise = new Promise(function(resolved,rejected){
                 oModel.submitBatch("InvoicePostingGroup")
                     .then((response) => {
-                        const oResponse = invoicePosting.getBoundContext().getObject();
-                        if(oResponse.value.length > 0){
-
+                        const oResponse = invoicePosting.getBoundContext().getObject(),
+                            MessageModel = this.getView().getModel("MessageModel").getData();
+                        if (oResponse.value.length > 0) {
+                            oResponse.value.forEach((oInvoiceObject) => {
+                                if (oInvoiceObject.Status === "Error") {
+                                    const errorObject = {
+                                        type: "Error",
+                                        title: "Error Message",
+                                        subtitle: oInvoiceObject.InvoicingParty,
+                                        description: oInvoiceObject.Message
+                                    };
+                                    MessageModel.messages.push(errorObject);
+                                }
+                            });
+                            MessageModel.messagesLength = MessageModel.messages.length;
+                            this.getView().getModel("MessageModel").refresh(true);
                         }
                         this.busyDialog.close();
                         //resolved();
                     }, this).catch((error) => {
                         const oMessage = error.message, sResponse = invoicePosting.getBoundContext().getObject(),
-                            MessageModel = this.getView().getModel("MessageModel").getData(),
-                            errorObject = {
-                                type: "Error",
-                                title: "Error Message",
-                                subtitle: "Overfrieght Invoice Generation",
-                                description: oMessage
-                            };
+                            MessageModel = this.getView().getModel("MessageModel").getData();
+                            if (sResponse.value.length > 0) {
+                                sResponse.value.forEach((oInvoiceObject) => {
+                                    if (oInvoiceObject.Status === "Error") {
+                                        const errorObject = {
+                                            type: "Error",
+                                            title: "Error Message",
+                                            subtitle: oInvoiceObject.InvoicingParty,
+                                            description: oInvoiceObject.Message
+                                        };
+                                        MessageModel.messages.push(errorObject);
+                                    }
+                                });
+                                MessageModel.messagesLength = MessageModel.messages.length;
+                                this.getView().getModel("MessageModel").refresh(true);
+                            }
                         MessageModel.messages.push(errorObject);
                         MessageModel.messagesLength = MessageModel.messages.length;
                         this.getView().getModel("MessageModel").refresh(true);

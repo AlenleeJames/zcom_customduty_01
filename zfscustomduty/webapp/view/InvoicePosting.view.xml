@@ -234,7 +234,7 @@
                                 />
                             </t:template>
                         </t:Column>
-                        <t:Column width="9rem" visible="false">
+                        <t:Column width="9rem" >
                             <Label text="{i18n>TotalAmount}" />
                             <t:template>
                                 <Text
@@ -279,11 +279,20 @@
                                 />
                             </t:template>
                         </t:Column>
-                        <t:Column width="9rem" visible="false">
+                        <t:Column width="9rem" >
                             <Label text="{i18n>ExcRateforInvoice}" />
                             <t:template>
                                 <Text
                                     text="{InvoicePostingModel>ExcRateforInvoice}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label text="{i18n>InvoiceValueINR}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceValueINR}"
                                     wrapping="false"
                                 />
                             </t:template>

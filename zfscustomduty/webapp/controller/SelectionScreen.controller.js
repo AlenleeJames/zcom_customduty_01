@@ -23,7 +23,8 @@ sap.ui.define([
                         isPlantFilled: false,
                         isCustomVendorFilled: false,
                         isLocalVendorFilled: false,
-                        isInsuranceVendorFilled: false
+                        isInsuranceVendorFilled: false,
+                        isMiscVendorFilled: false
                     }),
                     "uploadChaFileModel"
                 );
@@ -37,13 +38,13 @@ sap.ui.define([
                 fn to initialize Multi input token validator
             */
             onAfterRendering: function () {
-                const BENumber = this.byId("idSSVBENumberMultiInput");
+                const cMultiInputBENumber = this.byId("idSSVBENumberMultiInput");
                 // add validator
                 const fnValidator = function (args) {
-                    var text = args.text;
-                    return new Token({ key: text, text: text });
+                    const sText = args.text;
+                    return new Token({ key: sText, text: sText });
                 };
-                BENumber.addValidator(fnValidator);
+                cMultiInputBENumber.addValidator(fnValidator);
             },
             /* 
                 fn to check input fields and update local json property value
@@ -104,20 +105,20 @@ sap.ui.define([
                 fn to read excel array data and to create unique invoice list data
             */
             processUniqueInvoiceData: function (excelData) {
-                const BETokens = this.byId("idSSVBENumberMultiInput").getTokens(),
-                    POVendorValue = this.byId("idSSVPOVendorInput").getValue(),
-                    OverseasVendorValue = this.byId("idSSVOverseasVendorInput").getValue(),
-                    defaultObject = {
+                const aBETokens = this.byId("idSSVBENumberMultiInput").getTokens(),
+                    sPOVendorValue = this.byId("idSSVPOVendorInput").getValue(),
+                    sOverseasVendorValue = this.byId("idSSVOverseasVendorInput").getValue(),
+                    oDefaultObject = {
                         "LocalFreightAmount": "",
                         "InsuranceAmount": "",
                         "OverseasFreightAmount": "",
                         "MiscAmount": "",
                         "ForeignCurrency": "",
                         "ExchangeRate": "",
-                        "OverseasFreightVendor": OverseasVendorValue,
-                        "POVendor": POVendorValue,
-                        "OverseasFreightVendorEditable": OverseasVendorValue.length > 0 ? false : true,
-                        "POVendorEditable": POVendorValue.length > 0 ? false : true,
+                        "OverseasFreightVendor": sOverseasVendorValue,
+                        "POVendor": sPOVendorValue,
+                        "OverseasFreightVendorEditable": sOverseasVendorValue.length > 0 ? false : true,
+                        "POVendorEditable": sPOVendorValue.length > 0 ? false : true,
                         "LocalFreightAmountVS": "None",
                         "InsuranceAmountVS": "None",
                         "OverseasFreightAmountVS": "None",
@@ -129,17 +130,17 @@ sap.ui.define([
                     },
                     invoiceList = [];
                 this.uniqInvoices = [];
-                if (BETokens.length > 0) {
-                    BETokens.forEach((BENumber) => {
+                if (aBETokens.length > 0) {
+                    aBETokens.forEach((oBEToken) => {
                         excelData.forEach((sItem) => {
                             const chaObjectKeys = Object.keys(sItem);
                             let selObject = {};
-                            if (BENumber.getKey() === sItem[chaObjectKeys[1]].toString())
+                            if (oBEToken.getKey() === sItem[chaObjectKeys[1]].toString())
                                 if (!this.uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
                                     this.uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
                                     selObject.InvoiceId = sItem[chaObjectKeys[8]].toString();
-                                    Object.keys(defaultObject).forEach((defObject) => {
-                                        selObject[defObject] = defaultObject[defObject];
+                                    Object.keys(oDefaultObject).forEach((defObject) => {
+                                        selObject[defObject] = oDefaultObject[defObject];
                                     })
                                     invoiceList.push(selObject);
                                 }
@@ -154,8 +155,8 @@ sap.ui.define([
                         if (!this.uniqInvoices.includes(sItem[chaObjectKeys[8]].toString())) {
                             this.uniqInvoices.push(sItem[chaObjectKeys[8]].toString());
                             selObject.InvoiceId = sItem[chaObjectKeys[8]].toString();
-                            Object.keys(defaultObject).forEach((defObject) => {
-                                selObject[defObject] = defaultObject[defObject];
+                            Object.keys(oDefaultObject).forEach((defObject) => {
+                                selObject[defObject] = oDefaultObject[defObject];
                             });
                             invoiceList.push(selObject);
                         }
@@ -254,24 +255,20 @@ sap.ui.define([
             onValidateInvoiceModel: function () {
                 const oModel = this.getView().getModel(),
                     sInputIds = ["idSSVPlantInput", "idSSVPOVendorInput"],
-                    allFilters = [], iFilters = [], sFilters = [],
+                    aStringFilters = [],
                     chaFileData = this.getView().getModel("ChaFileModel").getData();
                 this.busyDialog.open();
                 sInputIds.forEach((sId) => {
                     const sValue = this.getView().byId(sId).getValue(),
                         filterProperty = this.getView().byId(sId).data("FilterProperty");
                     if (sValue.length > 0) {
-                        sFilters.push(new Filter(filterProperty, FilterOperator.EQ, sValue))
+                        aStringFilters.push(new Filter(filterProperty, FilterOperator.EQ, sValue))
                     }
                 });
                 this.uniqInvoices.forEach((invoiceNo) => {
-                    sFilters.push(new Filter("InvoiceNumber", FilterOperator.EQ, invoiceNo))
+                    aStringFilters.push(new Filter("InvoiceNumber", FilterOperator.EQ, invoiceNo))
                 });
-                allFilters.push(new Filter({
-                    filters: [sFilters, iFilters],
-                    bAnd: false
-                }))
-                const CustInvMMContext = oModel.bindList("/ZA_MM_CustomDutyInvDetails").filter(sFilters);
+                const CustInvMMContext = oModel.bindList("/ZA_MM_CustomDutyInvDetails").filter(aStringFilters);
                 CustInvMMContext.requestContexts().then((sReponse) => {
                     if (sReponse.length > 0) {
                         const CustInvData = [], chaFileMatchedRecords = [];
@@ -291,6 +288,7 @@ sap.ui.define([
                         })
                         this.getView().getModel("ValidatedModel").setData(chaFileMatchedRecords);
                         this.byId("idProceedToInvoicePosting").setEnabled(true);
+                        MessageToast.show("Validation Successfull");
                     } else
                         MessageBox.information("No data matched for the provided values")
                     this.busyDialog.close();
@@ -326,6 +324,7 @@ sap.ui.define([
                                 chaFileRecord.InsuranceVendor = this.getById("idSSVInsuranceVendortInput").getValue();
                                 chaFileRecord.DomFreightVendor = this.getById("idSSVLocalVendortInput").getValue();
                                 chaFileRecord.CustomInvoiceVendor = this.getById("idSSVCustomVendortInput").getValue();
+                                chaFileRecord.MiscChargesVen = this.getById("idSSVMiscVendortInput").getValue();
                                 sObjects.push(chaFileRecord);
                             }
                         })
@@ -342,6 +341,7 @@ sap.ui.define([
                         FieldMappings.getData().SelectionFields.OverseasVendor = this.getById("idSSVOverseasVendorInput").getValue();
                         FieldMappings.getData().SelectionFields.InsuranceVendor = this.getById("idSSVInsuranceVendortInput").getValue();
                         FieldMappings.getData().SelectionFields.LocalVendor = this.getById("idSSVLocalVendortInput").getValue();
+                        FieldMappings.getData().SelectionFields.MiscVendor = this.getById("idSSVMiscVendortInput").getValue();
                         FieldMappings.getData().SelectionFields.POVendor = tokenKeys.join(", ");
                         FieldMappings.refresh(true);
                         calculateDutyContext.setParameter("fileData", sObjects);

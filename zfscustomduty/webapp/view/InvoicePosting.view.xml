@@ -125,6 +125,20 @@
                                 number="{FieldMappings>/SelectionFields/InsuranceVendor}"
                             />
                         </GenericTag>
+                        <GenericTag
+                            id="idMiscVendorTag"
+                            status="Error"
+                            text="{i18n>MiscVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/MiscVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idMiscVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/MiscVendor}"
+                            />
+                        </GenericTag>
                     </OverflowToolbar>
                 </f:content>
             </f:DynamicPageTitle>
@@ -220,7 +234,7 @@
                                 />
                             </t:template>
                         </t:Column>
-                        <t:Column width="9rem" visible="false">
+                        <t:Column width="9rem" >
                             <Label text="{i18n>TotalAmount}" />
                             <t:template>
                                 <Text
@@ -265,11 +279,20 @@
                                 />
                             </t:template>
                         </t:Column>
-                        <t:Column width="9rem" visible="false">
+                        <t:Column width="9rem" >
                             <Label text="{i18n>ExcRateforInvoice}" />
                             <t:template>
                                 <Text
                                     text="{InvoicePostingModel>ExcRateforInvoice}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label text="{i18n>InvoiceValueINR}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceValueINR}"
                                     wrapping="false"
                                 />
                             </t:template>
@@ -375,7 +398,7 @@
                                 />
                             </t:template>
                         </t:Column>
-                         <t:Column width="9rem" >
+                         <t:Column width="9rem" hAlign="End">
                             <Label
                                 text="{i18n>FreightExrate}"
                                 wrapping="true"
@@ -444,7 +467,7 @@
                                 />
                             </t:template>
                         </t:Column>
-                        <t:Column width="9rem" >
+                        <t:Column width="9rem" hAlign="End">
                             <Label
                                 text="{i18n>MiscCharges}"
                                 wrapping="true"

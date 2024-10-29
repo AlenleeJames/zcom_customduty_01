@@ -194,7 +194,28 @@
                                 />
                             </customData>
                         </Input>
-
+                        <!--  Misc vendor Field  -->
+                        <Label
+                            id="idSSVMiscVendorLabel"
+                            text="{i18n>MiscVendor}"
+                            required="true"
+                        />
+                        <Input
+                            id="idSSVMiscVendortInput"
+                            showValueHelp="false"
+                            width="50%"
+                            showValueStateMessage="false"
+                            valueState="{= ${uploadChaFileModel>/isMiscVendorFilled} ? 'None' : 'Error'}"
+                            maxLength="10"
+                            change="onInputChange"
+                        >
+                            <customData>
+                                <core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isMiscVendorFilled"
+                                />
+                            </customData>
+                        </Input>
                         <!--  CHA File Browse  -->
                         <Label
                             id="idSSVCHAFileLabel"
@@ -240,7 +261,9 @@
                             press="onSubmitFile"
                             class="sapUiSmallMarginEnd"
                             width="50%"
-                            enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}}"
+                            enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}
+                            &amp;&amp; ${uploadChaFileModel>/isCustomVendorFilled} &amp;&amp; ${uploadChaFileModel>/isLocalVendorFilled}
+                            &amp;&amp; ${uploadChaFileModel>/isInsuranceVendorFilled} &amp;&amp; ${uploadChaFileModel>/isMiscVendorFilled}}"
                         />
                         <!--  <Button
                                 id="idUploadCHAFileViewDownloadTemplateButton"
@@ -323,25 +346,6 @@
                         </t:Column>
                         <t:Column width="9rem">
                             <Label
-                                text="{i18n>OverseasFreightAmount}"
-                                wrapping="true"
-                                required="true"
-                            />
-                            <t:template>
-                                <!-- <unified:Currency
-                                    value="{InvoiceModel>TotalAmount}"
-                                    currency="{InvoiceModel>CurrencyCode}"
-                                /> -->
-                                <Input
-                                    type="Number"
-                                    value="{InvoiceModel>OverseasFreightAmount}"
-                                    valueState="{InvoiceModel>OverseasFreightAmountVS}"
-                                    change="onInvoiceTableInputChange"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
                                 text="{i18n>MiscAmount}"
                                 wrapping="true"
                                 required="true"
@@ -359,6 +363,26 @@
                                 />
                             </t:template>
                         </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>OverseasFreightAmount}"
+                                wrapping="true"
+                                required="true"
+                            />
+                            <t:template>
+                                <!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+                                <Input
+                                    type="Number"
+                                    value="{InvoiceModel>OverseasFreightAmount}"
+                                    valueState="{InvoiceModel>OverseasFreightAmountVS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+                            </t:template>
+                        </t:Column>
+                        
                         <t:Column width="9rem">
                             <Label
                                 text="{i18n>ForeignCurrency}"

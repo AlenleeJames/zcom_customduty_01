@@ -473,6 +473,7 @@
         "CustomVendor": "",
         "OverseasVendor": "",
         "LocalVendor": "",
-        "InsuranceVendor": ""
+        "InsuranceVendor": "",
+        "MiscVendor": ""
     }
 }

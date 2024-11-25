@@ -9,13 +9,17 @@ sap.ui.define([
     "sap/ui/core/format/NumberFormat",
     'sap/m/Bar',
     'sap/m/Title',
-    'sap/m/Popover'
+    'sap/m/Popover',
+    "sap/ui/core/routing/History",
+    "sap/m/MessageToast",
+    "sap/ui/core/Fragment",
+    "customduty/ui/invoiceposting/utils/formatter"
 ],
-    function (BaseController, JSONModel, BusyDialog, MessageItem, MessageView, Button, DateFormat, NumberFormat, Bar, Title, Popover) {
+    function (BaseController, JSONModel, BusyDialog, MessageItem, MessageView, Button, DateFormat, NumberFormat, Bar, Title, Popover, History, MessageToast, Fragment, formatter) {
         "use strict";
 
         return BaseController.extend("customduty.ui.invoiceposting.controller.InvoicePosting", {
-
+            formatter: formatter,
             onInit: function () {
                 this.busyDialog = new BusyDialog();
                 const that = this;
@@ -78,21 +82,248 @@ sap.ui.define([
                     content: [this.oMessageView],
                     footer: oPopoverFooter
                 });
+
+                this.getView().setModel(
+                    new JSONModel({
+                        OverallText: "",
+                        OverallState: "None",
+                        OverallIcon: "",
+                        CustomText: "",
+                        CustomState: "None",
+                        CustomIcon: "",
+                        OveraSeasText: "",
+                        OverSeasState: "None",
+                        OverSeastIcon: "",
+                        DomesticText: "",
+                        DomesticState: "None",
+                        DomesticIcon: "",
+                        InvoiceNumber: "",
+                        OverallStatus: "",
+                        DomesticVendor: "",
+                        OverSeasVendor: "",
+                        CustomVendor: "",
+                        CustomVendInvStat: "",
+                        DomesticVendInvStat: "",
+                        OverSeasVendInvStat: "",
+                        Plant: "",
+                        POVendor: "",
+                        ID: ""
+                    }),
+                    "ObjectStaus"
+                );
+                this.getView().setModel(new JSONModel([]), "LogData");
                 this.getOwnerComponent().getRouter().getRoute("InvoicePosting").attachMatched(this.onRouteMatched, this);
             },
 
-            onRouteMatched: function () {
-                const finalModel = sap.ui.getCore().getModel("FinalModel"),
-                    MessageModel = this.getView().getModel("MessageModel");
-                if (finalModel) {
-                    this.getView().setModel(finalModel, "InvoicePostingModel");
-                    this.getView().getModel("InvoicePostingModel").refresh(true);
-                }
-                MessageModel.setData({
-                    messagesLength: 0,
-                    messages: []
-                })
+            onRouteMatched: function (oEvent) {
+                // const finalModel = sap.ui.getCore().getModel("FinalModel"),
+                //     MessageModel = this.getView().getModel("MessageModel");
+                // if (finalModel) {    
+                //     this.getView().setModel(finalModel, "InvoicePostingModel");
+                //     this.getView().getModel("InvoicePostingModel").refresh(true);
+                // }
+                // MessageModel.setData({
+                //     messagesLength: 0,
+                //     messages: []
+                // });
 
+                const oModel = this.getOwnerComponent().getModel();  // Assumes model is set in manifest.json
+                this.getView().setModel(oModel);
+                this.transactionID = oEvent.getParameter("arguments").transactionId;
+                var aSelectedInvoice = "/CustomDutyHdr(" + this.transactionID + ")/to_CustomDutyItem"
+                var oItemTable = this.getView().byId("idInvoicePostingTable");
+                oItemTable.bindRows({
+                    path: aSelectedInvoice
+                });
+                this.setHeaderInfo();
+            },
+
+            onDisplayLog: function () {
+                this.busyDialog.open();
+                const selectedHdr = "/CustomDutyHdr(" + this.transactionID + ")?$expand=to_CustomDutyLog";  // Add $expand for related entity
+                this.getOwnerComponent().getModel().bindContext(selectedHdr).requestObject().then((oData) => {
+                    this.busyDialog.close();
+                    if (oData.to_CustomDutyLog.length > 0) {
+                        this.getView().getModel("LogData").setData(oData.to_CustomDutyLog);
+                        this.onOpenLogDialog();
+                    } else {
+                        MessageToast.show("No data found");
+                    }
+                }).catch((error) => {
+                    this.busyDialog.close();
+                    MessageToast.show(error);
+                    console.error("Error loading data:", error);
+                });
+            },
+
+            onOpenLogDialog: function () {
+                // Check if the dialog is already created
+                if (!this.oDispLogDialog) {
+                    // Load the fragment if not already created
+                    this.oDispLogDialog = Fragment.load({
+                        name: "customduty.ui.invoiceposting.view.fragments.DisplayLog",  // path to your fragment
+                        controller: this
+                    }).then(function (oFragment) {
+                        // Set the fragment dialog to the current view
+                        this.oDispLogDialog = oFragment;
+                        this.getView().addDependent(this.oDispLogDialog);
+                        this.oDispLogDialog.open();  // Open the dialog
+                    }.bind(this));
+                } else {
+                    this.oDispLogDialog.open();
+                }
+            },
+
+            onCloseLogDialog: function () {
+                this.oDispLogDialog.close();  // Close the dialog
+            },
+
+            setChafileInfo: function () {
+                return new Promise((resolve) => {
+                    const oModel = this.getOwnerComponent().getModel();  // Assumes model is set in manifest.json
+                    this.getView().setModel(oModel);
+                    this.transactionID = oEvent.getParameter("arguments").transactionId;
+                    var aSelectedInvoice = "/CustomDutyHdr(" + this.transactionID + ")/to_CustomDutyItem"
+                    var oItemTable = this.getView().byId("idInvoicePostingTable");
+                    oItemTable.bindRows({
+                        path: aSelectedInvoice
+                    });
+                    resolve(true);
+                });
+            },
+
+            setHeaderInfo: function () {
+                const oStatus = this.getView().byId("idoverobjectStatus");
+                var selectedHdr = "/CustomDutyHdr(" + this.transactionID + ")";
+                this.getOwnerComponent().getModel().bindContext(selectedHdr).requestObject().then((oData) => {
+                    const aData = oData;
+                    this.getView().getModel("ObjectStaus").setData(aData);
+                    this.setModelProperty("ObjectStaus", "OverallText", aData.OverallStatus);
+
+                    this.setModelProperty("ObjectStaus", "InvoiceNumber", aData.InvoiceNumber);
+                    this.setModelProperty("ObjectStaus", "Plant", aData.Plant);
+                    this.setModelProperty("ObjectStaus", "POVendor", aData.POVendor);
+
+                    this.setModelProperty("ObjectStaus", "OverSeasVendor", aData.OverSeasVendor);
+                    this.setModelProperty("ObjectStaus", "DomesticVendor", aData.DomesticVendor);
+                    this.setModelProperty("ObjectStaus", "CustomVendor", aData.CustomVendor);
+
+                    if (aData.CustomVendInvStat == 'Saved') {
+                        this.setModelProperty("ObjectStaus", "CustomState", 'Information');
+                    } else if (aData.CustomVendInvStat == 'Success') {
+                        this.setModelProperty("ObjectStaus", "CustomState", 'Success');
+                    } else if (aData.CustomVendInvStat == 'Error') {
+                        this.setModelProperty("ObjectStaus", "CustomState", 'Error');
+                    } else {
+                        this.setModelProperty("ObjectStaus", "CustomState", 'None');
+                    }
+
+                    if (aData.DomesticVendInvStat == 'Saved') {
+                        this.setModelProperty("ObjectStaus", "DomesticState", 'Information');
+                    } else if (aData.DomesticVendInvStat == 'Success') {
+                        this.setModelProperty("ObjectStaus", "DomesticState", 'Success');
+                    } else if (aData.DomesticVendInvStat == 'Error') {
+                        this.setModelProperty("ObjectStaus", "DomesticState", 'Error');
+                    } else {
+                        this.setModelProperty("ObjectStaus", "DomesticState", 'None');
+                    }
+
+                    if (aData.OverSeasVendInvStat == 'Saved') {
+                        this.setModelProperty("ObjectStaus", "OverSeasState", 'Information');
+                    } else if (aData.OverSeasVendInvStat == 'Success') {
+                        this.setModelProperty("ObjectStaus", "OverSeasState", 'Success');
+                    } else if (aData.OverSeasVendInvStat == 'Error') {
+                        this.setModelProperty("ObjectStaus", "OverSeasState", 'Error');
+                    } else {
+                        this.setModelProperty("ObjectStaus", "OverSeasState", 'None');
+                    }
+
+                    if (aData.OverallStatus == 'Saved') {
+                        oStatus.removeStyleClass("customObjStatusIcon");
+                        this.setModelProperty("ObjectStaus", "OverallState", 'Information');
+                        this.setModelProperty("ObjectStaus", "OverallIcon", 'sap-icon://information');
+                    } else if (aData.OverallStatus == 'Completed') {
+                        oStatus.removeStyleClass("customObjStatusIcon");
+                        this.setModelProperty("ObjectStaus", "OverallState", 'Success');
+                        this.setModelProperty("ObjectStaus", "OverallIcon", 'sap-icon://sys-enter-2');
+                    } else if (aData.OverallStatus == 'In Progress') {
+                        oStatus.addStyleClass("customObjStatusIcon");
+                        this.setModelProperty("ObjectStaus", "OverallState", 'Warning');
+                        this.setModelProperty("ObjectStaus", "OverallIcon", 'sap-icon://synchronize');
+                        this.pollToGetLatestStaus();
+                    }
+
+                }).catch((oError) => {
+                    console.error("Error fetching data:", oError);
+                });
+            },
+
+            pollToGetLatestStaus: function () {
+                const intervalId = setInterval(() => {
+                    const oStatus = this.getView().byId("idoverobjectStatus");
+                    var selectedHdr = "/CustomDutyHdr(" + this.transactionID + ")";
+                    this.getOwnerComponent().getModel().bindContext(selectedHdr).requestObject().then((oData) => {
+                        const aData = oData;
+                        this.getView().getModel("ObjectStaus").setData(aData);
+                        this.setModelProperty("ObjectStaus", "OverallText", aData.OverallStatus);
+                        if (aData.OverallStatus == 'Saved') {
+                            oStatus.removeStyleClass("customObjStatusIcon");
+                            this.setModelProperty("ObjectStaus", "OverallState", 'Information');
+                            this.setModelProperty("ObjectStaus", "OverallIcon", 'sap-icon://information');
+                        } else if (aData.OverallStatus == 'Completed') {
+                            oStatus.removeStyleClass("customObjStatusIcon");
+                            this.setModelProperty("ObjectStaus", "OverallState", 'Success');
+                            this.setModelProperty("ObjectStaus", "OverallIcon", 'sap-icon://sys-enter-2');
+                            this.getOwnerComponent().getModel().refresh();
+                            clearInterval(intervalId);
+                        } else if (aData.OverallStatus == 'In Progress') {
+                            oStatus.addStyleClass("customObjStatusIcon");
+                            this.setModelProperty("ObjectStaus", "OverallState", 'Warning');
+                            this.setModelProperty("ObjectStaus", "OverallIcon", 'sap-icon://synchronize');
+                        }
+
+                        this.setModelProperty("ObjectStaus", "InvoiceNumber", aData.InvoiceNumber);
+                        this.setModelProperty("ObjectStaus", "Plant", aData.Plant);
+                        this.setModelProperty("ObjectStaus", "POVendor", aData.POVendor);
+
+                        this.setModelProperty("ObjectStaus", "OverSeasVendor", aData.OverSeasVendor);
+                        this.setModelProperty("ObjectStaus", "DomesticVendor", aData.DomesticVendor);
+                        this.setModelProperty("ObjectStaus", "CustomVendor", aData.CustomVendor);
+
+                        if (aData.CustomVendInvStat == 'Saved') {
+                            this.setModelProperty("ObjectStaus", "CustomState", 'Information');
+                        } else if (aData.CustomVendInvStat == 'Success') {
+                            this.setModelProperty("ObjectStaus", "CustomState", 'Success');
+                        } else if (aData.CustomVendInvStat == 'Error') {
+                            this.setModelProperty("ObjectStaus", "CustomState", 'Error');
+                        } else {
+                            this.setModelProperty("ObjectStaus", "CustomState", 'None');
+                        }
+
+                        if (aData.DomesticVendInvStat == 'Saved') {
+                            this.setModelProperty("ObjectStaus", "DomesticState", 'Information');
+                        } else if (aData.DomesticVendInvStat == 'Success') {
+                            this.setModelProperty("ObjectStaus", "DomesticState", 'Success');
+                        } else if (aData.DomesticVendInvStat == 'Error') {
+                            this.setModelProperty("ObjectStaus", "DomesticState", 'Error');
+                        } else {
+                            this.setModelProperty("ObjectStaus", "DomesticState", 'None');
+                        }
+
+                        if (aData.OverSeasVendInvStat == 'Saved') {
+                            this.setModelProperty("ObjectStaus", "OverSeasState", 'Information');
+                        } else if (aData.OverSeasVendInvStat == 'Success') {
+                            this.setModelProperty("ObjectStaus", "OverSeasState", 'Success');
+                        } else if (aData.OverSeasVendInvStat == 'Error') {
+                            this.setModelProperty("ObjectStaus", "OverSeasState", 'Error');
+                        } else {
+                            this.setModelProperty("ObjectStaus", "OverSeasState", 'None');
+                        }
+
+                    }).catch((oError) => {
+                        console.error("Error fetching data:", oError);
+                    });
+                }, 5000); // Poll every 5 seconds
             },
             onPersoButtonPress: function (oEvent) {
                 this.getPersoController(this, "idInvoicePostingTable").openDialog({});
@@ -101,7 +332,94 @@ sap.ui.define([
                 this.oMessageView.navigateBack();
                 this._oPopover.openBy(oEvent.getSource());
             },
+
+            // Function to show the confirmation dialog
+            showDeleteConfirmationDialog: function () {
+                return new Promise((resolve) => {
+                    // Create the dialog
+                    const oDialog = new sap.m.Dialog({
+                        title: "Confirmation",
+                        type: sap.m.DialogType.Message,
+                        content: new sap.m.Text({ text: "Do you want to delete data?" }),
+                        beginButton: new sap.m.Button({
+                            text: "Yes",
+                            press: function () {
+                                // Action for Yes button                                
+                                oDialog.close();
+                                resolve(true); // Resolve the promise with true
+                            }
+                        }),
+                        endButton: new sap.m.Button({
+                            text: "No",
+                            press: function () {
+                                // Action for No button
+                                sap.m.MessageToast.show("Action cancelled.");
+                                oDialog.close();
+                                resolve(false); // Resolve the promise with false
+                            }
+                        }),
+                        afterClose: function () {
+                            oDialog.destroy(); // Clean up the dialog after closing
+                        }
+                    });
+
+                    // Open the dialog
+                    oDialog.open();
+                });
+            },
+
+            onDeleteCustomData: function () {
+                this.showDeleteConfirmationDialog().then((toProceed) => {
+                    if (toProceed) {
+                        //Delete Data
+                        this.busyDialog.open();
+                        const oModel = this.getView().getModel();
+                        const deleteDuty = oModel.bindContext("/DeleteCustomDuty(...)");
+                        deleteDuty.setParameter("ID", this.transactionID);
+                        deleteDuty.execute().then(() => {
+                            const sResponseDuty = deleteDuty.getBoundContext().getObject();
+                            if (sResponseDuty.value == true) {
+                                MessageToast.show("Deleted Successfully");
+
+                                const history = History.getInstance();
+                                const previousHash = history.getPreviousHash();
+
+                                if (previousHash !== undefined) {
+                                    window.history.go(-1);
+                                } else {
+                                    const oRouter = this.getOwnerComponent().getRouter()
+                                    oRouter.navTo("SelectionScreen");
+                                }
+
+                            }
+                            this.busyDialog.close();
+                        }).catch((oError) => {
+                            MessageToast.show(oError);
+                            this.busyDialog.close();
+                        });
+                    }
+                });
+            },
+
             handleInvoicePosting: function () {
+                //Save Data
+                this.busyDialog.open();
+                const oModel = this.getOwnerComponent().getModel();
+                const InvoicePOST = oModel.bindContext("/PostInvoice(...)");
+                InvoicePOST.setParameter("ID", this.transactionID);
+                InvoicePOST.execute().then(() => {
+                    this.busyDialog.close();
+                    this.setHeaderInfo();
+                    this.pollToGetLatestStaus();
+                }).catch((error) => {
+                    //const oMessage = error.message, sResponse = invoicePosting.getBoundContext().getObject(),
+                    //MessageModel = this.getView().getModel("MessageModel").getData();
+                    MessageToast.show(error);
+                    this.busyDialog.close();
+                }, this);
+            },
+
+            handleInvoicePosting1: function () {
                 const postingModelData = this.getView().getModel("InvoicePostingModel").getData(),
                     FieldMappings = this.getOwnerComponent().getModel("FieldMappings"),
                     oModel = this.getView().getModel(),
@@ -350,21 +668,21 @@ sap.ui.define([
                     }, this).catch((error) => {
                         const oMessage = error.message, sResponse = invoicePosting.getBoundContext().getObject(),
                             MessageModel = this.getView().getModel("MessageModel").getData();
-                            if (sResponse.value.length > 0) {
-                                sResponse.value.forEach((oInvoiceObject) => {
-                                    if (oInvoiceObject.Status === "Error") {
-                                        const errorObject = {
-                                            type: "Error",
-                                            title: "Error Message",
-                                            subtitle: oInvoiceObject.InvoicingParty,
-                                            description: oInvoiceObject.Message
-                                        };
-                                        MessageModel.messages.push(errorObject);
-                                    }
-                                });
-                                MessageModel.messagesLength = MessageModel.messages.length;
-                                this.getView().getModel("MessageModel").refresh(true);
-                            }
+                        if (sResponse.value.length > 0) {
+                            sResponse.value.forEach((oInvoiceObject) => {
+                                if (oInvoiceObject.Status === "Error") {
+                                    const errorObject = {
+                                        type: "Error",
+                                        title: "Error Message",
+                                        subtitle: oInvoiceObject.InvoicingParty,
+                                        description: oInvoiceObject.Message
+                                    };
+                                    MessageModel.messages.push(errorObject);
+                                }
+                            });
+                            MessageModel.messagesLength = MessageModel.messages.length;
+                            this.getView().getModel("MessageModel").refresh(true);
+                        }
                         MessageModel.messages.push(errorObject);
                         MessageModel.messagesLength = MessageModel.messages.length;
                         this.getView().getModel("MessageModel").refresh(true);

@@ -28,6 +28,10 @@
             "FieldMappings":{
                 "uri": "model/FieldMappings.json",
                 "type": "JSON"
+            },
+            "SidePanel":{
+                "uri": "model/SidePanel.json",
+                "type": "JSON"
             }
         }
     },
@@ -83,6 +87,10 @@
             "FieldMappings": {
                 "dataSource": "FieldMappings",
                 "type": "sap.ui.model.json.JSONModel"
+            },
+            "SidePanel": {
+                "dataSource": "SidePanel",
+                "type": "sap.ui.model.json.JSONModel"
             }
         },
         "resources": {
@@ -126,7 +134,7 @@
                 },
                 {
                     "name": "InvoicePosting",
-                    "pattern": "InvoicePosting",
+                    "pattern": "InvoicePosting/{transactionId}",
                     "target": [
                         "TargetInvoicePosting"
                     ]

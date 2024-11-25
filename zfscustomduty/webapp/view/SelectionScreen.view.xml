@@ -1,48 +1,507 @@
 <mvc:View
     controllerName="customduty.ui.invoiceposting.controller.SelectionScreen"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core"
-    xmlns:t="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:t="sap.ui.table"
     displayBlock="true"
-    xmlns="sap.m"
-    xmlns:layout="sap.ui.layout"
-    xmlns:f="sap.f"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:unified="sap.ui.unified"
+	xmlns="sap.m"
+	xmlns:layout="sap.ui.layout"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:unified="sap.ui.unified"
+	xmlns:tnt="sap.tnt"
+	xmlns:fb="sap.ui.comp.filterbar"
 >
-    <f:DynamicPage
-        id="selectionScreen"
+	<tnt:ToolPage id="toolPage">
+		<tnt:header>
+			<tnt:ToolHeader id="_IDGenToolHeader1">
+				<Button
+					id="sideNavigationToggleButton"
+					icon="sap-icon://menu2"
+					type="Transparent"
+					press=".onSideNavButtonPress">
+					<layoutData>
+						<OverflowToolbarLayoutData id="_IDGenOverflowToolbarLayoutData" priority="NeverOverflow" />
+					</layoutData>
+				</Button>
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:sideContent>
+			<tnt:SideNavigation id="_IDGenSideNavigation"
+				expanded="false"
+				selectedKey="{SidePanel>/selectedKey}"
+				itemSelect=".onItemSelect">
+				<tnt:NavigationList id="_IDGenNavigationList" items="{path: 'SidePanel>/navigation'}">
+					<tnt:NavigationListItem id="_IDGenNavigationListItem"
+						text="{SidePanel>title}"
+						icon="{SidePanel>icon}"
+						enabled="{SidePanel>enabled}"
+						expanded="{SidePanel>expanded}"
+						items="{SidePanel>items}"
+						key="{SidePanel>key}">
+						<tnt:NavigationListItem id="_IDGenNavigationListItem1"
+							text="{SidePanel>title}"
+							key="{SidePanel>key}"
+							enabled="{SidePanel>enabled}" /></tnt:NavigationListItem>
+				</tnt:NavigationList>
+				<tnt:fixedItem>
+					<tnt:NavigationList id="_IDGenNavigationList1" items="{path: 'SidePanel>/fixedNavigation'}">
+						<tnt:NavigationListItem id="_IDGenNavigationListItem2" text="{SidePanel>title}" icon="{SidePanel>icon}" />
+					</tnt:NavigationList>
+				</tnt:fixedItem>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="UploadPage">
+				<pages>
+					<f:DynamicPage
+        id="ManagePage"
         showFooter="true"
         fitContent="true"
     >
-        <f:title>
-            <f:DynamicPageTitle id="idSelectionScreenTitle">
-                <f:heading>
-                    <Title
-                        id="idSelectionScreenTitleText"
+						<f:title>
+							<f:DynamicPageTitle id="idSelectionScreenTitleDis">
+								<f:heading>
+									<Title
+                        id="idSelectionScreenTitleTexDist"
                         text="{i18n>SelectionScreenTitle}"
                     />
-                </f:heading>
-            </f:DynamicPageTitle>
-        </f:title>
-        <f:content>
-            <VBox
+								</f:heading>
+							</f:DynamicPageTitle>
+						</f:title>
+						<f:header>
+							<f:DynamicPageHeader id="_IDGenDynamicPageHeader">
+								<f:content>
+									<fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+										<fb:filterGroupItems>
+											<fb:FilterGroupItem id="_IDGenFilterGroupItem" name="BENo" label="BE No." groupName="Group1" visibleInFilterBar="true">
+												<fb:control>
+													<Input
+                                                        id="idBENumberDis"
+                                                        width="50%"
+                                                        showValueHelp="true">                                                       
+													</Input>
+												</fb:control>
+											</fb:FilterGroupItem>
+										</fb:filterGroupItems>
+									</fb:FilterBar>
+								</f:content>
+							</f:DynamicPageHeader>
+						</f:header>
+						<f:content>
+							<VBox
+                id="idSSVVBoxDis"
+                class="sapUiSmallMargin"
+            >
+								<form:SimpleForm
+                    id="idUploadFormDis"
+                    editable="true"
+                    layout="ColumnLayout"
+                >
+									<form:content>
+										<!--  Plant Field  -->
+										<Label
+                            id="idSSVPlantLabelDis"
+                            text="{i18n>Plant}"
+                        />
+										<Input
+                            id="idSSVPlantInputDis" 
+                            width="50%"
+                            value="{ManageData>/Plant}"
+                            editable="false"
+                            >
+                            				</Input>
+										<!--  BE Number Field  -->
+										<Label
+                            id="idSSVBENumberLabelDis"
+                            text="{i18n>BENumber}"
+                        />
+										
+										<Input
+                            id="idBEInputDis" 
+                            width="50%"
+                            value="{ManageData>/BENoKey}"
+                            editable="false"
+                            >
+                            				</Input>
+										<!--  PO vendor Field  -->
+										<Label
+                            id="idSSVPOVendorLabelDis"
+                            text="{i18n>POVendor}"
+                        />
+										<Input
+                            id="idSSVPOVendorInputDis"                           
+                             editable="false"
+                             value="{ManageData>/POVendor}"
+                             width="50%"
+                        >											
+										</Input>
+										<!--  Custom vendor Field  -->
+										<Label
+                            id="idSSVCustomVendorLabelDis"
+                            text="{i18n>CustomVendor}"
+                            required="true"
+                        />
+										<Input
+                            id="idSSVCustomVendortInputDis"
+                            showValueHelp="false"
+                            showValueStateMessage="false"
+                            width="50%"
+                            maxLength="10"
+                            change="onInputChange"
+                            value="{ManageData>/CustomVendor}"
+                             editable="{= ${ManageData>/CustomVendInv} ? false : true}"
+                        >
+											<customData>
+												<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isCustomVendorFilled"
+                                />
+											</customData>
+										</Input>
+										<!--  Overseas Freight vendor Field  -->
+										<Label
+                            id="idSSVOverseasVendorLabelDis"
+                            text="{i18n>OverseasFreightVendor}"
+                        />
+										<Input
+                            id="idSSVOverseasVendorInputDis"
+                            width="50%"
+                            showValueHelp="false"
+                            maxLength="10"
+                            change="onInputChange"
+                            value="{ManageData>/OverSeasVendor}"
+                             editable="{= ${ManageData>/OverSeasVendInv} ? false : true}"
+                        />
+										<!--  Local Freight vendor Field  -->
+										<Label
+                            id="idSSVLocalFrieghtVendorLabelDis"
+                            text="{i18n>LocalFreightVendor}"
+                        />
+										<Input
+                            id="idSSVLocalVendortInputDis"
+                            showValueHelp="false"
+                            width="50%"
+                            showValueStateMessage="false"
+                            maxLength="10"
+                            change="onInputChange" 
+                            value="{ManageData>/DomesticVendor}"
+                             editable="{= ${ManageData>/DomesticVendInv} ? false : true}"
+                        >
+											<customData>
+												<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isLocalVendorFilled"
+                                />
+											</customData>
+										</Input>
+										<!--  Insurance vendor Field  -->
+										<Label
+                            id="idSSVInsuranceVendorLabelDis"
+                            text="{i18n>InsuranceVendor}"
+                            visible="false"
+                        />
+										<Input
+                            id="idSSVInsuranceVendortInputDis" 
+                            showValueHelp="false"
+                            width="50%"
+                            showValueStateMessage="false"
+                            valueState="{= ${uploadChaFileModel>/isInsuranceVendorFilled} ? 'None' : 'Error'}"
+                            maxLength="10"
+                            change="onInputChange"
+                            editable="false"
+                            visible="false"
+                        >
+											<customData>
+												<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isInsuranceVendorFilled"
+                                />
+											</customData>
+										</Input>
+										<!--  Misc vendor Field  -->
+										<Label
+                            id="idSSVMiscVendorLabelDis" visible="false"
+                            text="{i18n>MiscVendor}"
+                            required="true"
+                        />
+										<Input
+                            id="idSSVMiscVendortInputDis" visible="false"
+                            showValueHelp="false"
+                            width="50%"
+                            showValueStateMessage="false"
+                            valueState="{= ${uploadChaFileModel>/isMiscVendorFilled} ? 'None' : 'Error'}"
+                            maxLength="10"
+                            change="onInputChange"
+                            editable="false"
+                        >
+											<customData>
+												<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isMiscVendorFilled"
+                                />
+											</customData>
+										</Input>
+									</form:content>
+								</form:SimpleForm>
+								
+                                <t:Table id="Dis_IDGenTable"
+                    rows="{InvoiceManage>/}"
+                    selectionMode="None"
+                    class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                    ariaLabelledBy="title"
+                    visibleRowCount="3"
+                >
+								<t:extension>
+									<OverflowToolbar id="Dis_IDGenOverflowToolbar1" style="Clear">
+										<Title
+                                class="sapUiTinyMargin"
+                                id="Distitle"
+                                text="{i18n>InvoiceTableTitle}"
+                            />
+										<ToolbarSpacer id="Dis_IDGenToolbarSpacer" />
+										
+									</OverflowToolbar>
+								</t:extension>
+								<t:columns>
+									<t:Column id="Dis_IDGenColumn" width="11rem">
+										<Label id="Dis_IDGenLabel" text="{i18n>BENumber}" />
+										<t:template>
+											<Text id="Dis_IDGenText1"
+                                    text="{InvoiceManage>BENo}"
+                                    wrapping="false"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn12"  width="11rem">
+										<Label id="Dis_IDGenLabel12"  text="{i18n>Invoice}" />
+										<t:template>
+											<Text id="Dis_IDGenText2" 
+                                    text="{InvoiceManage>InvoiceNumber}"
+                                    wrapping="false"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn1" width="9rem">
+										<Label id="Dis_IDGenLabel1"
+                                text="{i18n>LocalFreightAmount1}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput"
+                                    type="Number"
+                                    value="{InvoiceManage>DomesticFrtAmtCALC1}"
+                                    valueState="{InvoiceManage>DomesticFrtAmtCALC1VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn13"  width="5rem">
+										<Label id="Dis_IDGenLabel13"
+                                text="{i18n>LocalFreightAmountTax1}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput11" 
+                                    maxLength="2"                                   
+                                    value="{InvoiceManage>DomesticFrtAmtTAX1}"
+                                    valueState="{InvoiceManage>DomesticFrtAmtTAX1VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn14" width="9rem">
+										<Label id="Dis_IDGenLabel14" 
+                                text="{i18n>LocalFreightAmount2}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput12" 
+                                    type="Number"
+                                    value="{InvoiceManage>DomesticFrtAmtCALC2}"
+                                    valueState="{InvoiceManage>DomesticFrtAmtCALC2VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn15" width="5rem">
+										<Label id="Dis_IDGenLabel15"
+                                text="{i18n>LocalFreightAmountTax2}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput13" 
+                                    value="{InvoiceManage>DomesticFrtAmtTAX2}"
+                                    maxLength="2"
+                                    valueState="{InvoiceManage>DomesticFrtAmtTAX2VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn2" width="9rem" visible="false">
+										<Label id="Dis_IDGenLabel2"
+                                text="{i18n>InsuranceAmount}"
+                                wrapping="true"
+                                required="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput1"
+                                    type="Number"
+                                    value="{InvoiceManage>InsuranceAmount}"
+                                    valueState="{InvoiceManage>InsuranceAmountVS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn3" width="9rem" visible="false">
+										<Label id="Dis_IDGenLabel3"
+                                text="{i18n>MiscAmount}"
+                                wrapping="true"
+                                required="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput2"
+                                    type="Number"
+                                    value="{InvoiceManage>MiscAmount}"
+                                    valueState="{InvoiceManage>MiscAmountVS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn16"  width="9rem">
+										<Label id="Dis_IDGenLabel16" 
+                                text="{i18n>OverseasFreightAmount1}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput14" 
+                                    type="Number"
+                                    value="{InvoiceManage>OverseasFrtAmtCALC1}"
+                                    valueState="{InvoiceManage>OverseasFrtAmtCALC1VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn17"  width="5rem">
+										<Label id="Dis_IDGenLabel17" 
+                                text="{i18n>OverseasFreightAmountTax1}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput15" 
+                                    value="{InvoiceManage>OverseasFrtAmtTAX1}"
+                                    maxLength="2"
+                                    valueState="{InvoiceManage>OverseasFrtAmtTAX1VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn4" width="9rem">
+										<Label id="Dis_IDGenLabel4"
+                                text="{i18n>OverseasFreightAmount2}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput3"
+                                    type="Number"
+                                    value="{InvoiceManage>OverseasFrtAmtCALC2}"
+                                    valueState="{InvoiceManage>OverseasFrtAmtCALC2VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="Dis_IDGenColumn18"  width="5rem">
+										<Label id="Dis_IDGenLabel18" 
+                                text="{i18n>OverseasFreightAmountTax2}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceManage>TotalAmount}"
+                                    currency="{InvoiceManage>CurrencyCode}"
+                                /> -->
+											<Input id="Dis_IDGenInput16" 
+                                    value="{InvoiceManage>OverseasFrtAmtTAX2}"
+                                    maxLength="2"
+                                    valueState="{InvoiceManage>OverseasFrtAmtTAX2VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>									
+								</t:columns>
+							</t:Table>
+
+							</VBox>
+						</f:content>
+						<f:footer> 
+							<OverflowToolbar id="_IDGenOverflowToolbar">
+								<ToolbarSpacer id="_IDGenToolbarSpacer3" />
+								<Button
+                    id="idProceedToInvoicePostingDis"
+                    type="Accept"
+                    text="Proceed"
+                    enabled="false"
+                    press="onProceedToInvoicePostingFromManage"
+                />
+							</OverflowToolbar>
+						</f:footer>
+					</f:DynamicPage>
+					<Page id="UploadPage"
+                        floatingFooter="true" showHeader="false"
+	>
+						<VBox
                 id="idSSVVBox"
                 class="sapUiSmallMargin"
             >
-                <form:SimpleForm
+							<form:SimpleForm
                     id="idUploadForm"
                     editable="true"
                     layout="ColumnLayout"
                 >
-                    <form:content>
-                        <!--  Plant Field  -->
-                        <Label
+								<form:content>
+									<!--  Plant Field  -->
+									<Label
                             id="idSSVPlantLabel"
                             text="{i18n>Plant}"
                             required="true"
                         />
-                        <Input
+									<Input
                             id="idSSVPlantInput"
                             showValueHelp="true"
                             width="50%"
@@ -55,42 +514,43 @@
                             suggestionItemSelected=".onSuggestionItemSelected"
                             maxLength="4"
                         >
-                            <customData>
-                                <core:CustomData
+										<customData>
+											<core:CustomData
                                     key="CHAModelProperty"
                                     value="isPlantFilled"
                                 />
-                                <core:CustomData
+											<core:CustomData
                                     key="FilterProperty"
                                     value="Plant"
                                 />
-                            </customData>
-                            <suggestionItems>
-                                <core:ListItem
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem"
                                     key="{Plant}"
                                     text="{PlantName}"
                                     additionalText="{Plant}"
                                 />
-                            </suggestionItems>
-                        </Input>
-                        <!--  BE Number Field  -->
-                        <Label
+										</suggestionItems>
+									</Input>
+									<!--  BE Number Field  -->
+									<Label
                             id="idSSVBENumberLabel"
                             text="{i18n>BENumber}"
                         />
-                        <MultiInput
+									<MultiInput
                             id="idSSVBENumberMultiInput"
                             showValueHelp="false"
                             width="50%"
                             showClearIcon="true"
+                            editable="false"
                         />
-
-                        <!--  PO vendor Field  -->
-                        <Label
+									<!--  PO vendor Field  -->
+									<Label
                             id="idSSVPOVendorLabel"
                             text="{i18n>POVendor}"
+                            required="true"
                         />
-                        <Input
+									<Input
                             id="idSSVPOVendorInput"
                             width="50%"
                             showValueHelp="true"
@@ -98,31 +558,36 @@
                             showValueStateMessage="false"
                             change="onInputChange"
                             suggestionItems="{/POVendorVH}"
+                            valueState="{= ${uploadChaFileModel>/isPOVendorFilled} ? 'None' : 'Error'}"
                             suggestionItemSelected=".onSuggestionItemSelected"
                             valueHelpRequest="onInputValueHelpDialog"
                             maxLength="10"
                         >
-                            <customData>
-                                <core:CustomData
+										<customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isPOVendorFilled"
+                                />
+											<core:CustomData
                                     key="FilterProperty"
                                     value="POVendor"
                                 />
-                            </customData>
-                            <suggestionItems>
-                                <core:ListItem
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem1"
                                     key="{Supplier}"
                                     text="{SupplierName}"
                                     additionalText="{Supplier}"
                                 />
-                            </suggestionItems>
-                        </Input>
-                        <!--  Custom vendor Field  -->
-                        <Label
+										</suggestionItems>
+									</Input>
+									<!--  Custom vendor Field  -->
+									<Label
                             id="idSSVCustomVendorLabel"
                             text="{i18n>CustomVendor}"
                             required="true"
                         />
-                        <Input
+									<Input
                             id="idSSVCustomVendortInput"
                             showValueHelp="false"
                             showValueStateMessage="false"
@@ -131,55 +596,55 @@
                             maxLength="10"
                             change="onInputChange"
                         >
-                            <customData>
-                                <core:CustomData
+										<customData>
+											<core:CustomData
                                     key="CHAModelProperty"
                                     value="isCustomVendorFilled"
                                 />
-                            </customData>
-                        </Input>
-                        <!--  Overseas Freight vendor Field  -->
-                        <Label
+										</customData>
+									</Input>
+									<!--  Overseas Freight vendor Field  -->
+									<Label
                             id="idSSVOverseasVendorLabel"
                             text="{i18n>OverseasFreightVendor}"
+                            required="false"
                         />
-                        <Input
+									<Input
                             id="idSSVOverseasVendorInput"
                             width="50%"
                             showValueHelp="false"
                             maxLength="10"
                             change="onInputChange"
                         />
-                        <!--  Local Freight vendor Field  -->
-                        <Label
+									<!--  Local Freight vendor Field  -->
+									<Label
                             id="idSSVLocalFrieghtVendorLabel"
                             text="{i18n>LocalFreightVendor}"
-                            required="true"
+                            required="false"
                         />
-                        <Input
+									<Input
                             id="idSSVLocalVendortInput"
                             showValueHelp="false"
                             width="50%"
                             showValueStateMessage="false"
-                            valueState="{= ${uploadChaFileModel>/isLocalVendorFilled} ? 'None' : 'Error'}"
                             maxLength="10"
                             change="onInputChange"
                         >
-                            <customData>
-                                <core:CustomData
+										<customData>
+											<core:CustomData
                                     key="CHAModelProperty"
                                     value="isLocalVendorFilled"
                                 />
-                            </customData>
-                        </Input>
-                        <!--  Insurance vendor Field  -->
-                        <Label
-                            id="idSSVInsuranceVendorLabel"
+										</customData>
+									</Input>
+									<!--  Insurance vendor Field  -->
+									<Label
+                            id="idSSVInsuranceVendorLabel" visible="false"
                             text="{i18n>InsuranceVendor}"
-                            required="true"
+                            required="false"
                         />
-                        <Input
-                            id="idSSVInsuranceVendortInput"
+									<Input
+                            id="idSSVInsuranceVendortInput" visible="false"
                             showValueHelp="false"
                             width="50%"
                             showValueStateMessage="false"
@@ -187,21 +652,22 @@
                             maxLength="10"
                             change="onInputChange"
                         >
-                            <customData>
-                                <core:CustomData
+										<customData>
+											<core:CustomData
                                     key="CHAModelProperty"
                                     value="isInsuranceVendorFilled"
                                 />
-                            </customData>
-                        </Input>
-                        <!--  Misc vendor Field  -->
-                        <Label
+										</customData>
+									</Input>
+									<!--  Misc vendor Field  -->
+									<Label
                             id="idSSVMiscVendorLabel"
                             text="{i18n>MiscVendor}"
-                            required="true"
+                            required="false"
+                            visible="false"
                         />
-                        <Input
-                            id="idSSVMiscVendortInput"
+									<Input
+                            id="idSSVMiscVendortInput" visible="false"
                             showValueHelp="false"
                             width="50%"
                             showValueStateMessage="false"
@@ -209,53 +675,53 @@
                             maxLength="10"
                             change="onInputChange"
                         >
-                            <customData>
-                                <core:CustomData
+										<customData>
+											<core:CustomData
                                     key="CHAModelProperty"
                                     value="isMiscVendorFilled"
                                 />
-                            </customData>
-                        </Input>
-                        <!--  CHA File Browse  -->
-                        <Label
+										</customData>
+									</Input>
+									<!--  CHA File Browse  -->
+									<Label
                             id="idSSVCHAFileLabel"
                             text="{i18n>CHAFile}"
                             labelFor="idSSVSuppierInvoiceNumberInput"
                             required="true"
                         />
-                        <unified:FileUploader
+									<unified:FileUploader
                             uploadComplete="onUploadComplete"
                             valueState="{= ${uploadChaFileModel>/isChaFileFilled} ? 'None' : 'Error'}"
                             valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
                             id="fileUploader"
-                            mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            
                             useMultipart="false"
                             placeholder="{i18n>CHAFile}"
                             sameFilenameAllowed="true"
                             iconOnly="true"
-                            buttonOnly="false"
-                            fileType="XLSX,xlsx"
+                            buttonOnly="false" 
+                            fileType="XLSX,xlsx,JSON"
                             icon="sap-icon://upload"
                             iconFirst="true"
                             style="Emphasized"
                             change="onInputChange"
                         />
-                        <Label
+									<Label
                             id="idSSVFlexBoxLabel"
                             text=""
                         />
-                        <Button
+									<Button
                             id="idSSVClearButton"
                             text="{i18n>Clear}"
                             press="onClearForm"
                             class="sapUiSmallMarginEnd"
                             width="50%"
                         />
-                        <Label
+									<Label
                             id="idSSVFlexBoxLabel1"
                             text=""
                         />
-                        <Button
+									<Button
                             id="idSSVUploadButton"
                             text="{i18n>Upload}"
                             press="onSubmitFile"
@@ -265,208 +731,265 @@
                             &amp;&amp; ${uploadChaFileModel>/isCustomVendorFilled} &amp;&amp; ${uploadChaFileModel>/isLocalVendorFilled}
                             &amp;&amp; ${uploadChaFileModel>/isInsuranceVendorFilled} &amp;&amp; ${uploadChaFileModel>/isMiscVendorFilled}}"
                         />
-                        <!--  <Button
+									<!--  <Button
                                 id="idUploadCHAFileViewDownloadTemplateButton"
                                 type="{AppControl>/style/buttonType}"
                                 text="{i18n>DownloadTemplate}"
                                 visible="{AppControl>/visibility/isDownloadTemplateVisible}"
                             />  -->
-                    </form:content>
-                </form:SimpleForm>
-                <t:Table
+								</form:content>
+							</form:SimpleForm>
+							<t:Table id="_IDGenTable"
                     rows="{InvoiceModel>/}"
                     selectionMode="None"
                     class="sapUiSmallMarginTop sapUiTinyMarginBottom"
                     ariaLabelledBy="title"
+                    visibleRowCount="3"
                 >
-                    <t:extension>
-                        <OverflowToolbar style="Clear">
-                            <Title
+								<t:extension>
+									<OverflowToolbar id="_IDGenOverflowToolbar1" style="Clear">
+										<Title
                                 class="sapUiTinyMargin"
                                 id="title"
                                 text="{i18n>InvoiceTableTitle}"
                             />
-                            <ToolbarSpacer />
-                            <Button
+										<ToolbarSpacer id="_IDGenToolbarSpacer" />
+										<Button
                                 id="idValidateBtn"
                                 class="sapUiTinyMargin"
                                 text="Validate"
                                 enabled="false"
                                 press="onValidateInvoiceModel"
                             />
-                        </OverflowToolbar>
-                    </t:extension>
-                    <t:columns>
-                        <t:Column width="11rem">
-                            <Label text="{i18n>Invoice}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoiceModel>InvoiceId}"
+									</OverflowToolbar>
+								</t:extension>
+								<t:columns>
+									<t:Column id="_IDGenColumn" width="11rem">
+										<Label id="_IDGenLabel" text="{i18n>BENumber}" />
+										<t:template>
+											<Text id="_IDGenText1"
+                                    text="{InvoiceModel>BENo}"
                                     wrapping="false"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>LocalFreightAmount}"
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn12"  width="11rem">
+										<Label id="_IDGenLabel12"  text="{i18n>Invoice}" />
+										<t:template>
+											<Text id="_IDGenText2" 
+                                    text="{InvoiceModel>InvoiceNumber}"
+                                    wrapping="false"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn1" width="9rem">
+										<Label id="_IDGenLabel1"
+                                text="{i18n>LocalFreightAmount1}"
                                 wrapping="true"
-                                required="true"
                             />
-                            <t:template>
-                                <!-- <unified:Currency
+										<t:template>
+											<!-- <unified:Currency
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-                                <Input
+											<Input id="_IDGenInput"
                                     type="Number"
-                                    value="{InvoiceModel>LocalFreightAmount}"
-                                    valueState="{InvoiceModel>LocalFreightAmountVS}"
+                                    value="{InvoiceModel>DomesticFrtAmtCALC1}"
+                                    valueState="{InvoiceModel>DomesticFrtAmtCALC1VS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn13"  width="5rem">
+										<Label id="_IDGenLabel13"
+                                text="{i18n>LocalFreightAmountTax1}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+											<Input id="_IDGenInput11" 
+                                    maxLength="2"                                   
+                                    value="{InvoiceModel>DomesticFrtAmtTAX1}"
+                                    valueState="{InvoiceModel>DomesticFrtAmtTAX1VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn14" width="9rem">
+										<Label id="_IDGenLabel14" 
+                                text="{i18n>LocalFreightAmount2}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+											<Input id="_IDGenInput12" 
+                                    type="Number"
+                                    value="{InvoiceModel>DomesticFrtAmtCALC2}"
+                                    valueState="{InvoiceModel>DomesticFrtAmtCALC2VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn15" width="5rem">
+										<Label id="_IDGenLabel15"
+                                text="{i18n>LocalFreightAmountTax2}"
+                                wrapping="true"
+                            />
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+											<Input id="_IDGenInput13" 
+                                    value="{InvoiceModel>DomesticFrtAmtTAX2}"
+                                    maxLength="2"
+                                    valueState="{InvoiceModel>DomesticFrtAmtTAX2VS}"
+                                    change="onInvoiceTableInputChange"
+                                />
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn2" width="9rem" visible="false">
+										<Label id="_IDGenLabel2"
                                 text="{i18n>InsuranceAmount}"
                                 wrapping="true"
                                 required="true"
                             />
-                            <t:template>
-                                <!-- <unified:Currency
+										<t:template>
+											<!-- <unified:Currency
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-                                <Input
+											<Input id="_IDGenInput1"
                                     type="Number"
                                     value="{InvoiceModel>InsuranceAmount}"
                                     valueState="{InvoiceModel>InsuranceAmountVS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn3" width="9rem" visible="false">
+										<Label id="_IDGenLabel3"
                                 text="{i18n>MiscAmount}"
                                 wrapping="true"
                                 required="true"
                             />
-                            <t:template>
-                                <!-- <unified:Currency
+										<t:template>
+											<!-- <unified:Currency
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-                                <Input
+											<Input id="_IDGenInput2"
                                     type="Number"
                                     value="{InvoiceModel>MiscAmount}"
                                     valueState="{InvoiceModel>MiscAmountVS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>OverseasFreightAmount}"
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn16"  width="9rem">
+										<Label id="_IDGenLabel16" 
+                                text="{i18n>OverseasFreightAmount1}"
                                 wrapping="true"
-                                required="true"
                             />
-                            <t:template>
-                                <!-- <unified:Currency
+										<t:template>
+											<!-- <unified:Currency
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-                                <Input
+											<Input id="_IDGenInput14" 
                                     type="Number"
-                                    value="{InvoiceModel>OverseasFreightAmount}"
-                                    valueState="{InvoiceModel>OverseasFreightAmountVS}"
+                                    value="{InvoiceModel>OverseasFrtAmtCALC1}"
+                                    valueState="{InvoiceModel>OverseasFrtAmtCALC1VS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>ForeignCurrency}"
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn17"  width="5rem">
+										<Label id="_IDGenLabel17" 
+                                text="{i18n>OverseasFreightAmountTax1}"
                                 wrapping="true"
-                                required="true"
                             />
-                            <t:template>
-                                <Input
-                                    type="Text"
-                                    value="{InvoiceModel>ForeignCurrency}"
-                                    maxLength="3"
-                                    valueState="{InvoiceModel>ForeignCurrencyVS}"
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+											<Input id="_IDGenInput15" 
+                                    value="{InvoiceModel>OverseasFrtAmtTAX1}"
+                                    maxLength="2"
+                                    valueState="{InvoiceModel>OverseasFrtAmtTAX1VS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>ExchangeRate}"
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn4" width="9rem">
+										<Label id="_IDGenLabel4"
+                                text="{i18n>OverseasFreightAmount2}"
                                 wrapping="true"
-                                required="true"
                             />
-                            <t:template>
-                                <Input
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+											<Input id="_IDGenInput3"
                                     type="Number"
-                                    value="{InvoiceModel>ExchangeRate}"
-                                    maxLength="10"
-                                    valueState="{InvoiceModel>ExchangeRateVS}"
+                                    value="{InvoiceModel>OverseasFrtAmtCALC2}"
+                                    valueState="{InvoiceModel>OverseasFrtAmtCALC2VS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>OverseasFreightVendor}"
+										</t:template>
+									</t:Column>
+									<t:Column id="_IDGenColumn18"  width="5rem">
+										<Label id="_IDGenLabel18" 
+                                text="{i18n>OverseasFreightAmountTax2}"
                                 wrapping="true"
                             />
-                            <t:template>
-                                <Input
-                                    type="Text"
-                                    value="{InvoiceModel>OverseasFreightVendor}"
-                                    valueState="{InvoiceModel>OverseasFreightVendorVS}"
-                                    editable="{InvoiceModel>OverseasFreightVendorEditable}"
+										<t:template>
+											<!-- <unified:Currency
+                                    value="{InvoiceModel>TotalAmount}"
+                                    currency="{InvoiceModel>CurrencyCode}"
+                                /> -->
+											<Input id="_IDGenInput16" 
+                                    value="{InvoiceModel>OverseasFrtAmtTAX2}"
+                                    maxLength="2"
+                                    valueState="{InvoiceModel>OverseasFrtAmtTAX2VS}"
                                     change="onInvoiceTableInputChange"
                                 />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>POVendor}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Input
-                                    type="Text"
-                                    value="{InvoiceModel>POVendor}"
-                                    valueState="{InvoiceModel>POVendorVS}"
-                                    editable="{InvoiceModel>POVendorEditable}"
-                                    change="onInvoiceTableInputChange"
-                                />
-                            </t:template>
-                        </t:Column>
-                    </t:columns>
-                </t:Table>
-            </VBox>
-        </f:content>
-        <f:footer>
-            <OverflowToolbar>
-                <Button
+										</t:template>
+									</t:Column>									
+								</t:columns>
+							</t:Table>
+						</VBox>
+						<footer>
+							<OverflowToolbar id="_IDGenOverflowToolbar2">
+								<ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+								<Button id="_IDGenButton"
                     icon="sap-icon://message-popup"
                     text="{/messagesLength}"
                     type="Emphasized"
                     press="onMessageButtonPress"
                     visible="false"
                 />
-                <ToolbarSpacer />
-                <Button
+								<ToolbarSpacer id="_IDGenToolbarSpacer2" />
+								<Button
                     id="idProceedToInvoicePosting"
                     type="Accept"
                     text="Proceed"
                     enabled="false"
                     press="onProceedToInvoicePostingScreen"
                 />
-            </OverflowToolbar>
-        </f:footer>
-    </f:DynamicPage>
+							</OverflowToolbar>
+						</footer>
+					</Page>
+				</pages>
+			</NavContainer>
+		</tnt:mainContents>
+	</tnt:ToolPage>
 </mvc:View>

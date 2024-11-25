@@ -5,31 +5,31 @@ modules:
 - name: zcom_customduty-destination-content
   type: com.sap.application.content
   requires:
-  - name: zcom_customduty-destination-service
+  - name: zcom_customduty-destination
     parameters:
       content-target: true
   - name: zcom_customduty_html_repo_host
     parameters:
       service-key:
         name: zcom_customduty_html_repo_host-key
-  - name: uaa_zcom_customduty
+  - name: zcom_customduty-auth
     parameters:
       service-key:
-        name: uaa_zcom_customduty-key
+        name: zcom_customduty-key
   parameters:
     content:
       instance:
         destinations:
-        - Name: AppRouter_zcom_customduty_html_repo_host
+        - Name: customduty_ui_invoiceposting_zcom_customduty_html_repo_host
           ServiceInstanceName: zcom_customduty-html5-app-host-service
           ServiceKeyName: zcom_customduty_html_repo_host-key
-          sap.cloud.service: AppRouter
+          sap.cloud.service: customduty.ui.invoiceposting
         - Authentication: OAuth2UserTokenExchange
-          Name: AppRouter_uaa_zcom_customduty
-          ServiceInstanceName: zcom_customduty-xsuaa-service
-          ServiceKeyName: uaa_zcom_customduty-key
-          sap.cloud.service: AppRouter
-        existing_destinations_policy: ignore
+          Name: customduty_ui_invoiceposting_uaa_zcom_customduty
+          ServiceInstanceName: zcom_customduty-auth
+          ServiceKeyName: zcom_customduty-key
+          sap.cloud.service: customduty.ui.invoiceposting
+        existing_destinations_policy: update
   build-parameters:
     no-source: true
 - name: zcom_customduty-app-content
@@ -46,10 +46,6 @@ modules:
       - customdutyuiinvoicepostingzfscustomduty.zip
       name: customdutyuiinvoicepostingzfscustomduty
       target-path: resources/
-    - artifacts:
-      - zfsfieldmapping.zip
-      name: zfsfieldmapping
-      target-path: resources/
 - name: customdutyuiinvoicepostingzfscustomduty
   type: html5
   path: zfscustomduty
@@ -60,18 +56,8 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
-- name: zfsfieldmapping
-  type: html5
-  path: zfsfieldmapping
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
 resources:
-- name: zcom_customduty-destination-service
+- name: zcom_customduty-destination
   type: org.cloudfoundry.managed-service
   parameters:
     config:
@@ -87,7 +73,7 @@ resources:
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
-    service-name: zcom_customduty-destination-service
+    service-name: zcom_customduty-destination
     service-plan: lite
 - name: zcom_customduty_html_repo_host
   type: org.cloudfoundry.managed-service
@@ -95,12 +81,12 @@ resources:
     service: html5-apps-repo
     service-name: zcom_customduty-html5-app-host-service
     service-plan: app-host
-- name: uaa_zcom_customduty
+- name: zcom_customduty
   type: org.cloudfoundry.managed-service
   parameters:
     path: ./xs-security.json
     service: xsuaa
-    service-name: zcom_customduty-xsuaa-service
+    service-name: zcom_customduty-auth
     service-plan: application
 parameters:
   deploy_mode: html5-repo

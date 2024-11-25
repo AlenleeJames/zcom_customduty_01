@@ -1,0 +1,814 @@
+<mvc:View
+    controllerName="customduty.ui.invoiceposting.controller.InvoicePosting"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <f:DynamicPage
+        id="invoicePosting"
+        showFooter="true"
+        fitContent="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idInvoicePostingTitle">
+                <f:heading>
+                    <Title
+                        id="idInvoicePostingTitleText"
+                        text="{i18n>InvoicePostingTitle}"
+                    />
+                </f:heading>
+                <f:content>
+                    <OverflowToolbar id="idCFURPageHeaderOverFlowToolbar">
+                        <GenericTag
+                            id="idPlantTag"
+                            status="Error"
+                            text="{i18n>Plant}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/Plant} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idPlantDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/Plant}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idPOVendorTag"
+                            status="Error"
+                            text="{i18n>POVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/POVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idPOVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/POVendor}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idBENoTag"
+                            status="Error"
+                            text="{i18n>BENumber}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/BENo} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idBENumberDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/BENo}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idCustomVendorTag"
+                            status="Error"
+                            text="{i18n>CustomVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/CustomVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idCustomVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/CustomVendor}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idOverseasVendorTag"
+                            status="Error"
+                            text="{i18n>OverseasFreightVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/OverseasVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idOverseasVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/OverseasVendor}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idLocalVendorTag"
+                            status="Error"
+                            text="{i18n>LocalFreightVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/LocalVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idLocalVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/LocalVendor}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idInsuranceVendorTag"
+                            status="Error"
+                            text="{i18n>InsuranceVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/InsuranceVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idInsuranceVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/InsuranceVendor}"
+                            />
+                        </GenericTag>
+                        <GenericTag
+                            id="idMiscVendorTag"
+                            status="Error"
+                            text="{i18n>MiscVendor}"
+                            design="StatusIconHidden"
+                            visible="{= ${FieldMappings>/SelectionFields/MiscVendor} ? true : false}"
+                        >
+                            <ObjectNumber
+                                id="idMiscVendorDetails"
+                                state="Error"
+                                emphasized="false"
+                                number="{FieldMappings>/SelectionFields/MiscVendor}"
+                            />
+                        </GenericTag>
+                    </OverflowToolbar>
+                </f:content>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <VBox
+                id="idIPVVBox"
+            >
+                <t:Table
+                id="idInvoicePostingTable"
+                    rows="{InvoicePostingModel>/}"
+                    selectionMode="None"
+                    class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                    ariaLabelledBy="title"
+                >
+                    <t:extension>
+                        <OverflowToolbar style="Clear">
+                            <Title
+                                class="sapUiTinyMargin"
+                                id="title"
+                                text="{i18n>PostingTitle}"
+                            />
+                            <ToolbarSpacer />
+                            <Button
+                                id="idSettings"
+                                class="sapUiTinyMargin"
+                                icon="sap-icon://action-settings"
+                                press="onPersoButtonPress"
+                            />
+                        </OverflowToolbar>
+                    </t:extension>
+                    <t:columns>
+                        <t:Column width="8rem">
+                            <Label text="{i18n>CountryOfOrigin}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>CountryOfOrigin}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>BENo}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>BENo}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>BEDate}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>BEDate}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>HAWB_HBLDate}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>HAWB_HBLDate}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>TotalBCD}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>TotalBCD}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>TotalSWS}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>TotalSWS}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>TotalIGST}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>TotalIGST}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label text="{i18n>TotalAmount}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>TotalAmount}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>Invoice}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceNumber}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>Invoicedate}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>Invoicedate}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>InvoiceValueFC}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceValueFC}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label text="{i18n>InvoiceCurrency_code}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceCurrency_code}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label text="{i18n>ExcRateforInvoice}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>ExcRateforInvoice}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label text="{i18n>InvoiceValueINR}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>InvoiceValueINR}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label text="{i18n>Material}" />
+                            <t:template>
+                                <Text
+                                    text="{InvoicePostingModel>Material}"
+                                    wrapping="false"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="12rem">
+                            <Label
+                                text="{i18n>ProductDesc}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                                <Text
+                                    text = "{InvoicePostingModel>ProductDescription}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label
+                                text="{i18n>PurchaseOrder}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>PurchaseOrder}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label
+                                text="{i18n>PurchaseorderItem}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>PurchaseorderItem}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>HSNCodefromCHA}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>HSNCodefromCHA}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label
+                                text="{i18n>HSNCodeSystem}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                               <Text
+                                    text = "{InvoicePostingModel>HSNCodeSystem}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>OverseasFreightAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                               <Text
+                                    text = "{InvoicePostingModel>OverseasFreightAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>FreightPercentage}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                               <Text
+                                    text = "{InvoicePostingModel>FreightPercentage}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" >
+                            <Label
+                                text="{i18n>FreightCurrency_code}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                               <Text
+                                    text = "{InvoicePostingModel>FreightCurrency_code}"
+                                />
+                            </t:template>
+                        </t:Column>
+                         <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>FreightExrate}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                               <Text
+                                    text = "{InvoicePostingModel>FreightExrate}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>DomesticFreightAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>DomesticFreightAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>InsuranceAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                                <Text
+                                    text = "{InvoicePostingModel>InsuranceAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>InsurancePercentage}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                
+                               <Text
+                                    text = "{InvoicePostingModel>InsurancePercentage}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>InsuranceCurrency_code}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>InsuranceCurrency_code}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>InsuranceExrate}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>InsuranceExrate}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>MiscCharges}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>MiscCharges}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>UnitPrice}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>UnitPrice}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>Quantity}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>Quantity}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>OpenPOQty}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>OpenPOQty}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>Unit}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>Unit}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>BCDAmount}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>BCDAmount}"
+                                />
+                            </t:template>
+                        </t:Column>
+                         <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>RateofBCDPercent}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>RateofBCDPercent}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>SocWelSurDutyAmt}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>SocWelSurDutyAmt}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>SocWelSurDutyPer}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>SocWelSurDutyPer}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>IGST}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>IGST}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>IGSTRateDutyPer}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>IGSTRateDutyPer}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" visible="false">
+                            <Label
+                                text="{i18n>AssessableValue}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>AssessableValue}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>OverseasFreightVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>OverFreightVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>OverFreightperitem}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>OverFreightperitem}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>Inschargesperitem}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>Inschargesperitem}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        
+                        <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>DomesticFreightperitem}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>DomesticFreightperitem}"
+                                />
+                            </t:template>
+                        </t:Column>
+                         <t:Column width="9rem" hAlign="End">
+                            <Label
+                                text="{i18n>Miscchargesperitem}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>Miscchargesperitem}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>CustomInvoiceVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>CustomInvoiceVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>CustomInvoice}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>CustomInvoice}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>OverFreightVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>OverFreightVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>OverFreighInvoice}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>OverFreighInvoice}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>DomFreightVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>DomFreightVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>DomFreightInvoice}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>DomFreightInvoice}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>InsuranceVendor}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>InsuranceVendor}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>InsInvoNum}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>InsInvoNum}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>MiscChargesVen}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>MiscChargesVen}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>MiscChargeInvoice}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>MiscChargeInvoice}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>Remarks}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>Remarks}"
+                                />
+                            </t:template>
+                        </t:Column>
+                        <t:Column width="9rem">
+                            <Label
+                                text="{i18n>status}"
+                                wrapping="true"
+                            />
+                            <t:template>
+                                <Text
+                                    text = "{InvoicePostingModel>status}"
+                                />
+                            </t:template>
+                        </t:Column>
+                    </t:columns>
+                </t:Table>
+            </VBox>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <Button
+                    icon="sap-icon://message-popup"
+                    text="{MessageModel>/messagesLength}"
+                    type="Emphasized"
+                    press="handlePopoverPress"
+                    visible="{= !!${MessageModel>/messagesLength}}"
+                />
+                <ToolbarSpacer />
+                <Button
+                    id="idGenerateInvoice"
+                    type="Accept"
+                    text="Generate Invoice"
+                    press="handleInvoicePosting"
+                />
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

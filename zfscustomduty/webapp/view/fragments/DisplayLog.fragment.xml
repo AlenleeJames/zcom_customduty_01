@@ -1,0 +1,35 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+  <Dialog id="myDialog" title="Posting Logs" state="Information" 
+  contentWidth="500px" 
+          contentHeight="400px">
+    <Table id="dataTable" items="{LogData>/}">
+      <columns>       
+        <Column id="_IDGenColumn2044">
+          <Text id="_IDGenText3" text="Type" />
+        </Column>
+        <Column id="_IDGenColumn2144">
+          <Text id="_IDGenText4" text="Message" />
+        </Column>
+        <Column id="_IDGenColumn213">
+          <Text id="_IDGenText403" text="Created At" />
+        </Column>
+      </columns>
+      <items>
+        <ColumnListItem id="_IDGenColumnListItem">
+          <cells>
+           <ObjectStatus id="_IDGenText6Obj"
+						          text="{LogData>type}" 
+						          state="{path: 'LogData>type', formatter: '.formatter.formatStatusState'}"
+						          icon="{path: 'LogData>type', formatter: '.formatter.formatStatusIcon'}" />
+						       
+            <Text id="_IDGenText6" text="{LogData>message}" />
+            <Text id="_IDGenText88" text="{LogData>createdAt}" />            
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+    <beginButton>
+      <Button id="_IDGenButton2" text="Close" press="onCloseLogDialog" />
+    </beginButton>
+  </Dialog>
+</core:FragmentDefinition>

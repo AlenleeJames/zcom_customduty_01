@@ -1,814 +1,722 @@
 <mvc:View
     controllerName="customduty.ui.invoiceposting.controller.InvoicePosting"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core"
-    xmlns:t="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:t="sap.ui.table"
     displayBlock="true"
-    xmlns="sap.m"
-    xmlns:layout="sap.ui.layout"
-    xmlns:f="sap.f"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:unified="sap.ui.unified"
-    xmlns:smartTable="sap.ui.comp.smarttable"
-    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns="sap.m"
+	xmlns:layout="sap.ui.layout"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:unified="sap.ui.unified"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-    <f:DynamicPage
+	<f:DynamicPage
         id="invoicePosting"
         showFooter="true"
         fitContent="true"
     >
-        <f:title>
-            <f:DynamicPageTitle id="idInvoicePostingTitle">
-                <f:heading>
-                    <Title
-                        id="idInvoicePostingTitleText"
-                        text="{i18n>InvoicePostingTitle}"
-                    />
-                </f:heading>
-                <f:content>
-                    <OverflowToolbar id="idCFURPageHeaderOverFlowToolbar">
-                        <GenericTag
-                            id="idPlantTag"
-                            status="Error"
-                            text="{i18n>Plant}"
-                            design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/Plant} ? true : false}"
-                        >
-                            <ObjectNumber
-                                id="idPlantDetails"
-                                state="Error"
-                                emphasized="false"
-                                number="{FieldMappings>/SelectionFields/Plant}"
+		<f:title>
+			<f:DynamicPageTitle id="idInvoicePostingTitle">
+				<f:heading>					
+					<HBox id="_IDGenHBox" class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+						<VBox id="_IDGenVBox" class="sapUiSmallMarginBottom">
+							<Title id="_IDGenTitle" class="sapUiTinyMarginBottom" text="Overall Transaction Status"></Title>
+							<HBox id="_IDGenHBox1" class="sapUiTinyMarginBottom" renderType="Bare">
+								<ObjectStatus id="idoverobjectStatus"
+							class="customObjStatusIcon "
+							text="{ObjectStaus>/OverallText}"
+                            icon="{ObjectStaus>/OverallIcon}"
+							state="{ObjectStaus>/OverallState}"
+							inverted="true"
+							/>
+							</HBox>
+							<HBox id="_IDGenHBox2" class="sapUiTinyMarginBottom" renderType="Bare">
+								<Label id="_IDGenLabel5" text="Plant:" class="sapUiTinyMarginEnd"/>
+								<Text id="_IDGenText" text="{ObjectStaus>/Plant}"/>
+							</HBox>
+							<HBox id="_IDGenHBox3" class="sapUiTinyMarginBottom" renderType="Bare">
+								<Label id="_IDGenLabel6" text="{i18n>POVendor}" class="sapUiTinyMarginEnd"/>
+								<Text id="_IDGenText7" text="{ObjectStaus>/POVendor}"/>
+							</HBox>							
+						</VBox>
+					</HBox>
+				</f:heading>
+				<f:actions>						
+						<Button id="_IDGenButton1" text="Display Log" type="Emphasized" press="onDisplayLog"/>	
+						<Button
+                                id="idDelete"
+								text="Delete"
+                                class="sapUiTinyMargin"
+                                icon="sap-icon://action-delete"
+								enabled="{= ${ObjectStaus>/CustomVendInv} ? false : true}"
+                                press="onDeleteCustomData"
                             />
-                        </GenericTag>
-                        <GenericTag
-                            id="idPOVendorTag"
-                            status="Error"
-                            text="{i18n>POVendor}"
-                            design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/POVendor} ? true : false}"
-                        >
-                            <ObjectNumber
-                                id="idPOVendorDetails"
-                                state="Error"
-                                emphasized="false"
-                                number="{FieldMappings>/SelectionFields/POVendor}"
-                            />
-                        </GenericTag>
-                        <GenericTag
-                            id="idBENoTag"
-                            status="Error"
-                            text="{i18n>BENumber}"
-                            design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/BENo} ? true : false}"
-                        >
-                            <ObjectNumber
-                                id="idBENumberDetails"
-                                state="Error"
-                                emphasized="false"
-                                number="{FieldMappings>/SelectionFields/BENo}"
-                            />
-                        </GenericTag>
-                        <GenericTag
+				</f:actions>
+				<f:content>
+					<OverflowToolbar id="idCFURPageHeaderOverFlowToolbar">
+						
+							<VBox id="_IDGenVBox1">
+								<GenericTag
                             id="idCustomVendorTag"
-                            status="Error"
+                            status="{ObjectStaus>/CustomState}"
                             text="{i18n>CustomVendor}"
-                            design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/CustomVendor} ? true : false}"
+                            design="StatusIconHidden" 
+                            visible="{= ${ObjectStaus>/CustomVendor} ? true : false}"
                         >
-                            <ObjectNumber
+									<ObjectNumber
                                 id="idCustomVendorDetails"
-                                state="Error"
+                                state="{ObjectStaus>/CustomState}"
                                 emphasized="false"
-                                number="{FieldMappings>/SelectionFields/CustomVendor}"
+                                number="{ObjectStaus>/CustomVendor}"
                             />
-                        </GenericTag>
-                        <GenericTag
+								</GenericTag>
+								<HBox id="_IDGenHBox4" 
+                            visible="{= ${ObjectStaus>/CustomVendInv} ? true : false}">
+									<Label id="_IDGenLabel7" text="Custom Vendor Invoice:" class="sapUiTinyMarginEnd"/>
+									<Text id="_IDGenText8" text="{ObjectStaus>/CustomVendInv}"/>
+								</HBox>
+							</VBox>
+						
+						<HBox id="_IDGenHBox5">
+							<VBox id="_IDGenVBox2">
+								<GenericTag
                             id="idOverseasVendorTag"
-                            status="Error"
+                            status="{ObjectStaus>/OverSeasState}"
                             text="{i18n>OverseasFreightVendor}"
                             design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/OverseasVendor} ? true : false}"
+                            visible="{= ${ObjectStaus>/OverSeasVendor} ? true : false}"
                         >
-                            <ObjectNumber
+									<ObjectNumber
                                 id="idOverseasVendorDetails"
-                                state="Error"
+                                state="{ObjectStaus>/OverSeasState}"
                                 emphasized="false"
-                                number="{FieldMappings>/SelectionFields/OverseasVendor}"
+                                number="{ObjectStaus>/OverSeasVendor}"
                             />
-                        </GenericTag>
-                        <GenericTag
+								</GenericTag>
+								<HBox id="_IDGenHBox6" class="sapUiTinyMarginBottom" renderType="Bare"
+                            visible="{= ${ObjectStaus>/OverSeasVendInv} ? true : false}">
+									<Label id="_IDGenLabel8" text="Overseas Vendor Invoice:" class="sapUiTinyMarginEnd"/>
+									<Text id="_IDGenText9" text="{ObjectStaus>/OverSeasVendInv}"/>
+								</HBox>
+							</VBox>
+						</HBox>
+						<HBox id="_IDGenHBox7">
+							<VBox id="_IDGenVBox3">
+								<GenericTag
                             id="idLocalVendorTag"
-                            status="Error"
+                            status="{ObjectStaus>/DomesticState}"
                             text="{i18n>LocalFreightVendor}"
                             design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/LocalVendor} ? true : false}"
+                            visible="{= ${ObjectStaus>/DomesticVendor} ? true : false}"
                         >
-                            <ObjectNumber
+									<ObjectNumber
                                 id="idLocalVendorDetails"
-                                state="Error"
+                                state="{ObjectStaus>/DomesticState}"
                                 emphasized="false"
-                                number="{FieldMappings>/SelectionFields/LocalVendor}"
+                                number="{ObjectStaus>/DomesticVendor}"
                             />
-                        </GenericTag>
-                        <GenericTag
-                            id="idInsuranceVendorTag"
-                            status="Error"
-                            text="{i18n>InsuranceVendor}"
-                            design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/InsuranceVendor} ? true : false}"
-                        >
-                            <ObjectNumber
-                                id="idInsuranceVendorDetails"
-                                state="Error"
-                                emphasized="false"
-                                number="{FieldMappings>/SelectionFields/InsuranceVendor}"
-                            />
-                        </GenericTag>
-                        <GenericTag
-                            id="idMiscVendorTag"
-                            status="Error"
-                            text="{i18n>MiscVendor}"
-                            design="StatusIconHidden"
-                            visible="{= ${FieldMappings>/SelectionFields/MiscVendor} ? true : false}"
-                        >
-                            <ObjectNumber
-                                id="idMiscVendorDetails"
-                                state="Error"
-                                emphasized="false"
-                                number="{FieldMappings>/SelectionFields/MiscVendor}"
-                            />
-                        </GenericTag>
-                    </OverflowToolbar>
-                </f:content>
-            </f:DynamicPageTitle>
-        </f:title>
-        <f:content>
-            <VBox
+								</GenericTag>
+								<HBox id="_IDGenHBox8" class="sapUiTinyMarginBottom" renderType="Bare"
+                            visible="{= ${ObjectStaus>/DomesticVendInv} ? true : false}">
+									<Label id="_IDGenLabel9" text="Overseas Vendor Invoice:" class="sapUiTinyMarginEnd"/>
+									<Text id="_IDGenText10" text="{ObjectStaus>/DomesticVendInv}"/>
+								</HBox>
+							</VBox>
+						</HBox>
+					</OverflowToolbar>
+				</f:content>
+			</f:DynamicPageTitle>
+		</f:title>
+		<f:content>
+			<VBox
                 id="idIPVVBox"
             >
-                <t:Table
-                id="idInvoicePostingTable"
-                    rows="{InvoicePostingModel>/}"
-                    selectionMode="None"
-                    class="sapUiSmallMarginTop sapUiTinyMarginBottom"
-                    ariaLabelledBy="title"
-                >
-                    <t:extension>
-                        <OverflowToolbar style="Clear">
-                            <Title
-                                class="sapUiTinyMargin"
-                                id="title"
-                                text="{i18n>PostingTitle}"
-                            />
-                            <ToolbarSpacer />
-                            <Button
-                                id="idSettings"
-                                class="sapUiTinyMargin"
-                                icon="sap-icon://action-settings"
-                                press="onPersoButtonPress"
-                            />
-                        </OverflowToolbar>
-                    </t:extension>
-                    <t:columns>
-                        <t:Column width="8rem">
-                            <Label text="{i18n>CountryOfOrigin}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>CountryOfOrigin}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label text="{i18n>BENo}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>BENo}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>BEDate}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>BEDate}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>HAWB_HBLDate}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>HAWB_HBLDate}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>TotalBCD}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>TotalBCD}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>TotalSWS}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>TotalSWS}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>TotalIGST}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>TotalIGST}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label text="{i18n>TotalAmount}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>TotalAmount}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label text="{i18n>Invoice}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>InvoiceNumber}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label text="{i18n>Invoicedate}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>Invoicedate}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>InvoiceValueFC}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>InvoiceValueFC}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label text="{i18n>InvoiceCurrency_code}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>InvoiceCurrency_code}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label text="{i18n>ExcRateforInvoice}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>ExcRateforInvoice}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label text="{i18n>InvoiceValueINR}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>InvoiceValueINR}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label text="{i18n>Material}" />
-                            <t:template>
-                                <Text
-                                    text="{InvoicePostingModel>Material}"
-                                    wrapping="false"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="12rem">
-                            <Label
-                                text="{i18n>ProductDesc}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                                <Text
-                                    text = "{InvoicePostingModel>ProductDescription}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label
-                                text="{i18n>PurchaseOrder}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                               <Text
-                                    text = "{InvoicePostingModel>PurchaseOrder}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label
-                                text="{i18n>PurchaseorderItem}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                               <Text
-                                    text = "{InvoicePostingModel>PurchaseorderItem}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>HSNCodefromCHA}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                               <Text
-                                    text = "{InvoicePostingModel>HSNCodefromCHA}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label
-                                text="{i18n>HSNCodeSystem}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                               <Text
-                                    text = "{InvoicePostingModel>HSNCodeSystem}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>OverseasFreightAmount}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                               <Text
-                                    text = "{InvoicePostingModel>OverseasFreightAmount}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>FreightPercentage}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                               <Text
-                                    text = "{InvoicePostingModel>FreightPercentage}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" >
-                            <Label
-                                text="{i18n>FreightCurrency_code}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                               <Text
-                                    text = "{InvoicePostingModel>FreightCurrency_code}"
-                                />
-                            </t:template>
-                        </t:Column>
-                         <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>FreightExrate}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                               <Text
-                                    text = "{InvoicePostingModel>FreightExrate}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>DomesticFreightAmount}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                               <Text
-                                    text = "{InvoicePostingModel>DomesticFreightAmount}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>InsuranceAmount}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                                <Text
-                                    text = "{InvoicePostingModel>InsuranceAmount}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>InsurancePercentage}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                
-                               <Text
-                                    text = "{InvoicePostingModel>InsurancePercentage}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>InsuranceCurrency_code}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>InsuranceCurrency_code}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>InsuranceExrate}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>InsuranceExrate}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>MiscCharges}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>MiscCharges}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>UnitPrice}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>UnitPrice}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>Quantity}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>Quantity}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>OpenPOQty}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>OpenPOQty}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>Unit}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>Unit}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>BCDAmount}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>BCDAmount}"
-                                />
-                            </t:template>
-                        </t:Column>
-                         <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>RateofBCDPercent}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>RateofBCDPercent}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>SocWelSurDutyAmt}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>SocWelSurDutyAmt}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>SocWelSurDutyPer}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>SocWelSurDutyPer}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>IGST}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>IGST}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>IGSTRateDutyPer}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>IGSTRateDutyPer}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" visible="false">
-                            <Label
-                                text="{i18n>AssessableValue}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>AssessableValue}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>OverseasFreightVendor}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>OverFreightVendor}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>OverFreightperitem}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>OverFreightperitem}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>Inschargesperitem}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>Inschargesperitem}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        
-                        <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>DomesticFreightperitem}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>DomesticFreightperitem}"
-                                />
-                            </t:template>
-                        </t:Column>
-                         <t:Column width="9rem" hAlign="End">
-                            <Label
-                                text="{i18n>Miscchargesperitem}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>Miscchargesperitem}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>CustomInvoiceVendor}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>CustomInvoiceVendor}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>CustomInvoice}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>CustomInvoice}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>OverFreightVendor}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>OverFreightVendor}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>OverFreighInvoice}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>OverFreighInvoice}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>DomFreightVendor}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>DomFreightVendor}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>DomFreightInvoice}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>DomFreightInvoice}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>InsuranceVendor}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>InsuranceVendor}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>InsInvoNum}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>InsInvoNum}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>MiscChargesVen}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>MiscChargesVen}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>MiscChargeInvoice}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>MiscChargeInvoice}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>Remarks}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>Remarks}"
-                                />
-                            </t:template>
-                        </t:Column>
-                        <t:Column width="9rem">
-                            <Label
-                                text="{i18n>status}"
-                                wrapping="true"
-                            />
-                            <t:template>
-                                <Text
-                                    text = "{InvoicePostingModel>status}"
-                                />
-                            </t:template>
-                        </t:Column>
-                    </t:columns>
-                </t:Table>
-            </VBox>
-        </f:content>
-        <f:footer>
-            <OverflowToolbar>
-                <Button
+  
+      <t:Table
+    id="idInvoicePostingTable"
+    visibleRowCount="5"
+    selectionMode="None"
+    class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+    ariaLabelledBy="title"
+>
+    <t:extension>
+        <OverflowToolbar id="_IDGenOverflowToolbar3" style="Clear">
+            <Title class="sapUiTinyMargin" id="title099" text="{i18n>PostingTitle}" />
+            <ToolbarSpacer id="_IDGenToolbarSpacer4" />
+            <Button
+                id="idSettings"
+                class="sapUiTinyMargin"
+                icon="sap-icon://action-settings"
+                press="onPersoButtonPress"
+            />
+        </OverflowToolbar>
+    </t:extension>
+
+    <t:columns>
+        <!-- Fields from your provided list -->
+        <t:Column width="8rem" id="_IDGenColumn6">
+            <Label id="_IDGenLabel10" text="BENo" />
+            <t:template>
+                <Text id="_IDGenText11" text="{BENo}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn7">
+            <Label id="_IDGenLabel11" text="BEDate" />
+            <t:template>
+                <Text id="_IDGenText12" text="{BEDate}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="25rem" id="_IDGenColumn8">
+            <Label id="_IDGenLabel19" text="ProductDescription" />
+            <t:template>
+                <Text id="_IDGenText13" text="{ProductDescription}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn9">
+            <Label id="_IDGenLabel20" text="InvoiceNumber" />
+            <t:template>
+                <Text id="_IDGenText14" text="{InvoiceNumber}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn10">
+            <Label id="_IDGenLabel21" text="ExcRateforInvoice" />
+            <t:template>
+                <Text id="_IDGenText15" text="{ExcRateforInvoice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn11">
+            <Label id="_IDGenLabel22" text="TermsofInvoice" />
+            <t:template>
+                <Text id="_IDGenText16" text="{TermsofInvoice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn12">
+            <Label id="_IDGenLabel23" text="InvoiceValueFC" />
+            <t:template>
+                <Text id="_IDGenText17" text="{InvoiceValueFC}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn13">
+            <Label id="_IDGenLabel24" text="RITC" />
+            <t:template>
+                <Text id="_IDGenText18" text="{RITC}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn14">
+            <Label id="_IDGenLabel25" text="Quantity" />
+            <t:template>
+                <Text id="_IDGenText19" text="{Quantity}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn15">
+            <Label id="_IDGenLabel26" text="Unit" />
+            <t:template>
+                <Text id="_IDGenText20" text="{Unit}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn16">
+            <Label id="_IDGenLabel27" text="UnitPrice" />
+            <t:template>
+                <Text id="_IDGenText21" text="{UnitPrice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn17">
+            <Label id="_IDGenLabel28" text="AssessableValue" />
+            <t:template>
+                <Text id="_IDGenText22" text="{AssessableValue}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn18">
+            <Label id="_IDGenLabel29" text="ItemSrNo" />
+            <t:template>
+                <Text id="_IDGenText23" text="{ItemSrNo}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn19">
+            <Label id="_IDGenLabel30" text="RateofBCDPercent" />
+            <t:template>
+                <Text id="_IDGenText24" text="{RateofBCDPercent}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn20">
+            <Label id="_IDGenLabel31" text="BCDAmount" />
+            <t:template>
+                <Text id="_IDGenText25" text="{BCDAmount}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn21">
+            <Label id="_IDGenLabel32" text="SocWelSurDutyPer" />
+            <t:template>
+                <Text id="_IDGenText26" text="{SocWelSurDutyPer}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn22">
+            <Label id="_IDGenLabel33" text="SocWelSurDutyAmt" />
+            <t:template>
+                <Text id="_IDGenText27" text="{SocWelSurDutyAmt}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn23">
+            <Label id="_IDGenLabel34" text="IGSTRateDutyPer" />
+            <t:template>
+                <Text id="_IDGenText28" text="{IGSTRateDutyPer}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn24">
+            <Label id="_IDGenLabel35" text="IGST" />
+            <t:template>
+                <Text id="_IDGenText29" text="{IGST}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn25">
+            <Label id="_IDGenLabel36" text="TotalBCD" />
+            <t:template>
+                <Text id="_IDGenText30" text="{TotalBCD}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn26">
+            <Label id="_IDGenLabel37" text="CountryOfOrigin" />
+            <t:template>
+                <Text id="_IDGenText31" text="{CountryOfOrigin}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn27">
+            <Label id="_IDGenLabel38" text="PortofOrigin" />
+            <t:template>
+                <Text id="_IDGenText32" text="{PortofOrigin}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn28">
+            <Label id="_IDGenLabel39" text="HAWB_HBLDate" />
+            <t:template>
+                <Text id="_IDGenText33" text="{HAWB_HBLDate}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn29">
+            <Label id="_IDGenLabel40" text="Invoicedate" />
+            <t:template>
+                <Text id="_IDGenText34" text="{Invoicedate}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn30">
+            <Label id="_IDGenLabel41" text="InvoiceCurrency" />
+            <t:template>
+                <Text id="_IDGenText35" text="{InvoiceCurrency}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn31">
+            <Label id="_IDGenLabel42" text="FreightCurrency" />
+            <t:template>
+                <Text id="_IDGenText36" text="{FreightCurrency}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn32">
+            <Label id="_IDGenLabel43" text="FreightAmount" />
+            <t:template>
+                <Text id="_IDGenText37" text="{FreightAmount}" />
+            </t:template>
+        </t:Column>
+
+                <t:Column width="8rem" id="_IDGenColumn33">
+            <Label id="_IDGenLabel44" text="InsuranceCurrency" />
+            <t:template>
+                <Text id="_IDGenText38" text="{InsuranceCurrency}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn34">
+            <Label id="_IDGenLabel45" text="InsuranceAmtCHA" />
+            <t:template>
+                <Text id="_IDGenText39" text="{InsuranceAmtCHA}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn35">
+            <Label id="_IDGenLabel46" text="MiscAmountCHA" />
+            <t:template>
+                <Text id="_IDGenText40" text="{MiscAmountCHA}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn36">
+            <Label id="_IDGenLabel47" text="Material" />
+            <t:template>
+                <Text id="_IDGenText41" text="{Material}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn37">
+            <Label id="_IDGenLabel48" text="PurchaseOrder" />
+            <t:template>
+                <Text id="_IDGenText42" text="{PurchaseOrder}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn38">
+            <Label id="_IDGenLabel49" text="PurchaseorderItem" />
+            <t:template>
+                <Text id="_IDGenText43" text="{PurchaseorderItem}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn39">
+            <Label id="_IDGenLabel50" text="OverFreightperitem1" />
+            <t:template>
+                <Text id="_IDGenText44" text="{OverFreightperitem1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn40">
+            <Label id="_IDGenLabel51" text="OverFreightperitem2" />
+            <t:template>
+                <Text id="_IDGenText45" text="{OverFreightperitem2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn41">
+            <Label id="_IDGenLabel52" text="DomesticFreightperitem1" />
+            <t:template>
+                <Text id="_IDGenText46" text="{DomesticFreightperitem1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn42">
+            <Label id="_IDGenLabel53" text="DomesticFreightperitem2" />
+            <t:template>
+                <Text id="_IDGenText47" text="{DomesticFreightperitem2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn43">
+            <Label id="_IDGenLabel54" text="Inschargesperitem1" />
+            <t:template>
+                <Text id="_IDGenText48" text="{Inschargesperitem1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn44">
+            <Label id="_IDGenLabel55" text="Inschargesperitem2" />
+            <t:template>
+                <Text id="_IDGenText49" text="{Inschargesperitem2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn45">
+            <Label id="_IDGenLabel56" text="Miscchargesperitem" />
+            <t:template>
+                <Text id="_IDGenText50" text="{Miscchargesperitem}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn46">
+            <Label id="_IDGenLabel57" text="CustomInvoiceVendor" />
+            <t:template>
+                <Text id="_IDGenText51" text="{CustomInvoiceVendor}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn47">
+            <Label id="_IDGenLabel58" text="CustomInvoice" />
+            <t:template>
+                <Text id="_IDGenText52" text="{CustomInvoice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn48">
+            <Label id="_IDGenLabel59" text="OverFreightVendor" />
+            <t:template>
+                <Text id="_IDGenText53" text="{OverFreightVendor}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn49">
+            <Label id="_IDGenLabel60" text="OverFreighInvoice" />
+            <t:template>
+                <Text id="_IDGenText54" text="{OverFreighInvoice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn50">
+            <Label id="_IDGenLabel61" text="DomFreightVendor" />
+            <t:template>
+                <Text id="_IDGenText55" text="{DomFreightVendor}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn51">
+            <Label id="_IDGenLabel62" text="DomFreightInvoice" />
+            <t:template>
+                <Text id="_IDGenText56" text="{DomFreightInvoice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn52">
+            <Label id="_IDGenLabel63" text="InsuranceVendor" />
+            <t:template>
+                <Text id="_IDGenText57" text="{InsuranceVendor}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn53">
+            <Label id="_IDGenLabel64" text="InsInvoNum" />
+            <t:template>
+                <Text id="_IDGenText58" text="{InsInvoNum}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn54">
+            <Label id="_IDGenLabel65" text="MiscChargesVen" />
+            <t:template>
+                <Text id="_IDGenText59" text="{MiscChargesVen}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn55">
+            <Label id="_IDGenLabel66" text="MiscChargeInvoice" />
+            <t:template>
+                <Text id="_IDGenText60" text="{MiscChargeInvoice}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn56">
+            <Label id="_IDGenLabel67" text="OverseasFrtAmtCALC1" />
+            <t:template>
+                <Text id="_IDGenText61" text="{OverseasFrtAmtCALC1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn57">
+            <Label id="_IDGenLabel68" text="OverseasFrtAmtCALC2" />
+            <t:template>
+                <Text id="_IDGenText62" text="{OverseasFrtAmtCALC2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn58">
+            <Label id="_IDGenLabel69" text="DomesticFrtAmtCALC1" />
+            <t:template>
+                <Text id="_IDGenText63" text="{DomesticFrtAmtCALC1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn59">
+            <Label id="_IDGenLabel70" text="DomesticFrtAmtCALC2" />
+            <t:template>
+                <Text id="_IDGenText64" text="{DomesticFrtAmtCALC2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn60">
+            <Label id="_IDGenLabel71" text="TotalSWS" />
+            <t:template>
+                <Text id="_IDGenText65" text="{TotalSWS}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn61">
+            <Label id="_IDGenLabel72" text="TotalIGST" />
+            <t:template>
+                <Text id="_IDGenText66" text="{TotalIGST}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn62">
+            <Label id="_IDGenLabel73" text="TotalAmount" />
+            <t:template>
+                <Text id="_IDGenText67" text="{TotalAmount}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn63">
+            <Label id="_IDGenLabel74" text="InvoiceValueINR" />
+            <t:template>
+                <Text id="_IDGenText68" text="{InvoiceValueINR}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn64">
+            <Label id="_IDGenLabel75" text="FreightPercentage" />
+            <t:template>
+                <Text id="_IDGenText69" text="{FreightPercentage}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn65">
+            <Label id="_IDGenLabel76" text="FreightExrate" />
+            <t:template>
+                <Text id="_IDGenText70" text="{FreightExrate}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn66">
+            <Label id="_IDGenLabel77" text="HSNCodefromCHA" />
+            <t:template>
+                <Text id="_IDGenText71" text="{HSNCodefromCHA}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn67">
+            <Label id="_IDGenLabel78" text="HSNCodeSystem" />
+            <t:template>
+                <Text id="_IDGenText72" text="{HSNCodeSystem}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn68">
+            <Label id="_IDGenLabel79" text="OpenPOQty" />
+            <t:template>
+                <Text id="_IDGenText73" text="{OpenPOQty}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn69">
+            <Label id="_IDGenLabel80" text="InsurancePercentage" />
+            <t:template>
+                <Text id="_IDGenText74" text="{InsurancePercentage}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn70">
+            <Label id="_IDGenLabel81" text="InsuranceExrate" />
+            <t:template>
+                <Text id="_IDGenText75" text="{InsuranceExrate}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn71">
+            <Label id="_IDGenLabel82" text="MiscAmountCALC1" />
+            <t:template>
+                <Text id="_IDGenText76" text="{MiscAmountCALC1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn72">
+            <Label id="_IDGenLabel83" text="MiscAmountCALC2" />
+            <t:template>
+                <Text id="_IDGenText77" text="{MiscAmountCALC2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn73">
+            <Label id="_IDGenLabel84" text="InsuranceAmTCALC1" />
+            <t:template>
+                <Text id="_IDGenText78" text="{InsuranceAmTCALC1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn74">
+            <Label id="_IDGenLabel85" text="InsuranceAmTCALC2" />
+            <t:template>
+                <Text id="_IDGenText79" text="{InsuranceAmTCALC2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn75">
+            <Label id="_IDGenLabel86" text="OverseasFrtAmtTAX1" />
+            <t:template>
+                <Text id="_IDGenText80" text="{OverseasFrtAmtTAX1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn76">
+            <Label id="_IDGenLabel87" text="OverseasFrtAmtTAX2" />
+            <t:template>
+                <Text id="_IDGenText81" text="{OverseasFrtAmtTAX2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn77">
+            <Label id="_IDGenLabel88" text="DomesticFrtAmtTAX1" />
+            <t:template>
+                <Text id="_IDGenText82" text="{DomesticFrtAmtTAX1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn78">
+            <Label id="_IDGenLabel89" text="DomesticFrtAmtTAX2" />
+            <t:template>
+                <Text id="_IDGenText83" text="{DomesticFrtAmtTAX2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn79">
+            <Label id="_IDGenLabel90" text="MiscAmountTAX1" />
+            <t:template>
+                <Text id="_IDGenText84" text="{MiscAmountTAX1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn80">
+            <Label id="_IDGenLabel91" text="MiscAmountTAX2" />
+            <t:template>
+                <Text id="_IDGenText85" text="{MiscAmountTAX2}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn81">
+            <Label id="_IDGenLabel92" text="InsuranceAmTTAX1" />
+            <t:template>
+                <Text id="_IDGenText86" text="{InsuranceAmTTAX1}" />
+            </t:template>
+        </t:Column>
+
+        <t:Column width="8rem" id="_IDGenColumn82">
+            <Label id="_IDGenLabel93" text="InsuranceAmTTAX2" />
+            <t:template>
+                <Text id="_IDGenText87" text="{InsuranceAmTTAX2}" />
+            </t:template>
+        </t:Column>
+    </t:columns>
+</t:Table>
+
+
+			</VBox>
+		</f:content>
+		<f:footer>
+			<OverflowToolbar id="_IDGenOverflowToolbar4">
+				<Button id="_IDGenButton3"
                     icon="sap-icon://message-popup"
                     text="{MessageModel>/messagesLength}"
                     type="Emphasized"
                     press="handlePopoverPress"
                     visible="{= !!${MessageModel>/messagesLength}}"
                 />
-                <ToolbarSpacer />
-                <Button
+				<ToolbarSpacer id="_IDGenToolbarSpacer5" />
+				<Button
                     id="idGenerateInvoice"
                     type="Accept"
                     text="Generate Invoice"
                     press="handleInvoicePosting"
                 />
-            </OverflowToolbar>
-        </f:footer>
-    </f:DynamicPage>
+			</OverflowToolbar>
+		</f:footer>
+	</f:DynamicPage>
 </mvc:View>

@@ -9,6 +9,7 @@
     "undeploy": "cf undeploy zcom_customduty --delete-services --delete-service-keys --delete-service-brokers"
   },
   "devDependencies": {
+    "@sap/cds-dk": "^8",
     "mbt": "^1.2.27",
     "rimraf": "^5.0.5"
   }

@@ -1,0 +1,16 @@
+{
+	"selectedKey": "UploadPage",
+	"navigation": [		
+		{
+			"title": "Upload",
+			"icon": "sap-icon://upload",
+			"key": "UploadPage"
+		},
+		{
+			"title": "Manage",
+			"icon": "sap-icon://display",
+			"expanded": true,
+			"key": "ManagePage"			
+		}
+	]
+}

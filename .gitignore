@@ -1,3 +1,6 @@
 /mta_archives/
 /node_modules/
 /resources/
+
+# added by cds
+.cdsrc-private.json

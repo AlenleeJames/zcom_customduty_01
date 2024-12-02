@@ -175,7 +175,7 @@ sap.ui.define([
                         sheetName: "Sheet1"
                     }
                 },
-                dataSource: [],
+                dataSource: [{}],
                 fileName: 'HSN File.xlsx'
             };
             oSheet = new Spreadsheet(oSettings);

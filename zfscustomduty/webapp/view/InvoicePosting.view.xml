@@ -43,8 +43,9 @@
 						</VBox>
 					</HBox>
 				</f:heading>
-				<f:actions>						
-						<Button id="_IDGenButton1" text="Display Log" type="Emphasized" press="onDisplayLog"/>	
+				<f:actions>				
+                        <Button id="_IDValidationBtn" text="Validation Log" type="Emphasized" press="onDisplayValidLog"/>		
+						<Button id="_IDGenButton1" text="Posting Log" type="Emphasized" press="onDisplayLog"/>	
 						<Button
                                 id="idDelete"
 								text="Delete"

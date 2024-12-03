@@ -13,9 +13,10 @@ sap.ui.define([
     "sap/ui/core/routing/History",
     "sap/m/MessageToast",
     "sap/ui/core/Fragment",
-    "customduty/ui/invoiceposting/utils/formatter"
+    "customduty/ui/invoiceposting/utils/formatter",
+    "sap/m/MessageBox"
 ],
-    function (BaseController, JSONModel, BusyDialog, MessageItem, MessageView, Button, DateFormat, NumberFormat, Bar, Title, Popover, History, MessageToast, Fragment, formatter) {
+    function (BaseController, JSONModel, BusyDialog, MessageItem, MessageView, Button, DateFormat, NumberFormat, Bar, Title, Popover, History, MessageToast, Fragment, formatter, MessageBox) {
         "use strict";
 
         return BaseController.extend("customduty.ui.invoiceposting.controller.InvoicePosting", {
@@ -112,6 +113,7 @@ sap.ui.define([
                     "ObjectStaus"
                 );
                 this.getView().setModel(new JSONModel([]), "LogData");
+                this.getView().setModel(new JSONModel([]), "ValidLogData");
                 this.getOwnerComponent().getRouter().getRoute("InvoicePosting").attachMatched(this.onRouteMatched, this);
             },
 
@@ -145,6 +147,27 @@ sap.ui.define([
                     this.busyDialog.close();
                     if (oData.to_CustomDutyLog.length > 0) {
                         this.getView().getModel("LogData").setData(oData.to_CustomDutyLog);
+                        this.getView().getModel("LogData").refresh();
+                        this.onOpenLogDialog();
+                    } else {
+                        MessageToast.show("No data found");
+                    }
+                }).catch((error) => {
+                    this.busyDialog.close();
+                    MessageToast.show(error);
+                    console.error("Error loading data:", error);
+                });
+            },
+
+            onDisplayValidLog: function () {
+                this.busyDialog.open();
+                const selectedHdr = "/CustomDutyHdr(" + this.transactionID + ")?$expand=to_ValidationLog";  // Add $expand for related entity
+                this.getOwnerComponent().getModel().bindContext(selectedHdr).requestObject().then((oData) => {
+                    this.busyDialog.close();
+                    if (oData.to_ValidationLog.length > 0) {
+                        this.getView().getModel("LogData").setData(oData.to_ValidationLog);
+                        this.getView().getModel("ValidLogData").setData(oData.to_ValidationLog);                        
+                        this.getView().getModel("LogData").refresh();
                         this.onOpenLogDialog();
                     } else {
                         MessageToast.show("No data found");
@@ -402,6 +425,15 @@ sap.ui.define([
             },
 
             handleInvoicePosting: function () {
+                var validationLog = this.getView().getModel("ValidLogData").getData();
+                const errorItem = '';
+                if (validationLog.length > 0) {
+                    errorItem = validationLog.find(item => item.type === 'Error');
+                }
+                
+                if (validationLog && errorItem) {
+                    MessageBox.error("Validation errors found. Please check log for details");
+                }else{
                 //Save Data
                 this.busyDialog.open();
                 const oModel = this.getOwnerComponent().getModel();
@@ -417,6 +449,7 @@ sap.ui.define([
                     MessageToast.show(error);
                     this.busyDialog.close();
                 }, this);
+            }
             },
 
             handleInvoicePosting1: function () {

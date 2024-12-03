@@ -1,0 +1,49 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <ValueHelpDialog
+        title="Select Tax Code"
+        ok="onValueHelpOkPress"
+        cancel="onValueHelpCancelPress"
+        afterClose="onValueHelpAfterClose"
+        supportRanges="true"
+        key="TaxCode" supportMultiselect="false"
+        descriptionKey="TaxCodeName"
+    >
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="true"
+                search="onFilterBarSearch"
+                isRunningInValueHelpDialog="true"
+                showAllFilters="false"
+                showGoOnFB="false"
+            >
+                <fb:filterGroupItems>
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="TaxCode"
+                        label="Tax Code"
+                        visibleInFilterBar="false"
+                    >
+                        <fb:control>
+                            <m:Input name="TaxCode" />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="TaxCodeName"
+                        label="Tax Code Name"
+                        visibleInFilterBar="false"
+                    >
+                        <fb:control>
+                            <m:Input name="TaxCodeName" />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                </fb:filterGroupItems>
+            </fb:FilterBar>
+        </filterBar>       
+    </ValueHelpDialog>
+</core:FragmentDefinition>

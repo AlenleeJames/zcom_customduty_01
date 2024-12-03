@@ -1,0 +1,1906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CustomDutyAppSrv" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author"/>
+                        <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="POVendorVH" EntityType="CustomDutyAppSrv.POVendorVH"/>
+                <EntitySet Name="PlantVH" EntityType="CustomDutyAppSrv.PlantVH"/>
+                <EntitySet Name="ZA_MM_CustomDutyInvDetails" EntityType="CustomDutyAppSrv.ZA_MM_CustomDutyInvDetails"/>
+                <EntitySet Name="TaxCodeVH" EntityType="CustomDutyAppSrv.TaxCodeVH"/>
+                <EntitySet Name="SupplierInvoice" EntityType="CustomDutyAppSrv.SupplierInvoice"/>
+                <EntitySet Name="CustomDutyHdr" EntityType="CustomDutyAppSrv.CustomDutyHdr">
+                    <NavigationPropertyBinding Path="to_CustomDutyItem" Target="CustomDutyItem"/>
+                    <NavigationPropertyBinding Path="to_CustomDutyLog" Target="CustomDutyLog"/>
+                </EntitySet>
+                <EntitySet Name="BENoF4" EntityType="CustomDutyAppSrv.BENoF4"/>
+                <EntitySet Name="CustomDutyItem" EntityType="CustomDutyAppSrv.CustomDutyItem">
+                    <NavigationPropertyBinding Path="InvoiceCurrency" Target="Currencies"/>
+                    <NavigationPropertyBinding Path="FreightCurrency" Target="Currencies"/>
+                    <NavigationPropertyBinding Path="InsuranceCurrency" Target="Currencies"/>
+                    <NavigationPropertyBinding Path="BENoKey" Target="CustomDutyHdr"/>
+                </EntitySet>
+                <EntitySet Name="CustomDutyLog" EntityType="CustomDutyAppSrv.CustomDutyLog">
+                    <NavigationPropertyBinding Path="BENoKey" Target="CustomDutyHdr"/>
+                </EntitySet>
+                <EntitySet Name="CHAFileFieldsOrderList" EntityType="CustomDutyAppSrv.CHAFileFieldsOrderList">
+                    <NavigationPropertyBinding Path="SiblingEntity" Target="CHAFileFieldsOrderList"/>
+                </EntitySet>
+                <EntitySet Name="CustomDutyFieldMapping" EntityType="CustomDutyAppSrv.CustomDutyFieldMapping"/>
+                <EntitySet Name="CommonParamTableMaster" EntityType="CustomDutyAppSrv.CommonParamTableMaster"/>
+                <EntitySet Name="CommonParamTableActuals" EntityType="CustomDutyAppSrv.CommonParamTableActuals"/>
+                <EntitySet Name="UploadHSN" EntityType="CustomDutyAppSrv.UploadHSN"/>
+                <EntitySet Name="Currencies" EntityType="CustomDutyAppSrv.Currencies">
+                    <NavigationPropertyBinding Path="texts" Target="Currencies_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Currencies_texts"/>
+                </EntitySet>
+                <EntitySet Name="Currencies_texts" EntityType="CustomDutyAppSrv.Currencies_texts"/>
+                <ActionImport Name="PostSupplierInvoice" Action="CustomDutyAppSrv.PostSupplierInvoice"/>
+                <ActionImport Name="PostInvoice" Action="CustomDutyAppSrv.PostInvoice"/>
+                <ActionImport Name="SaveCustomDuty" Action="CustomDutyAppSrv.SaveCustomDuty"/>
+                <ActionImport Name="UpdateCustomDuty" Action="CustomDutyAppSrv.UpdateCustomDuty"/>
+                <ActionImport Name="DeleteCustomDuty" Action="CustomDutyAppSrv.DeleteCustomDuty"/>
+                <ActionImport Name="calculateDuty" Action="CustomDutyAppSrv.calculateDuty" EntitySet="CustomDutyItem"/>
+            </EntityContainer>
+            <EntityType Name="POVendorVH">
+                <Key>
+                    <PropertyRef Name="Supplier"/>
+                </Key>
+                <Property Name="Supplier" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="SupplierName" Type="Edm.String" MaxLength="35"/>
+                <Property Name="BusinessPartnerName1" Type="Edm.String" MaxLength="40"/>
+                <Property Name="BPSupplierName" Type="Edm.String" MaxLength="81"/>
+                <Property Name="AuthorizationGroup" Type="Edm.String" MaxLength="4"/>
+                <Property Name="SupplierAccountGroup" Type="Edm.String" MaxLength="4"/>
+                <Property Name="IsBusinessPurposeCompleted" Type="Edm.String" MaxLength="1"/>
+                <Property Name="BusinessPartner" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BusinessPartnerType" Type="Edm.String" MaxLength="4"/>
+                <Property Name="DataControllerSet" Type="Edm.String" MaxLength="1"/>
+                <Property Name="DataController1" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController2" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController3" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController4" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController5" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController6" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController7" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController8" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController9" Type="Edm.String" MaxLength="30"/>
+                <Property Name="DataController10" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="PlantVH">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" Nullable="false"/>
+                <Property Name="PlantName" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="ZA_MM_CustomDutyInvDetails">
+                <Key>
+                    <PropertyRef Name="IBDNumber"/>
+                    <PropertyRef Name="IBDItemNumber"/>
+                </Key>
+                <Property Name="IBDNumber" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="IBDItemNumber" Type="Edm.String" MaxLength="6" Nullable="false"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="18"/>
+                <Property Name="PurchaseorderNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="POItemNumber" Type="Edm.String" MaxLength="5"/>
+                <Property Name="POVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="35"/>
+                <Property Name="POQuantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="GRQuantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="PurchaseOrderQuantityUnit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="HSNCode" Type="Edm.String" MaxLength="16"/>
+                <Property Name="BCDVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="SWSVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BCDRate" Type="Edm.Decimal" Precision="24" Scale="9"/>
+                <Property Name="SWSRate" Type="Edm.Decimal" Precision="24" Scale="9"/>
+                <Property Name="OverseasFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Miscvendor" Type="Edm.String" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="TaxCodeVH">
+                <Key>
+                    <PropertyRef Name="TaxCode"/>
+                    <PropertyRef Name="TaxCalculationProcedure"/>
+                </Key>
+                <Property Name="TaxCode" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="TaxCalculationProcedure" Type="Edm.String" MaxLength="6" Nullable="false"/>
+                <Property Name="TaxCodeName" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="SupplierInvoice">
+                <Key>
+                    <PropertyRef Name="SupplierInvoice"/>
+                    <PropertyRef Name="FiscalYear"/>
+                </Key>
+                <Property Name="SupplierInvoice" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="FiscalYear" Type="Edm.String" MaxLength="4" Nullable="false"/>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+                <Property Name="DocumentDate" Type="Edm.Date"/>
+                <Property Name="PostingDate" Type="Edm.Date"/>
+                <Property Name="CreationDate" Type="Edm.Date"/>
+                <Property Name="SuplrInvcLstChgDteTmeTxt" Type="Edm.String" MaxLength="23"/>
+                <Property Name="SupplierInvoiceIDByInvcgParty" Type="Edm.String" MaxLength="16"/>
+                <Property Name="InvoicingParty" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DocumentCurrency" Type="Edm.String" MaxLength="5"/>
+                <Property Name="InvoiceGrossAmount" Type="Edm.Decimal" Precision="14" Scale="3"/>
+                <Property Name="UnplannedDeliveryCost" Type="Edm.Decimal" Precision="14" Scale="3"/>
+                <Property Name="DocumentHeaderText" Type="Edm.String" MaxLength="25"/>
+                <Property Name="ManualCashDiscount" Type="Edm.Decimal" Precision="14" Scale="3"/>
+                <Property Name="PaymentTerms" Type="Edm.String" MaxLength="4"/>
+                <Property Name="DueCalculationBaseDate" Type="Edm.Date"/>
+                <Property Name="CashDiscount1Percent" Type="Edm.Decimal" Precision="5" Scale="3"/>
+                <Property Name="CashDiscount1Days" Type="Edm.Decimal" Precision="3" Scale="0"/>
+                <Property Name="CashDiscount2Percent" Type="Edm.Decimal" Precision="5" Scale="3"/>
+                <Property Name="CashDiscount2Days" Type="Edm.Decimal" Precision="3" Scale="0"/>
+                <Property Name="NetPaymentDays" Type="Edm.Decimal" Precision="3" Scale="0"/>
+                <Property Name="PaymentBlockingReason" Type="Edm.String" MaxLength="1"/>
+                <Property Name="AccountingDocumentType" Type="Edm.String" MaxLength="2"/>
+                <Property Name="BPBankAccountInternalID" Type="Edm.String" MaxLength="4"/>
+                <Property Name="SupplierInvoiceStatus" Type="Edm.String" MaxLength="1"/>
+                <Property Name="IndirectQuotedExchangeRate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="DirectQuotedExchangeRate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="StateCentralBankPaymentReason" Type="Edm.String" MaxLength="3"/>
+                <Property Name="SupplyingCountry" Type="Edm.String" MaxLength="3"/>
+                <Property Name="PaymentMethod" Type="Edm.String" MaxLength="1"/>
+                <Property Name="PaymentMethodSupplement" Type="Edm.String" MaxLength="2"/>
+                <Property Name="PaymentReference" Type="Edm.String" MaxLength="30"/>
+                <Property Name="InvoiceReference" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InvoiceReferenceFiscalYear" Type="Edm.String" MaxLength="4"/>
+                <Property Name="FixedCashDiscount" Type="Edm.String" MaxLength="1"/>
+                <Property Name="UnplannedDeliveryCostTaxCode" Type="Edm.String" MaxLength="2"/>
+                <Property Name="UnplndDelivCostTaxJurisdiction" Type="Edm.String" MaxLength="15"/>
+                <Property Name="UnplndDeliveryCostTaxCountry" Type="Edm.String" MaxLength="3"/>
+                <Property Name="AssignmentReference" Type="Edm.String" MaxLength="18"/>
+                <Property Name="SupplierPostingLineItemText" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TaxIsCalculatedAutomatically" Type="Edm.Boolean"/>
+                <Property Name="BusinessPlace" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BusinessSectionCode" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BusinessArea" Type="Edm.String" MaxLength="4"/>
+                <Property Name="SuplrInvcIsCapitalGoodsRelated" Type="Edm.Boolean"/>
+                <Property Name="SupplierInvoiceIsCreditMemo" Type="Edm.String" MaxLength="1"/>
+                <Property Name="PaytSlipWthRefSubscriber" Type="Edm.String" MaxLength="11"/>
+                <Property Name="PaytSlipWthRefCheckDigit" Type="Edm.String" MaxLength="2"/>
+                <Property Name="PaytSlipWthRefReference" Type="Edm.String" MaxLength="27"/>
+                <Property Name="TaxDeterminationDate" Type="Edm.Date"/>
+                <Property Name="TaxReportingDate" Type="Edm.Date"/>
+                <Property Name="TaxFulfillmentDate" Type="Edm.Date"/>
+                <Property Name="InvoiceReceiptDate" Type="Edm.Date"/>
+                <Property Name="DeliveryOfGoodsReportingCntry" Type="Edm.String" MaxLength="3"/>
+                <Property Name="SupplierVATRegistration" Type="Edm.String" MaxLength="20"/>
+                <Property Name="IsEUTriangularDeal" Type="Edm.Boolean"/>
+                <Property Name="SuplrInvcDebitCrdtCodeDelivery" Type="Edm.String" MaxLength="1"/>
+                <Property Name="SuplrInvcDebitCrdtCodeReturns" Type="Edm.String" MaxLength="1"/>
+                <Property Name="RetentionDueDate" Type="Edm.Date"/>
+                <Property Name="PaymentReason" Type="Edm.String" MaxLength="4"/>
+                <Property Name="HouseBank" Type="Edm.String" MaxLength="5"/>
+                <Property Name="HouseBankAccount" Type="Edm.String" MaxLength="5"/>
+                <Property Name="AlternativePayeePayer" Type="Edm.String" MaxLength="10"/>
+                <Property Name="SupplierInvoiceOrigin" Type="Edm.String" MaxLength="1"/>
+                <Property Name="ReverseDocument" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ReverseDocumentFiscalYear" Type="Edm.String" MaxLength="4"/>
+                <Property Name="IsReversal" Type="Edm.Boolean"/>
+                <Property Name="IsReversed" Type="Edm.Boolean"/>
+                <Property Name="IN_GSTPartner" Type="Edm.String" MaxLength="10"/>
+                <Property Name="IN_GSTPlaceOfSupply" Type="Edm.String" MaxLength="3"/>
+                <Property Name="IN_InvoiceReferenceNumber" Type="Edm.String" MaxLength="64"/>
+                <Property Name="JrnlEntryCntrySpecificRef1" Type="Edm.String" MaxLength="80"/>
+                <Property Name="JrnlEntryCntrySpecificDate1" Type="Edm.Date"/>
+                <Property Name="JrnlEntryCntrySpecificRef2" Type="Edm.String" MaxLength="25"/>
+                <Property Name="JrnlEntryCntrySpecificDate2" Type="Edm.Date"/>
+                <Property Name="JrnlEntryCntrySpecificRef3" Type="Edm.String" MaxLength="25"/>
+                <Property Name="JrnlEntryCntrySpecificDate3" Type="Edm.Date"/>
+                <Property Name="JrnlEntryCntrySpecificRef4" Type="Edm.String" MaxLength="50"/>
+                <Property Name="JrnlEntryCntrySpecificDate4" Type="Edm.Date"/>
+                <Property Name="JrnlEntryCntrySpecificRef5" Type="Edm.String" MaxLength="50"/>
+                <Property Name="JrnlEntryCntrySpecificDate5" Type="Edm.Date"/>
+                <Property Name="JrnlEntryCntrySpecificBP1" Type="Edm.String" MaxLength="10"/>
+                <Property Name="JrnlEntryCntrySpecificBP2" Type="Edm.String" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="CustomDutyHdr">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="BENoKey" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="POVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverallStatus" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInvMsg" Type="Edm.String"/>
+                <Property Name="OverSeasVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="OverSeasVendInvMsg" Type="Edm.String"/>
+                <Property Name="DomesticVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="DomesticVendInvMsg" Type="Edm.String"/>
+                <NavigationProperty Name="to_CustomDutyItem" Type="Collection(CustomDutyAppSrv.CustomDutyItem)" Partner="BENoKey">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="to_CustomDutyLog" Type="Collection(CustomDutyAppSrv.CustomDutyLog)" Partner="BENoKey">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="BENoF4">
+                <Key>
+                    <PropertyRef Name="BENoKey"/>
+                </Key>
+                <Property Name="BENoKey" Type="Edm.String" MaxLength="10" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="CustomDutyItem">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PortofOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="BENo" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BEDate" Type="Edm.Date"/>
+                <Property Name="HAWB_HBLDate" Type="Edm.Date"/>
+                <Property Name="TotalBCD" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalSWS" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalIGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Invoicedate" Type="Edm.Date"/>
+                <Property Name="InvoiceValueFC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <NavigationProperty Name="InvoiceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InvoiceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InvoiceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InvoiceValueINR" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="ExcRateforInvoice" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="FreightPercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="FreightCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="FreightCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="FreightCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="FreightAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="FreightExrate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="OverseasFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="OverseasFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTCALC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmtCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TermsofInvoice" Type="Edm.String" MaxLength="3"/>
+                <Property Name="RITC" Type="Edm.String" MaxLength="8"/>
+                <Property Name="ItemSrNo" Type="Edm.Int16"/>
+                <Property Name="InsurancePercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="InsuranceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InsuranceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InsuranceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InsuranceExrate" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ProductDescription" Type="Edm.String"/>
+                <Property Name="PurchaseOrder" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PurchaseorderItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="HSNCodefromCHA" Type="Edm.String" MaxLength="10"/>
+                <Property Name="HSNCodeSystem" Type="Edm.String" MaxLength="10"/>
+                <Property Name="UnitPrice" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OpenPOQty" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="BCDAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="RateofBCDPercent" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="SocWelSurDutyAmt" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="SocWelSurDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="IGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="IGSTRateDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="AssessableValue" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="CustomInvoiceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreighInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsInvoNum" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargesVen" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargeInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Remarks" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String" MaxLength="10"/>
+                <NavigationProperty Name="BENoKey" Type="CustomDutyAppSrv.CustomDutyHdr" Partner="to_CustomDutyItem">
+                    <ReferentialConstraint Property="BENoKey_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="BENoKey_ID" Type="Edm.Guid"/>
+            </EntityType>
+            <EntityType Name="CustomDutyLog">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="type" Type="Edm.String"/>
+                <Property Name="message" Type="Edm.String"/>
+                <NavigationProperty Name="BENoKey" Type="CustomDutyAppSrv.CustomDutyHdr" Partner="to_CustomDutyLog">
+                    <ReferentialConstraint Property="BENoKey_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="BENoKey_ID" Type="Edm.Guid"/>
+            </EntityType>
+            <EntityType Name="CHAFileFieldsOrderList">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                    <PropertyRef Name="IsActiveEntity"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CHAFileFieldName" Type="Edm.String"/>
+                <Property Name="CHAFileFieldColumnValue" Type="Edm.String"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+                <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+                <NavigationProperty Name="DraftAdministrativeData" Type="CustomDutyAppSrv.DraftAdministrativeData" ContainsTarget="true"/>
+                <NavigationProperty Name="SiblingEntity" Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+            </EntityType>
+            <EntityType Name="CustomDutyFieldMapping">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Source" Type="Edm.String"/>
+                <Property Name="InputFields" Type="Edm.String"/>
+                <Property Name="OutputFields" Type="Edm.String"/>
+                <Property Name="Visibility" Type="Edm.Boolean"/>
+                <Property Name="Type" Type="Edm.String"/>
+                <Property Name="Scale" Type="Edm.Int16"/>
+            </EntityType>
+            <EntityType Name="CommonParamTableMaster">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Element" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="CommonParamTableActuals">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Element" Type="Edm.String"/>
+                <Property Name="CompanyCode" Type="Edm.String"/>
+                <Property Name="ConditionType" Type="Edm.String"/>
+                <Property Name="ConditionTable" Type="Edm.String"/>
+                <Property Name="Value1" Type="Edm.String"/>
+                <Property Name="Value2" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="UploadHSN">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="SupplierCountry" Type="Edm.String" MaxLength="2"/>
+                <Property Name="HSNCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="TaxRate" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="TaxCode" Type="Edm.String" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="Currencies">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="symbol" Type="Edm.String" MaxLength="5"/>
+                <Property Name="minorUnit" Type="Edm.Int16"/>
+                <NavigationProperty Name="texts" Type="Collection(CustomDutyAppSrv.Currencies_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="CustomDutyAppSrv.Currencies_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="DraftAdministrativeData">
+                <Key>
+                    <PropertyRef Name="DraftUUID"/>
+                </Key>
+                <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+                <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+                <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+            </EntityType>
+            <EntityType Name="Currencies_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+            </EntityType>
+            <ComplexType Name="SuplrInvcItemPurOrdRef">
+                <Property Name="SupplierInvoiceItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PurchaseOrder" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PurchaseOrderItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="TaxCode" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DocumentCurrency" Type="Edm.String" MaxLength="3"/>
+                <Property Name="SupplierInvoiceItemAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+                <Property Name="PurchaseOrderQuantityUnit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="QuantityInPurchaseOrderUnit" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="PurchaseOrderPriceUnit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="QtyInPurchaseOrderPriceUnit" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="SuplrInvcDeliveryCostCndnType" Type="Edm.String" MaxLength="4"/>
+                <Property Name="FreightSupplier" Type="Edm.String" MaxLength="10"/>
+                <Property Name="TaxDeterminationDate" Type="Edm.Date"/>
+            </ComplexType>
+            <ComplexType Name="CustomInvoiceHdr">
+                <Property Name="BENo" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="SupplierInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Message" Type="Edm.String"/>
+                <Property Name="FiscalYear" Type="Edm.String" MaxLength="4"/>
+                <Property Name="CompanyCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DocumentDate" Type="Edm.Date"/>
+                <Property Name="PostingDate" Type="Edm.Date"/>
+                <Property Name="SupplierInvoiceIDByInvcgParty" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InvoicingParty" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DocumentCurrency" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InvoiceGrossAmount" Type="Edm.Decimal" Precision="15" Scale="2"/>
+                <Property Name="BusinessPlace" Type="Edm.String" MaxLength="5"/>
+                <Property Name="TaxDeterminationDate" Type="Edm.Date"/>
+                <Property Name="TaxReportingDate" Type="Edm.Date"/>
+                <Property Name="TaxFulfillmentDate" Type="Edm.Date"/>
+                <Property Name="to_SuplrInvcItemPurOrdRef" Type="Collection(CustomDutyAppSrv.SuplrInvcItemPurOrdRef)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="return_CustomDutyAppSrv_SaveCustomDuty">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="BENoKey" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="POVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverallStatus" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInvMsg" Type="Edm.String"/>
+                <Property Name="OverSeasVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="OverSeasVendInvMsg" Type="Edm.String"/>
+                <Property Name="DomesticVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="DomesticVendInvMsg" Type="Edm.String"/>
+                <Property Name="to_CustomDutyItem" Type="Collection(CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem)" Nullable="true"/>
+                <Property Name="to_CustomDutyLog" Type="Collection(CustomDutyAppSrv.CustomMasterLog)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PortofOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="BENo" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BEDate" Type="Edm.Date"/>
+                <Property Name="HAWB_HBLDate" Type="Edm.Date"/>
+                <Property Name="TotalBCD" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalSWS" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalIGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Invoicedate" Type="Edm.Date"/>
+                <Property Name="InvoiceValueFC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <NavigationProperty Name="InvoiceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InvoiceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InvoiceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InvoiceValueINR" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="ExcRateforInvoice" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="FreightPercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="FreightCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="FreightCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="FreightCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="FreightAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="FreightExrate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="OverseasFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="OverseasFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTCALC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmtCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TermsofInvoice" Type="Edm.String" MaxLength="3"/>
+                <Property Name="RITC" Type="Edm.String" MaxLength="8"/>
+                <Property Name="ItemSrNo" Type="Edm.Int16"/>
+                <Property Name="InsurancePercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="InsuranceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InsuranceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InsuranceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InsuranceExrate" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ProductDescription" Type="Edm.String"/>
+                <Property Name="PurchaseOrder" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PurchaseorderItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="HSNCodefromCHA" Type="Edm.String" MaxLength="10"/>
+                <Property Name="HSNCodeSystem" Type="Edm.String" MaxLength="10"/>
+                <Property Name="UnitPrice" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OpenPOQty" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="BCDAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="RateofBCDPercent" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="SocWelSurDutyAmt" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="SocWelSurDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="IGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="IGSTRateDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="AssessableValue" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="CustomInvoiceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreighInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsInvoNum" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargesVen" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargeInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Remarks" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String" MaxLength="10"/>
+            </ComplexType>
+            <ComplexType Name="CustomMasterLog">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="type" Type="Edm.String"/>
+                <Property Name="message" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="BENoKey" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="POVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverallStatus" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInvMsg" Type="Edm.String"/>
+                <Property Name="OverSeasVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="OverSeasVendInvMsg" Type="Edm.String"/>
+                <Property Name="DomesticVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="DomesticVendInvMsg" Type="Edm.String"/>
+                <Property Name="to_CustomDutyItem" Type="Collection(CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem)" Nullable="true"/>
+                <Property Name="to_CustomDutyLog" Type="Collection(CustomDutyAppSrv.CustomMasterLog)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PortofOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="BENo" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BEDate" Type="Edm.Date"/>
+                <Property Name="HAWB_HBLDate" Type="Edm.Date"/>
+                <Property Name="TotalBCD" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalSWS" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalIGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Invoicedate" Type="Edm.Date"/>
+                <Property Name="InvoiceValueFC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <NavigationProperty Name="InvoiceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InvoiceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InvoiceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InvoiceValueINR" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="ExcRateforInvoice" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="FreightPercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="FreightCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="FreightCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="FreightCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="FreightAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="FreightExrate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="OverseasFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="OverseasFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTCALC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmtCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TermsofInvoice" Type="Edm.String" MaxLength="3"/>
+                <Property Name="RITC" Type="Edm.String" MaxLength="8"/>
+                <Property Name="ItemSrNo" Type="Edm.Int16"/>
+                <Property Name="InsurancePercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="InsuranceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InsuranceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InsuranceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InsuranceExrate" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ProductDescription" Type="Edm.String"/>
+                <Property Name="PurchaseOrder" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PurchaseorderItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="HSNCodefromCHA" Type="Edm.String" MaxLength="10"/>
+                <Property Name="HSNCodeSystem" Type="Edm.String" MaxLength="10"/>
+                <Property Name="UnitPrice" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OpenPOQty" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="BCDAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="RateofBCDPercent" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="SocWelSurDutyAmt" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="SocWelSurDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="IGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="IGSTRateDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="AssessableValue" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="CustomInvoiceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreighInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsInvoNum" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargesVen" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargeInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Remarks" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String" MaxLength="10"/>
+            </ComplexType>
+            <ComplexType Name="return_CustomDutyAppSrv_UpdateCustomDuty">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="BENoKey" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="POVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverallStatus" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInvMsg" Type="Edm.String"/>
+                <Property Name="OverSeasVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="OverSeasVendInvMsg" Type="Edm.String"/>
+                <Property Name="DomesticVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="DomesticVendInvMsg" Type="Edm.String"/>
+                <Property Name="to_CustomDutyItem" Type="Collection(CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem)" Nullable="true"/>
+                <Property Name="to_CustomDutyLog" Type="Collection(CustomDutyAppSrv.CustomMasterLog)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PortofOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="BENo" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BEDate" Type="Edm.Date"/>
+                <Property Name="HAWB_HBLDate" Type="Edm.Date"/>
+                <Property Name="TotalBCD" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalSWS" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalIGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Invoicedate" Type="Edm.Date"/>
+                <Property Name="InvoiceValueFC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <NavigationProperty Name="InvoiceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InvoiceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InvoiceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InvoiceValueINR" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="ExcRateforInvoice" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="FreightPercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="FreightCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="FreightCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="FreightCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="FreightAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="FreightExrate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="OverseasFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="OverseasFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTCALC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmtCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TermsofInvoice" Type="Edm.String" MaxLength="3"/>
+                <Property Name="RITC" Type="Edm.String" MaxLength="8"/>
+                <Property Name="ItemSrNo" Type="Edm.Int16"/>
+                <Property Name="InsurancePercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="InsuranceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InsuranceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InsuranceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InsuranceExrate" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ProductDescription" Type="Edm.String"/>
+                <Property Name="PurchaseOrder" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PurchaseorderItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="HSNCodefromCHA" Type="Edm.String" MaxLength="10"/>
+                <Property Name="HSNCodeSystem" Type="Edm.String" MaxLength="10"/>
+                <Property Name="UnitPrice" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OpenPOQty" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="BCDAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="RateofBCDPercent" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="SocWelSurDutyAmt" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="SocWelSurDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="IGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="IGSTRateDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="AssessableValue" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="CustomInvoiceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreighInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsInvoNum" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargesVen" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargeInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Remarks" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String" MaxLength="10"/>
+            </ComplexType>
+            <ComplexType Name="ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="BENoKey" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="10"/>
+                <Property Name="POVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverallStatus" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="CustomVendInvMsg" Type="Edm.String"/>
+                <Property Name="OverSeasVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverSeasVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="OverSeasVendInvMsg" Type="Edm.String"/>
+                <Property Name="DomesticVendInv" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomesticVendInvStat" Type="Edm.String" MaxLength="20"/>
+                <Property Name="DomesticVendInvMsg" Type="Edm.String"/>
+                <Property Name="to_CustomDutyItem" Type="Collection(CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem)" Nullable="true"/>
+                <Property Name="to_CustomDutyLog" Type="Collection(CustomDutyAppSrv.CustomMasterLog)" Nullable="true"/>
+            </ComplexType>
+            <ComplexType Name="ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem">
+                <Property Name="ID" Type="Edm.Guid"/>
+                <Property Name="CountryOfOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PortofOrigin" Type="Edm.String" MaxLength="100"/>
+                <Property Name="BENo" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BEDate" Type="Edm.Date"/>
+                <Property Name="HAWB_HBLDate" Type="Edm.Date"/>
+                <Property Name="TotalBCD" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalSWS" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalIGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TotalAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InvoiceNumber" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Invoicedate" Type="Edm.Date"/>
+                <Property Name="InvoiceValueFC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <NavigationProperty Name="InvoiceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InvoiceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InvoiceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InvoiceValueINR" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="ExcRateforInvoice" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="FreightPercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="FreightCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="FreightCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="FreightCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="FreightAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="FreightExrate" Type="Edm.Decimal" Precision="9" Scale="5"/>
+                <Property Name="OverseasFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverseasFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="OverseasFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFrtAmtTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="DomesticFrtAmtTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="MiscAmountTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTCALC" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTCALC2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmTTAX1" Type="Edm.String" MaxLength="2"/>
+                <Property Name="InsuranceAmTTAX2" Type="Edm.String" MaxLength="2"/>
+                <Property Name="MiscAmountCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="InsuranceAmtCHA" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="TermsofInvoice" Type="Edm.String" MaxLength="3"/>
+                <Property Name="RITC" Type="Edm.String" MaxLength="8"/>
+                <Property Name="ItemSrNo" Type="Edm.Int16"/>
+                <Property Name="InsurancePercentage" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <NavigationProperty Name="InsuranceCurrency" Type="CustomDutyAppSrv.Currencies">
+                    <ReferentialConstraint Property="InsuranceCurrency_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="InsuranceCurrency_code" Type="Edm.String" MaxLength="3"/>
+                <Property Name="InsuranceExrate" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="Material" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ProductDescription" Type="Edm.String"/>
+                <Property Name="PurchaseOrder" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PurchaseorderItem" Type="Edm.String" MaxLength="5"/>
+                <Property Name="HSNCodefromCHA" Type="Edm.String" MaxLength="10"/>
+                <Property Name="HSNCodeSystem" Type="Edm.String" MaxLength="10"/>
+                <Property Name="UnitPrice" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OpenPOQty" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Unit" Type="Edm.String" MaxLength="3"/>
+                <Property Name="BCDAmount" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="RateofBCDPercent" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="SocWelSurDutyAmt" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="SocWelSurDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="IGST" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="IGSTRateDutyPer" Type="Edm.Decimal" Precision="5" Scale="0"/>
+                <Property Name="AssessableValue" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="OverFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="DomesticFreightperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Inschargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem1" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="Miscchargesperitem2" Type="Edm.Decimal" Precision="13" Scale="3"/>
+                <Property Name="CustomInvoiceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CustomInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OverFreighInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DomFreightInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsuranceVendor" Type="Edm.String" MaxLength="10"/>
+                <Property Name="InsInvoNum" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargesVen" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MiscChargeInvoice" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Remarks" Type="Edm.String"/>
+                <Property Name="status" Type="Edm.String" MaxLength="10"/>
+            </ComplexType>
+            <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+                <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+                <ReturnType Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+            </Action>
+            <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+                <ReturnType Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+            </Action>
+            <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+                <Parameter Name="in" Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+                <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+                <ReturnType Type="CustomDutyAppSrv.CHAFileFieldsOrderList"/>
+            </Action>
+            <Action Name="PostSupplierInvoice" IsBound="false">
+                <Parameter Name="InvoiceData" Type="Collection(CustomDutyAppSrv.CustomInvoiceHdr)" Nullable="true"/>
+                <ReturnType Type="Collection(CustomDutyAppSrv.CustomInvoiceHdr)" Nullable="true"/>
+            </Action>
+            <Action Name="PostInvoice" IsBound="false">
+                <Parameter Name="ID" Type="Edm.Guid"/>
+                <ReturnType Type="Edm.Boolean"/>
+            </Action>
+            <Action Name="SaveCustomDuty" IsBound="false">
+                <Parameter Name="CustomDutyData" Type="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData"/>
+                <ReturnType Type="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty"/>
+            </Action>
+            <Action Name="UpdateCustomDuty" IsBound="false">
+                <Parameter Name="ID" Type="Edm.Guid"/>
+                <Parameter Name="CustomDutyData" Type="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData"/>
+                <ReturnType Type="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty"/>
+            </Action>
+            <Action Name="DeleteCustomDuty" IsBound="false">
+                <Parameter Name="ID" Type="Edm.Guid"/>
+                <ReturnType Type="Edm.Boolean"/>
+            </Action>
+            <Action Name="calculateDuty" IsBound="false">
+                <Parameter Name="fileData" Type="Collection(CustomDutyAppSrv.CustomDutyItem)" Nullable="true"/>
+                <ReturnType Type="Collection(CustomDutyAppSrv.CustomDutyItem)"/>
+            </Action>
+            <Annotations Target="CustomDutyAppSrv.EntityContainer/POVendorVH">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.EntityContainer/PlantVH">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.EntityContainer/ZA_MM_CustomDutyInvDetails">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.EntityContainer/TaxCodeVH">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyHdr/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyHdr/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyHdr/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyHdr/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyHdr/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/InvoiceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/InvoiceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InvoiceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/FreightCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/FreightCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="FreightCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/InsuranceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyItem/InsuranceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InsuranceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyLog/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyLog/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyLog/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyLog/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyLog/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.EntityContainer/CHAFileFieldsOrderList">
+                <Annotation Term="Common.DraftRoot">
+                    <Record Type="Common.DraftRootType">
+                        <PropertyValue Property="ActivationAction" String="CustomDutyAppSrv.draftActivate"/>
+                        <PropertyValue Property="EditAction" String="CustomDutyAppSrv.draftEdit"/>
+                        <PropertyValue Property="PreparationAction" String="CustomDutyAppSrv.draftPrepare"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="true"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/IsActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/HasActiveEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/HasDraftEntity">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CHAFileFieldsOrderList/DraftAdministrativeData">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyFieldMapping">
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>Source</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Source"/>
+                            <PropertyValue Property="Label" String="Source"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="InputFields"/>
+                            <PropertyValue Property="Label" String="Input Fields"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="OutputFields"/>
+                            <PropertyValue Property="Label" String="Output Fields"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Visibility"/>
+                            <PropertyValue Property="Label" String="Visibility"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Type"/>
+                            <PropertyValue Property="Label" String="Type"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Scale"/>
+                            <PropertyValue Property="Label" String="Scale"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Source"/>
+                            <PropertyValue Property="Label" String="Source"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="InputFields"/>
+                            <PropertyValue Property="Label" String="Input Fields"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="OutputFields"/>
+                            <PropertyValue Property="Label" String="Output Fields"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Visibility"/>
+                            <PropertyValue Property="Label" String="Visibility"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Type"/>
+                            <PropertyValue Property="Label" String="Type"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Scale"/>
+                            <PropertyValue Property="Label" String="Scale"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.EntityContainer/CustomDutyFieldMapping">
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="true"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyFieldMapping/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyFieldMapping/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyFieldMapping/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyFieldMapping/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CustomDutyFieldMapping/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableMaster/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableMaster/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableMaster/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableMaster/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableMaster/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableActuals/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableActuals/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableActuals/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableActuals/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.CommonParamTableActuals/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.UploadHSN/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.UploadHSN/createdBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.UploadHSN/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.UploadHSN/modifiedBy">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Core.Description" String="User's unique ID"/>
+                <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.UploadHSN/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies/code">
+                <Annotation Term="Common.Text" Path="name"/>
+                <Annotation Term="Common.Label" String="Currency Code"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies/symbol">
+                <Annotation Term="Common.Label" String="Currency Symbol"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies/minorUnit">
+                <Annotation Term="Common.Label" String="Currency Minor Unit Fractions"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData">
+                <Annotation Term="Common.Label" String="Draft Administrative Data"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/DraftUUID">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/CreationDateTime">
+                <Annotation Term="Common.Label" String="Draft Created On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/CreatedByUser">
+                <Annotation Term="Common.Label" String="Draft Created By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/DraftIsCreatedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft Created By Me"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/LastChangeDateTime">
+                <Annotation Term="Common.Label" String="Draft Last Changed On"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/LastChangedByUser">
+                <Annotation Term="Common.Label" String="Draft Last Changed By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/InProcessByUser">
+                <Annotation Term="Common.Label" String="Draft In Process By"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.DraftAdministrativeData/DraftIsProcessedByMe">
+                <Annotation Term="UI.Hidden" Bool="true"/>
+                <Annotation Term="Common.Label" String="Draft In Process By Me"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies_texts/locale">
+                <Annotation Term="Common.Label" String="Language Code"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies_texts/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies_texts/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.Currencies_texts/code">
+                <Annotation Term="Common.Text" Path="name"/>
+                <Annotation Term="Common.Label" String="Currency Code"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem/InvoiceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem/InvoiceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InvoiceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem/FreightCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem/FreightCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="FreightCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem/InsuranceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_SaveCustomDuty_to_CustomDutyItem/InsuranceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InsuranceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem/InvoiceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem/InvoiceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InvoiceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem/FreightCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem/FreightCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="FreightCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem/InsuranceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_SaveCustomDuty_CustomDutyData_to_CustomDutyItem/InsuranceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InsuranceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem/InvoiceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem/InvoiceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InvoiceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem/FreightCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem/FreightCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="FreightCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem/InsuranceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.return_CustomDutyAppSrv_UpdateCustomDuty_to_CustomDutyItem/InsuranceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InsuranceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem/InvoiceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem/InvoiceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InvoiceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem/FreightCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem/FreightCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="FreightCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem/InsuranceCurrency">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+            <Annotations Target="CustomDutyAppSrv.ap_CustomDutyAppSrv_UpdateCustomDuty_CustomDutyData_to_CustomDutyItem/InsuranceCurrency_code">
+                <Annotation Term="Common.Label" String="Currency"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="Currency"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="InsuranceCurrency_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Core.Description" String="Currency code as specified by ISO 4217"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

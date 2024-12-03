@@ -50,6 +50,10 @@ modules:
       - zfsfieldmapping.zip
       name: zfsfieldmapping
       target-path: resources/
+    - artifacts:
+      - customdutyuiparamzfemaintparam.zip
+      name: customdutyuiparamzfemaintparam
+      target-path: resources/
 - name: customdutyuiinvoicepostingzfscustomduty
   type: html5
   path: zfscustomduty
@@ -63,6 +67,16 @@ modules:
 - name: zfsfieldmapping
   type: html5
   path: zfsfieldmapping
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: customdutyuiparamzfemaintparam
+  type: html5
+  path: zfemaintparam
   build-parameters:
     build-result: dist
     builder: custom

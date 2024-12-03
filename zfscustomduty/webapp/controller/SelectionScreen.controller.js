@@ -37,6 +37,7 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel([]), "ValidatedModel");
                 this.getView().setModel(new JSONModel([]), "MappingData");
                 this.getView().setModel(new JSONModel([]), "ManageData");
+                this.getView().setModel(new JSONModel([]), "ValidationLog");
                 this.busyDialog = new BusyDialog();
                 this.uniqInvoices = [];
 
@@ -251,7 +252,7 @@ sap.ui.define([
                         var formatedData = '';
                         // Rename the InputField based on OutputField
                         //filteredData[field.OutputFields] = excelDetails[field.InputFields];    
-                        console.log(field.OutputFields);
+                        //console.log(field.OutputFields);
                         formatedData = this.formatData(columnTypeScale, excelDetails[field.OutputFields]);
                         filteredData[field.OutputFields] = formatedData;
                     });
@@ -480,11 +481,11 @@ sap.ui.define([
                 fn to read and display valuehelp dialog for input fields
             */
             onInputValueHelpDialog: function (oEvent) {
-                const sInputId = oEvent.getSource().getId().split("SelectionScreen--")[1],
-                    ValueHelpConfig = this.getView().getModel("FieldMappings").getData().ValueHelpConfig;
+                this.sInputId = oEvent.getSource().getId().split("SelectionScreen--")[1];
+                const ValueHelpConfig = this.getView().getModel("FieldMappings").getData().ValueHelpConfig;
                 let valueHelpObject = null;
                 ValueHelpConfig.forEach((sObject) => {
-                    if (sObject.InputId === sInputId) {
+                    if (this.sInputId.includes(sObject.InputId)) {
                         valueHelpObject = sObject;
                     }
                 })
@@ -525,18 +526,110 @@ sap.ui.define([
                                     chaFileRecord.PurchaseOrder = MMCustDutyRecord.PurchaseorderNumber;
                                     chaFileRecord.PurchaseorderItem = MMCustDutyRecord.POItemNumber; //isNaN(Number(MMCustDutyRecord.POItemNumber)) ? 0 : Number(MMCustDutyRecord.POItemNumber);
                                     chaFileRecord.HSNCodeSystem = MMCustDutyRecord.HSNCode;
+                                    chaFileRecord.IGSTNoSystem = MMCustDutyRecord.BPTaxNumber;
+                                    chaFileRecord.SupplierCountry = MMCustDutyRecord.Country;
+                                    chaFileRecord.POQuantitySystem = MMCustDutyRecord.POQuantity;
                                     chaFileMatchedRecords.push(chaFileRecord);
                                 }
                             });
-                        })
-                        this.getView().getModel("ValidatedModel").setData(chaFileMatchedRecords);
-                        this.byId("idProceedToInvoicePosting").setEnabled(true);
-                        MessageToast.show("Validation Successfull");
+                        });
+                        this.buildValidationLog(chaFileMatchedRecords, CustInvData).then(() => {
+                            this.getView().getModel("ValidatedModel").setData(chaFileMatchedRecords);
+                            this.byId("idProceedToInvoicePosting").setEnabled(true);
+                            MessageToast.show("Validation Successfull");
+                        }).catch((oError) => {
+                            MessageBox.error(oError);
+                            this.busyDialog.close();
+                        });
+
                     } else
                         MessageBox.information("No data matched for the provided values")
                     this.busyDialog.close();
                 });
-            },     
+            },
+
+            buildValidationLog: function (chafileData, S4Data) {
+                return new Promise((resolve, reject) => {
+                    this.busyDialog.open();
+                    const oModel = this.getView().getModel();
+                    var selectedHdr = "/UploadHSN";
+                    oModel.bindList(selectedHdr, undefined, undefined, undefined)
+                        .requestContexts(0, 10)
+                        .then((aContexts) => {
+                            this.busyDialog.close();
+                            const aData = aContexts.map((oContext) => oContext.getObject());
+                            if (aData.length == 0) {
+                                reject("HSN configurations are empty. Please maintain the table");
+                            } else {                                
+                                var validationLog = [];
+                                chafileData.forEach((chaFileRecord) => {
+                                    if (chaFileRecord.HSNCodeSystem !== chaFileRecord.HSNCodefromCHA) {
+                                        var validation = {};
+                                        validation.type = 'Warning';
+                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file HSN: ' + chaFileRecord.HSNCodefromCHA +
+                                        ' not matching with System HSN Code: ' + chaFileRecord.HSNCodeSystem;  
+                                        validationLog.push(validation);                                      
+                                    } 
+                                    if (chaFileRecord.IGSTNoSystem !== chaFileRecord.IGSTNo) {
+                                        var validation = {};
+                                        validation.type = 'Warning';
+                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file IGST No.: ' + chaFileRecord.IGSTNo +
+                                        ' not matching with System IGST No.: ' + chaFileRecord.IGSTNoSystem;  
+                                        validationLog.push(validation);                                      
+                                    } 
+                                    if (chaFileRecord.POQuantitySystem !== chaFileRecord.Quantity) {
+                                        var validation = {};
+                                        validation.type = 'Warning';
+                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file Quantity.: ' + chaFileRecord.Quantity +
+                                        ' not matching with System Quantity.: ' + chaFileRecord.POQuantitySystem;  
+                                        validationLog.push(validation);                                      
+                                    } 
+                                    if (!chaFileRecord.InvoiceNumber) {
+                                        var validation = {};
+                                        validation.type = 'Error';
+                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Invoice number not maitained in the system';  
+                                        validationLog.push(validation);  
+                                    }
+                                    
+                                    var hsnCodeMaintained = '';
+                                    aData.forEach((hsnconfig) => {                                       
+                                       if (hsnconfig.SupplierCountry == chaFileRecord.SupplierCountry && 
+                                           hsnconfig.HSNCode == chaFileRecord.HSNCodeSystem) {
+                                            hsnCodeMaintained = 'X';
+                                            chaFileRecord.CustomDutyTAX1 = hsnconfig.TaxCode;
+                                            if (hsnconfig.TaxRate !== chaFileRecord.RateofBCDPercent) {
+                                                var validation = {};
+                                                validation.type = 'Error';
+                                                validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax rate not matching as per configuration';  
+                                                validationLog.push(validation);  
+                                            }                                            
+                                       }
+                                    });
+                                    if (!hsnCodeMaintained) {
+                                        var validation = {};
+                                        validation.type = 'Error';
+                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax rate not maintained';  
+                                        validationLog.push(validation);
+                                        //reject(validation.message);
+                                    }
+                                    if (!chaFileRecord.CustomDutyTAX1) {
+                                        var validation = {};
+                                        validation.type = 'Error';
+                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax code not maintained';  
+                                        validationLog.push(validation);
+                                        //reject(validation.message);
+                                    }
+                                });                                   
+                                this.getView().getModel("ValidationLog").setData(validationLog);
+                                resolve();
+                            }
+                        })
+                        .catch((oError) => {
+                            reject(oError.message);
+                            this.busyDialog.close();
+                        });
+                })
+            },
 
             validateExistingInvoiceData: function (InvoiceNumber) {
 
@@ -636,6 +729,10 @@ sap.ui.define([
                             delete item.OverseasFrtAmtCALC2VS;
                             delete item.DomesticFrtAmtCALC1VS;
                             delete item.DomesticFrtAmtCALC2VS;
+                            delete item.IGSTNoSystem;
+                            delete item.SupplierCountry;
+                            delete item.POQuantitySystem;
+
                         });
                         calculateDutyContext.setParameter("fileData", sObjects);
                         calculateDutyContext.execute().then(() => {
@@ -684,33 +781,33 @@ sap.ui.define([
                         const oRouter = this.getOwnerComponent().getRouter(),
                             oModel = this.getView().getModel();
                         const BEobject = this.getView().getModel("ManageData").getData();
-                        BEobject.OverallStatus = 'Saved';                       
+                        BEobject.OverallStatus = 'Saved';
 
-                        if(BEobject.CustomVendor){
-                            if (BEobject.CustomVendInvStat == 'Success' || BEobject.CustomVendInvStat == 'Error') {                                
-                            } else if(BEobject.CustomVendInvStat == '' || BEobject.CustomVendInvStat == null) {
+                        if (BEobject.CustomVendor) {
+                            if (BEobject.CustomVendInvStat == 'Success' || BEobject.CustomVendInvStat == 'Error') {
+                            } else if (BEobject.CustomVendInvStat == '' || BEobject.CustomVendInvStat == null) {
                                 BEobject.CustomVendInvStat = 'Saved';
                             }
-                        }else{
+                        } else {
                             BEobject.CustomVendInvStat == ''
                         }
 
-                        if(BEobject.DomesticVendor){
-                            if (BEobject.DomesticVendInvStat == 'Success' || BEobject.DomesticVendInvStat == 'Error') {                                
-                            } else if(BEobject.DomesticVendInvStat == '' || BEobject.DomesticVendInvStat == null) {
+                        if (BEobject.DomesticVendor) {
+                            if (BEobject.DomesticVendInvStat == 'Success' || BEobject.DomesticVendInvStat == 'Error') {
+                            } else if (BEobject.DomesticVendInvStat == '' || BEobject.DomesticVendInvStat == null) {
                                 BEobject.DomesticVendInvStat = 'Saved';
                             }
-                        }else{
+                        } else {
                             BEobject.DomesticVendInvStat == ''
                         }
 
-                        if(BEobject.OverSeasVendor){
-                            if (BEobject.OverSeasVendInvStat == 'Success' || BEobject.OverSeasVendInvStat == 'Error') {                                
-                            } else if(BEobject.OverSeasVendInvStat == '' || BEobject.OverSeasVendInvStat == null) {
+                        if (BEobject.OverSeasVendor) {
+                            if (BEobject.OverSeasVendInvStat == 'Success' || BEobject.OverSeasVendInvStat == 'Error') {
+                            } else if (BEobject.OverSeasVendInvStat == '' || BEobject.OverSeasVendInvStat == null) {
                                 BEobject.OverSeasVendInvStat = 'Saved';
                             }
-                        }else{
-                            BEobject.OverSeasVendInvStat == '' 
+                        } else {
+                            BEobject.OverSeasVendInvStat == ''
                         }
 
                         BEobject.to_CustomDutyItem = [];
@@ -798,6 +895,8 @@ sap.ui.define([
                                                 CustomDutyData.DomesticVendInvStat = 'Saved';
                                             }
                                             CustomDutyData.to_CustomDutyItem = aData;
+                                            var ValidationLog = this.getView().getModel('ValidationLog').getData();
+                                            CustomDutyData.to_ValidationLog = ValidationLog;
                                             //Save Data
                                             const SaveDuty = oModel.bindContext("/SaveCustomDuty(...)");
                                             SaveDuty.setParameter("CustomDutyData", CustomDutyData);

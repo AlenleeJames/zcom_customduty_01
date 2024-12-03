@@ -79,7 +79,37 @@
 													<Input
                                                         id="idBENumberDis"
                                                         width="50%"
-                                                        showValueHelp="true">                                                       
+                                                        showValueHelp="true"
+                                                        
+                                                        
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            change="onInputChange"
+                            suggestionItems="{/BENoF4}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+                            maxLength="10">     
+
+
+                                <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isBENoFilled"
+                                />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="BENoKey"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem700"
+                                    key="{BENoKey}"
+                                    text="{BENoKey}"
+                                />
+										</suggestionItems>
+
+
+
 													</Input>
 												</fb:control>
 											</fb:FilterGroupItem>
@@ -310,12 +340,42 @@
                                     value="{InvoiceManage>TotalAmount}"
                                     currency="{InvoiceManage>CurrencyCode}"
                                 /> -->
-											<Input id="Dis_IDGenInput11" 
+											<Input id="idDomesticFrtAmtTAX1Dis" 
                                     maxLength="2"                                   
                                     value="{InvoiceManage>DomesticFrtAmtTAX1}"
                                     valueState="{InvoiceManage>DomesticFrtAmtTAX1VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                                >
+                                
+                                  <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem701"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+                                
+                                </Input>
+
 										</t:template>
 									</t:Column>
 									<t:Column id="Dis_IDGenColumn14" width="9rem">
@@ -346,12 +406,41 @@
                                     value="{InvoiceManage>TotalAmount}"
                                     currency="{InvoiceManage>CurrencyCode}"
                                 /> -->
-											<Input id="Dis_IDGenInput13" 
+											<Input id="idDomesticFrtAmtTAX2Dis" 
                                     value="{InvoiceManage>DomesticFrtAmtTAX2}"
                                     maxLength="2"
                                     valueState="{InvoiceManage>DomesticFrtAmtTAX2VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                                >
+                                
+                                 <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem702"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+
+                                </Input>
 										</t:template>
 									</t:Column>
 									<t:Column id="Dis_IDGenColumn2" width="9rem" visible="false">
@@ -420,12 +509,40 @@
                                     value="{InvoiceManage>TotalAmount}"
                                     currency="{InvoiceManage>CurrencyCode}"
                                 /> -->
-											<Input id="Dis_IDGenInput15" 
+											<Input id="idOverseasFrtAmtTAX1Dis" 
                                     value="{InvoiceManage>OverseasFrtAmtTAX1}"
                                     maxLength="2"
                                     valueState="{InvoiceManage>OverseasFrtAmtTAX1VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                               >
+                                <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem705"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+                               </Input>
+
 										</t:template>
 									</t:Column>
 									<t:Column id="Dis_IDGenColumn4" width="9rem">
@@ -456,12 +573,41 @@
                                     value="{InvoiceManage>TotalAmount}"
                                     currency="{InvoiceManage>CurrencyCode}"
                                 /> -->
-											<Input id="Dis_IDGenInput16" 
+											<Input id="idOverseasFrtAmtTAX2Dis" 
                                     value="{InvoiceManage>OverseasFrtAmtTAX2}"
                                     maxLength="2"
                                     valueState="{InvoiceManage>OverseasFrtAmtTAX2VS}"
                                     change="onInvoiceTableInputChange"
+                                    
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                                >
+                                
+                                 <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem703"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+
+                                </Input>
 										</t:template>
 									</t:Column>									
 								</t:columns>
@@ -810,15 +956,42 @@
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-											<Input id="_IDGenInput11" 
+											<Input id="idDomesticFrtAmtTAX1" 
                                     maxLength="2"                                   
                                     value="{InvoiceModel>DomesticFrtAmtTAX1}"
                                     valueState="{InvoiceModel>DomesticFrtAmtTAX1VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                               >
+                                <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem710"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+                               </Input>
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn14" width="9rem">
+									<t:Column id="_IDGenColumn141" width="9rem">
 										<Label id="_IDGenLabel14" 
                                 text="{i18n>LocalFreightAmount2}"
                                 wrapping="true"
@@ -836,7 +1009,7 @@
                                 />
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn15" width="5rem">
+									<t:Column id="_IDGenColumn151" width="5rem">
 										<Label id="_IDGenLabel15"
                                 text="{i18n>LocalFreightAmountTax2}"
                                 wrapping="true"
@@ -846,12 +1019,39 @@
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-											<Input id="_IDGenInput13" 
+											<Input id="idDomesticFrtAmtTAX2" 
                                     value="{InvoiceModel>DomesticFrtAmtTAX2}"
                                     maxLength="2"
                                     valueState="{InvoiceModel>DomesticFrtAmtTAX2VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                             >
+                             <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem711"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+                             </Input>
 										</t:template>
 									</t:Column>
 									<t:Column id="_IDGenColumn2" width="9rem" visible="false">
@@ -910,7 +1110,7 @@
                                 />
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn17"  width="5rem">
+									<t:Column id="_IDGenColumn171"  width="5rem">
 										<Label id="_IDGenLabel17" 
                                 text="{i18n>OverseasFreightAmountTax1}"
                                 wrapping="true"
@@ -920,12 +1120,39 @@
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-											<Input id="_IDGenInput15" 
+											<Input id="idOverseasFrtAmtTAX1" 
                                     value="{InvoiceModel>OverseasFrtAmtTAX1}"
                                     maxLength="2"
                                     valueState="{InvoiceModel>OverseasFrtAmtTAX1VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                               >
+                               <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem712"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+                               </Input>
 										</t:template>
 									</t:Column>
 									<t:Column id="_IDGenColumn4" width="9rem">
@@ -946,7 +1173,7 @@
                                 />
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn18"  width="5rem">
+									<t:Column id="_IDGenColumn181"  width="5rem">
 										<Label id="_IDGenLabel18" 
                                 text="{i18n>OverseasFreightAmountTax2}"
                                 wrapping="true"
@@ -956,12 +1183,39 @@
                                     value="{InvoiceModel>TotalAmount}"
                                     currency="{InvoiceModel>CurrencyCode}"
                                 /> -->
-											<Input id="_IDGenInput16" 
+											<Input id="idOverseasFrtAmtTAX2" 
                                     value="{InvoiceModel>OverseasFrtAmtTAX2}"
                                     maxLength="2"
                                     valueState="{InvoiceModel>OverseasFrtAmtTAX2VS}"
                                     change="onInvoiceTableInputChange"
+
+                                    showValueHelp="true"  
+                            showSuggestion="true"
+                            showValueStateMessage="false"
+                            suggestionItems="{/TaxCodeVH}"                           
+                            suggestionItemSelected=".onSuggestionItemSelected"
+                            valueHelpRequest="onInputValueHelpDialog"
+
+                              >
+                              <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isDomesticFrtAmtTAX1Filled"
                                 />
+											<core:CustomData
+                                    key="FilterProperty"
+                                    value="TaxCode"
+                                />
+										</customData>
+										<suggestionItems>
+											<core:ListItem id="_IDGenListItem713"
+                                    key="{TaxCode}"
+                                    text="{TaxCode}"
+                                    additionalText="{TaxCodeName}"
+                                />
+										</suggestionItems>
+
+                              </Input>
 										</t:template>
 									</t:Column>									
 								</t:columns>

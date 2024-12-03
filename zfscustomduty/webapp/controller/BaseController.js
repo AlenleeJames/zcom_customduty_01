@@ -131,7 +131,8 @@ sap.ui.define(
 
       onValueHelpOkPress: function (oEvent) {
         const aTokens = oEvent.getParameter("tokens"),
-          inputId = oEvent.getSource().data("InputId"),
+          //inputId = oEvent.getSource().data("InputId"),
+          inputId = this.sInputId,
           fieldProperty = this.byId(inputId).data("CHAModelProperty");
         this.byId(inputId).setValue(aTokens[0].getKey());
         this.byId(inputId).setValueState("None");

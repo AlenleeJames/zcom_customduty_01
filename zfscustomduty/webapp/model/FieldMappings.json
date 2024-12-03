@@ -113,7 +113,158 @@
             },
             "EntityPath": "/POVendorVH",
             "FragmentName": "POVendorValueHelp"
+        },
+        {
+            "InputId": "idBENumberDis",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "BE No.",
+                        "template": "BENoKey"
+                    }
+                ]
+            },
+            "EntityPath": "/BENoF4",
+            "FragmentName": "BENoVH"
+        },
+        {
+            "InputId": "idDomesticFrtAmtTAX1Dis",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+        {
+            "InputId": "idDomesticFrtAmtTAX2Dis",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+        {
+            "InputId": "idOverseasFrtAmtTAX1Dis",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+        {
+            "InputId": "idOverseasFrtAmtTAX2Dis",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+
+        {
+            "InputId": "idDomesticFrtAmtTAX1",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+        {
+            "InputId": "idDomesticFrtAmtTAX2",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+        {
+            "InputId": "idOverseasFrtAmtTAX1",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
+        },
+        {
+            "InputId": "idOverseasFrtAmtTAX2",
+            "Columns": {
+                "cols": [
+                    {
+                        "label": "Tax Code",
+                        "template": "TaxCode"
+                    },
+                    {
+                        "label": "Tax Code Name",
+                        "template": "TaxCodeName"
+                    }
+                ]
+            },
+            "EntityPath": "/TaxCodeVH",
+            "FragmentName": "TaxCodeVH"
         }
+        
     ],
     "SelectionFields": {
         "Plant": "",

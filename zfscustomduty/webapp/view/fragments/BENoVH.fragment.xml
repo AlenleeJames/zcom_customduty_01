@@ -1,0 +1,42 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <ValueHelpDialog
+        title="Select BE No."
+        ok="onValueHelpOkPress"
+        cancel="onValueHelpCancelPress"
+        afterClose="onValueHelpAfterClose"
+        supportRanges="true"
+        key="BENoKey" supportMultiselect="false"
+        descriptionKey="BENoKey"
+    >
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="true"
+                search="onFilterBarSearch"
+                isRunningInValueHelpDialog="true"
+                showAllFilters="false"
+                showGoOnFB="false"
+            >
+                <fb:filterGroupItems>
+                    <fb:FilterGroupItem
+                        groupName="__$INTERNAL$"
+                        name="BENoKey"
+                        label="BE No."
+                        visibleInFilterBar="false"
+                    >
+                        <fb:control>
+                            <m:Input name="BENoKey" />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                </fb:filterGroupItems>
+            </fb:FilterBar>
+        </filterBar>
+        <customData>
+            <core:CustomData key="InputId" value="idBENumberDis"/>
+        </customData>
+    </ValueHelpDialog>
+</core:FragmentDefinition>

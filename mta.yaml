@@ -53,6 +53,10 @@ modules:
     - artifacts:
       - customdutyuiuploadhsnzfsuploadhsn.zip
       name: customdutyuiuploadhsnzfsuploadhsn
+      target-path: resources/      
+    - artifacts:  
+      - customdutyuiparamzfemaintparam.zip
+      name: customdutyuiparamzfemaintparam
       target-path: resources/
 - name: customdutyuiinvoicepostingzfscustomduty
   type: html5
@@ -77,6 +81,16 @@ modules:
 - name: customdutyuiuploadhsnzfsuploadhsn
   type: html5
   path: zfsuploadhsn
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: customdutyuiparamzfemaintparam
+  type: html5
+  path: zfemaintparam
   build-parameters:
     build-result: dist
     builder: custom

@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
   <Dialog id="myDialog" title="Posting Logs" state="Information" 
-  contentWidth="500px" 
+  contentWidth="1000px" 
           contentHeight="400px">
     <Table id="dataTable" items="{LogData>/}">
       <columns>       

@@ -166,7 +166,7 @@ sap.ui.define([
                     this.busyDialog.close();
                     if (oData.to_ValidationLog.length > 0) {
                         this.getView().getModel("LogData").setData(oData.to_ValidationLog);
-                        this.getView().getModel("ValidLogData").setData(oData.to_ValidationLog);                        
+                        this.getView().getModel("ValidLogData").setData(oData.to_ValidationLog);
                         this.getView().getModel("LogData").refresh();
                         this.onOpenLogDialog();
                     } else {
@@ -425,31 +425,43 @@ sap.ui.define([
             },
 
             handleInvoicePosting: function () {
-                var validationLog = this.getView().getModel("ValidLogData").getData();
-                const errorItem = '';
-                if (validationLog.length > 0) {
-                    errorItem = validationLog.find(item => item.type === 'Error');
-                }
-                
-                if (validationLog && errorItem) {
-                    MessageBox.error("Validation errors found. Please check log for details");
-                }else{
-                //Save Data
                 this.busyDialog.open();
-                const oModel = this.getOwnerComponent().getModel();
-                const InvoicePOST = oModel.bindContext("/PostInvoice(...)");
-                InvoicePOST.setParameter("ID", this.transactionID);
-                InvoicePOST.execute().then(() => {
+                const selectedHdr = "/CustomDutyHdr(" + this.transactionID + ")?$expand=to_ValidationLog";  // Add $expand for related entity
+                this.getOwnerComponent().getModel().bindContext(selectedHdr).requestObject().then((oData) => {
                     this.busyDialog.close();
-                    this.setHeaderInfo();
-                    this.pollToGetLatestStaus();
+                    var validationError = '';
+                    if (oData.to_ValidationLog.length > 0) {
+                        var validationLog = oData.to_ValidationLog;
+                        const errorItem = validationLog.find(item => item.type === 'Error');
+                        if (errorItem) {
+                            validationError = 'X';
+                        }
+                    }                    
+                    if (validationError) {
+                        MessageBox.error("Validation errors found. Please check log for details");
+                    } else {
+                        //Save Data
+                        this.busyDialog.open();
+                        const oModel = this.getOwnerComponent().getModel();
+                        const InvoicePOST = oModel.bindContext("/PostInvoice(...)");
+                        InvoicePOST.setParameter("ID", this.transactionID);
+                        InvoicePOST.execute().then(() => {
+                            this.busyDialog.close();
+                            this.setHeaderInfo();
+                            this.pollToGetLatestStaus();
+                        }).catch((error) => {
+                            //const oMessage = error.message, sResponse = invoicePosting.getBoundContext().getObject(),
+                            //MessageModel = this.getView().getModel("MessageModel").getData();
+                            MessageToast.show(error);
+                            this.busyDialog.close();
+                        }, this);
+                    }
+
                 }).catch((error) => {
-                    //const oMessage = error.message, sResponse = invoicePosting.getBoundContext().getObject(),
-                    //MessageModel = this.getView().getModel("MessageModel").getData();
-                    MessageToast.show(error);
                     this.busyDialog.close();
-                }, this);
-            }
+                    MessageToast.show(error);
+                    console.error("Error loading data:", error);
+                });
             },
 
             handleInvoicePosting1: function () {

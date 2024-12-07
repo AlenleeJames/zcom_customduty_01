@@ -520,23 +520,29 @@ sap.ui.define([
                         });
                         chaFileData.forEach((chaFileRecord) => {
                             const chaFileMaterial = chaFileRecord.Material;
+                            var materialMapped = '';
                             CustInvData.forEach((MMCustDutyRecord) => {
                                 //if (chaFileMaterial === MMCustDutyRecord.Material && chaFileRecord.Quantity === MMCustDutyRecord.POQuantity) {
                                 if (chaFileMaterial === MMCustDutyRecord.Material && chaFileRecord.InvoiceNumber === MMCustDutyRecord.InvoiceNumber) {
+                                    materialMapped = 'X';
                                     chaFileRecord.PurchaseOrder = MMCustDutyRecord.PurchaseorderNumber;
                                     chaFileRecord.PurchaseorderItem = MMCustDutyRecord.POItemNumber; //isNaN(Number(MMCustDutyRecord.POItemNumber)) ? 0 : Number(MMCustDutyRecord.POItemNumber);
                                     chaFileRecord.HSNCodeSystem = MMCustDutyRecord.HSNCode;
                                     chaFileRecord.IGSTNoSystem = MMCustDutyRecord.BPTaxNumber;
                                     chaFileRecord.SupplierCountry = MMCustDutyRecord.Country;
                                     chaFileRecord.POQuantitySystem = MMCustDutyRecord.POQuantity;
+                                    chaFileRecord.IBDNumber = MMCustDutyRecord.IBDNumber;
                                     chaFileMatchedRecords.push(chaFileRecord);
                                 }
                             });
+                            if (!materialMapped) {
+                                chaFileMatchedRecords.push(chaFileRecord);
+                            }
                         });
                         this.buildValidationLog(chaFileMatchedRecords, CustInvData).then(() => {
                             this.getView().getModel("ValidatedModel").setData(chaFileMatchedRecords);
                             this.byId("idProceedToInvoicePosting").setEnabled(true);
-                            MessageToast.show("Validation Successfull");
+                            MessageToast.show("Validation Completed");
                         }).catch((oError) => {
                             MessageBox.error(oError);
                             this.busyDialog.close();
@@ -560,66 +566,83 @@ sap.ui.define([
                             const aData = aContexts.map((oContext) => oContext.getObject());
                             if (aData.length == 0) {
                                 reject("HSN configurations are empty. Please maintain the table");
-                            } else {                                
+                            } else {
                                 var validationLog = [];
                                 chafileData.forEach((chaFileRecord) => {
-                                    if (chaFileRecord.HSNCodeSystem !== chaFileRecord.HSNCodefromCHA) {
-                                        var validation = {};
-                                        validation.type = 'Warning';
-                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file HSN: ' + chaFileRecord.HSNCodefromCHA +
-                                        ' not matching with System HSN Code: ' + chaFileRecord.HSNCodeSystem;  
-                                        validationLog.push(validation);                                      
-                                    } 
-                                    if (chaFileRecord.IGSTNoSystem !== chaFileRecord.IGSTNo) {
-                                        var validation = {};
-                                        validation.type = 'Warning';
-                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file IGST No.: ' + chaFileRecord.IGSTNo +
-                                        ' not matching with System IGST No.: ' + chaFileRecord.IGSTNoSystem;  
-                                        validationLog.push(validation);                                      
-                                    } 
-                                    if (chaFileRecord.POQuantitySystem !== chaFileRecord.Quantity) {
-                                        var validation = {};
-                                        validation.type = 'Warning';
-                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file Quantity.: ' + chaFileRecord.Quantity +
-                                        ' not matching with System Quantity.: ' + chaFileRecord.POQuantitySystem;  
-                                        validationLog.push(validation);                                      
-                                    } 
-                                    if (!chaFileRecord.InvoiceNumber) {
+
+                                    if (!chaFileRecord.PurchaseOrder) {
                                         var validation = {};
                                         validation.type = 'Error';
-                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Invoice number not maitained in the system';  
-                                        validationLog.push(validation);  
-                                    }
-                                    
-                                    var hsnCodeMaintained = '';
-                                    aData.forEach((hsnconfig) => {                                       
-                                       if (hsnconfig.SupplierCountry == chaFileRecord.SupplierCountry && 
-                                           hsnconfig.HSNCode == chaFileRecord.HSNCodeSystem) {
-                                            hsnCodeMaintained = 'X';
-                                            chaFileRecord.CustomDutyTAX1 = hsnconfig.TaxCode;
-                                            if (hsnconfig.TaxRate !== chaFileRecord.RateofBCDPercent) {
-                                                var validation = {};
-                                                validation.type = 'Error';
-                                                validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax rate not matching as per configuration';  
-                                                validationLog.push(validation);  
-                                            }                                            
-                                       }
-                                    });
-                                    if (!hsnCodeMaintained) {
-                                        var validation = {};
-                                        validation.type = 'Error';
-                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax rate not maintained';  
+                                        if (chaFileRecord.Material) {
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. No matching purchase order found for Material: ' + chaFileRecord.Material;
+                                        }else{
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. No matching purchase order found';
+                                        }                                        
                                         validationLog.push(validation);
-                                        //reject(validation.message);
+                                    } else {
+
+                                        if (chaFileRecord.HSNCodeSystem !== chaFileRecord.HSNCodefromCHA) {
+                                            var validation = {};
+                                            validation.type = 'Warning';
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file HSN: ' + chaFileRecord.HSNCodefromCHA +
+                                                ' not matching with System HSN Code: ' + chaFileRecord.HSNCodeSystem;
+                                            validationLog.push(validation);
+                                        }
+                                        if (chaFileRecord.IGSTNoSystem !== chaFileRecord.IGSTNo) {
+                                            var validation = {};
+                                            validation.type = 'Warning';
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file IGST No.: ' + chaFileRecord.IGSTNo +
+                                                ' not matching with System IGST No.: ' + chaFileRecord.IGSTNoSystem;
+                                            validationLog.push(validation);
+                                        }
+                                        if (chaFileRecord.POQuantitySystem !== chaFileRecord.Quantity) {
+                                            var validation = {};
+                                            validation.type = 'Warning';
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA file Quantity.: ' + chaFileRecord.Quantity +
+                                                ' not matching with System Quantity.: ' + chaFileRecord.POQuantitySystem;
+                                            validationLog.push(validation);
+                                        }
+                                        if (!chaFileRecord.InvoiceNumber) {
+                                            var validation = {};
+                                            validation.type = 'Error';
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Invoice number not maitained in the system';
+                                            validationLog.push(validation);
+                                        }
+
+                                        var hsnCodeMaintained = '';
+                                        aData.forEach((hsnconfig) => {
+                                            if (hsnconfig.SupplierCountry == chaFileRecord.SupplierCountry &&
+                                                hsnconfig.HSNCode == chaFileRecord.HSNCodeSystem) {
+                                                hsnCodeMaintained = 'X';
+                                                chaFileRecord.CustomDutyTAX1 = hsnconfig.TaxCode;
+                                                if (hsnconfig.TaxRate !== chaFileRecord.RateofBCDPercent) {
+                                                    var validation = {};
+                                                    validation.type = 'Error';
+                                                    validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. CHA File Tax rate: ' + chaFileRecord.RateofBCDPercent
+                                                        + ' not matching with configured Tax rate: ' + hsnconfig.TaxRate + ' for supplier country: ' + chaFileRecord.SupplierCountry
+                                                        + ' and HSN Code: ' + chaFileRecord.HSNCodeSystem;
+                                                    validationLog.push(validation);
+                                                }
+                                            }
+                                        });
+                                        if (!hsnCodeMaintained) {
+                                            var validation = {};
+                                            validation.type = 'Error';
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax rate not maintained for suppler country: ' + chaFileRecord.SupplierCountry
+                                                + ' and for HSN Code: ' + chaFileRecord.HSNCodeSystem;
+                                            validationLog.push(validation);
+                                            //reject(validation.message);
+                                        }
+                                        if (!chaFileRecord.CustomDutyTAX1) {
+                                            var validation = {};
+                                            validation.type = 'Error';
+                                            validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax code not maintained for suppler country: ' + chaFileRecord.SupplierCountry
+                                                + ' and for HSN Code: ' + chaFileRecord.HSNCodeSystem;
+                                            validationLog.push(validation);
+                                            //reject(validation.message);
+                                        }
                                     }
-                                    if (!chaFileRecord.CustomDutyTAX1) {
-                                        var validation = {};
-                                        validation.type = 'Error';
-                                        validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. Tax code not maintained';  
-                                        validationLog.push(validation);
-                                        //reject(validation.message);
-                                    }
-                                });                                   
+                                });
                                 this.getView().getModel("ValidationLog").setData(validationLog);
                                 resolve();
                             }
@@ -889,11 +912,13 @@ sap.ui.define([
                                             if (CustomDutyData.OverSeasVendor) {
                                                 CustomDutyData.OverSeasVendInvStat = 'Saved';
                                             }
+                                            CustomDutyData.OverSeasInvHdr = this.getById("idSSVOverSeasInvHdrInvInput").getValue();
                                             CustomDutyData.DomesticVendInv = '';
                                             CustomDutyData.DomesticVendor = this.getById("idSSVLocalVendortInput").getValue();
                                             if (CustomDutyData.DomesticVendor) {
                                                 CustomDutyData.DomesticVendInvStat = 'Saved';
                                             }
+                                            CustomDutyData.DomesticInvHdr = this.getById("idSSVDomesticInvHdrInvInput").getValue();
                                             CustomDutyData.to_CustomDutyItem = aData;
                                             var ValidationLog = this.getView().getModel('ValidationLog').getData();
                                             CustomDutyData.to_ValidationLog = ValidationLog;
@@ -1122,6 +1147,12 @@ sap.ui.define([
                 this.getById("idSSVCustomVendortInputDis").setValue("");
                 this.getById("idSSVOverseasVendorInput").setValue("");
                 this.getById("idSSVOverseasVendorInputDis").setValue("");
+
+                this.getById("idSSVOverSeasInvHdrInvInputDis").setValue("");
+                this.getById("idSSVDomesticInvHdrInvInputDis").setValue("");
+                this.getById("idSSVOverSeasInvHdrInvInput").setValue("");
+                this.getById("idSSVDomesticInvHdrInvInput").setValue("");
+
                 this.getById("idSSVLocalVendortInput").setValue("");
                 this.getById("idSSVLocalVendortInputDis").setValue("");
                 this.getById("idSSVInsuranceVendortInput").setValue("");

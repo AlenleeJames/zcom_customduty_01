@@ -203,6 +203,22 @@
                             value="{ManageData>/OverSeasVendor}"
                              editable="{= ${ManageData>/OverSeasVendInv} ? false : true}"
                         />
+
+
+                        <Label
+                            id="idSSVOverSeasInvHdrInvLabelDis"
+                            text="{i18n>OverSeasInvHdrVendor}"
+                        />
+										<Input
+                            id="idSSVOverSeasInvHdrInvInputDis"
+                            width="50%"
+                            showValueHelp="false"
+                            maxLength="10"
+                            change="onInputChange"
+                            value="{ManageData>/OverSeasInvHdr}"
+                             editable="{= ${ManageData>/OverSeasVendInv} ? false : true}"
+                        />
+
 										<!--  Local Freight vendor Field  -->
 										<Label
                             id="idSSVLocalFrieghtVendorLabelDis"
@@ -225,6 +241,22 @@
                                 />
 											</customData>
 										</Input>
+
+                            <Label
+                            id="idSSVDomesticInvHdrInvLabelDis"
+                            text="{i18n>DomesticVendInvVendor}"
+                        />
+										<Input
+                            id="idSSVDomesticInvHdrInvInputDis"
+                            width="50%"
+                            showValueHelp="false"
+                            maxLength="10"
+                            change="onInputChange"
+                            value="{ManageData>/DomesticInvHdr}"
+                             editable="{= ${ManageData>/DomesticVendInv} ? false : true}"
+                        />
+
+
 										<!--  Insurance vendor Field  -->
 										<Label
                             id="idSSVInsuranceVendorLabelDis"
@@ -762,6 +794,20 @@
                             maxLength="10"
                             change="onInputChange"
                         />
+
+
+                        <Label
+                            id="idSSVOverSeasInvHdrInvLabel"
+                            text="{i18n>OverSeasInvHdrVendor}"
+                        />
+										<Input
+                            id="idSSVOverSeasInvHdrInvInput"
+                            width="50%"
+                            showValueHelp="false"
+                            maxLength="10"
+                            change="onInputChange"                           
+                        />
+
 									<!--  Local Freight vendor Field  -->
 									<Label
                             id="idSSVLocalFrieghtVendorLabel"
@@ -783,6 +829,19 @@
                                 />
 										</customData>
 									</Input>
+
+                                <Label
+                            id="idSSVDomesticInvHdrInvLabel"
+                            text="{i18n>DomesticVendInvVendor}"
+                        />
+										<Input
+                            id="idSSVDomesticInvHdrInvInput"
+                            width="50%"
+                            showValueHelp="false"
+                            maxLength="10"
+                            change="onInputChange"                           
+                        />
+
 									<!--  Insurance vendor Field  -->
 									<Label
                             id="idSSVInsuranceVendorLabel" visible="false"
@@ -874,8 +933,7 @@
                             class="sapUiSmallMarginEnd"
                             width="50%"
                             enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}
-                            &amp;&amp; ${uploadChaFileModel>/isCustomVendorFilled} &amp;&amp; ${uploadChaFileModel>/isLocalVendorFilled}
-                            &amp;&amp; ${uploadChaFileModel>/isInsuranceVendorFilled} &amp;&amp; ${uploadChaFileModel>/isMiscVendorFilled}}"
+                            &amp;&amp; ${uploadChaFileModel>/isCustomVendorFilled}}"
                         />
 									<!--  <Button
                                 id="idUploadCHAFileViewDownloadTemplateButton"
@@ -919,7 +977,7 @@
                                 />
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn12"  width="11rem">
+									<t:Column id="_IDGenColumn1288"  width="11rem">
 										<Label id="_IDGenLabel12"  text="{i18n>Invoice}" />
 										<t:template>
 											<Text id="_IDGenText2" 
@@ -946,7 +1004,7 @@
                                 />
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn13"  width="5rem">
+									<t:Column id="_IDGenColumn1388"  width="5rem">
 										<Label id="_IDGenLabel13"
                                 text="{i18n>LocalFreightAmountTax1}"
                                 wrapping="true"
@@ -1092,7 +1150,7 @@
                                 />
 										</t:template>
 									</t:Column>
-									<t:Column id="_IDGenColumn16"  width="9rem">
+									<t:Column id="_IDGenColumn16444"  width="9rem">
 										<Label id="_IDGenLabel16" 
                                 text="{i18n>OverseasFreightAmount1}"
                                 wrapping="true"

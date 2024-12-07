@@ -171,6 +171,13 @@
             </t:template>
         </t:Column>
 
+        <t:Column width="8rem" id="_IDGenColumnASN">
+            <Label id="_IDGenLabel11ASN" text="ASN" />
+            <t:template>
+                <Text id="_IDGenText12ASN" text="{IBDNumber}" />
+            </t:template>
+        </t:Column>
+
         <t:Column width="25rem" id="_IDGenColumn8">
             <Label id="_IDGenLabel19" text="ProductDescription" />
             <t:template>

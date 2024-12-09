@@ -88,7 +88,7 @@ sap.ui.define([
                     minFractionDigits: 0
                 }),
                 uiTable = this.getView().byId("idHSNTablePreview");
-
+            let aPayloadArray = [];
             if (eData.length > 0) {
                 this.busyDialog.open();
                 eData.forEach((sRecord) => {
@@ -97,7 +97,8 @@ sap.ui.define([
                     oPayload.HSNCode = sRecord["HSN Code"].toString();
                     oPayload.TaxRate = isNaN(Number(taxRate.replaceAll(",", ""))) ? 0 : Number(taxRate.replaceAll(",", ""));
                     oPayload.TaxCode = sRecord["Tax Code"].toString();
-                    uploadBinding.create(oPayload, true);
+                    aPayloadArray.push(oPayload)
+                    //uploadBinding.create(oPayload, true);
                     // oModel.create("/UploadHSN", oPayload, {
                     //     groupId: "CreateUploadHSNRecord",
                     //     refreshAfterChange: true
@@ -124,6 +125,7 @@ sap.ui.define([
                 //         }.bind(this)
                 //     }, this);
                 // })
+                uploadBinding.create(aPayloadArray, true);
                 oModel.submitBatch("CreateUploadHSNRecord")
                     .then((oData) => {
                         const hasChanges = oModel.hasPendingChanges(),

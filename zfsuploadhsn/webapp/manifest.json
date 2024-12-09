@@ -24,6 +24,15 @@
                     "localUri": "localService/custom-duty-app-srv/metadata.xml",
                     "odataVersion": "2.0"
                 }
+            },
+            "CustomDuty-V4": {
+                "uri": "/odata/v4/custom-duty-app-srv/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "4.0"
+                }
             }
         }
     },
@@ -73,6 +82,16 @@
                     "defaultBindingMode": "TwoWay",
                     "defaultCountMode": "Inline",
                     "refreshAfterChange": false
+                }
+            },
+            "V4": {
+                "preload": true,
+                "dataSource": "CustomDuty-V4",
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
                 }
             }
         },

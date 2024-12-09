@@ -69,7 +69,7 @@
                             press="onSubmitFile"
                             class="sapUiSmallMarginEnd"
                             width="40%"
-                            enabled="true"
+                            enabled="{uploadHSAModel>/isHsnFileFilled}"
                         />
                         <Label
                             id="idUHSNFlexBoxLabel"
@@ -97,29 +97,114 @@
                     showRowCount="true"
                     persistencyKey="UploadHSNTable"
                     enableAutoBinding="true"
+                    requestAtLeastFields="SupplierCountry,HSNCode,TaxRate,TaxCode"
                     demandPopin="true"
-                    initiallyVisibleFields="SupplierCountry,HSNCode,TaxRate,TaxCode"
                     class="sapUiTinyMarginTop"
                 >
                     <smartTable:customToolbar>
                         <OverflowToolbar>
                             <ToolbarSpacer />
+                            <OverflowToolbarButton id="idEditTaxToggle"
+                                icon="sap-icon://edit"
+                                text="Edit"
+                                tooltip="Edit"
+                                press="onEditTaxDetails"
+                            />
                             <OverflowToolbarButton
-                                 icon="sap-icon://delete"
+                                icon="sap-icon://delete"
                                 text="Delete"
                                 tooltip="Delete"
                                 press="onDeleteHSNRecords"
                             />
-                            
                         </OverflowToolbar>
                     </smartTable:customToolbar>
                     <Table
                         id="innerUi5Table"
                         growing="true"
                         mode="MultiSelect"
-                    />
+                    >
+                        <columns>
+                            <Column>
+                                <customData>
+                                    <core:CustomData
+                                        key="p13nData"
+                                        value='\{"columnKey": "SupplierCountry", "columnIndex":0, "leadingProperty": "SupplierCountry", "sortProperty": "SupplierCountry", "filterProperty": "SupplierCountry"}'
+                                    />
+                                </customData>
+                                <Text text="Supplier Country" />
+                            </Column>
+                            <Column>
+                                <customData>
+                                    <core:CustomData
+                                        key="p13nData"
+                                        value='\{"columnKey": "HSNCode", "columnIndex":1, "leadingProperty": "HSNCode", "sortProperty": "HSNCode", "filterProperty": "HSNCode"}'
+                                    />
+                                </customData>
+                                <Text text="HSN Code" />
+                            </Column>
+                            <Column>
+                                <customData>
+                                    <core:CustomData
+                                        key="p13nData"
+                                        value='\{"columnKey": "TaxRate", "columnIndex":2, "leadingProperty": "TaxRate", "sortProperty": "TaxRate", "filterProperty": "TaxRate"}'
+                                    />
+                                </customData>
+                                <Text text="Tax Rate" />
+                            </Column>
+                            <Column>
+                                <customData>
+                                    <core:CustomData
+                                        key="p13nData"
+                                        value='\{"columnKey": "TaxCode", "columnIndex":3, "leadingProperty": "TaxCode", "sortProperty": "TaxCode", "filterProperty": "TaxCode"}'
+                                    />
+                                </customData>
+                                <Text text="Tax Code" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <Text text="{SupplierCountry}" />
+                                <Text text="{HSNCode}" />
+                                <Input
+                                    value="{TaxRate}"
+                                    editable="{uploadHSAModel>/isEditEnabled}"
+                                    change="onTaxInputChange"
+                                >
+                                    <customData>
+                                        <core:CustomData
+                                            key="Property"
+                                            value='TaxRate'
+                                        />
+                                    </customData>
+                                </Input>
+                                <Input
+                                    value="{TaxCode}"
+                                    editable="{uploadHSAModel>/isEditEnabled}"
+                                    change="onTaxInputChange"
+                                >
+                                    <customData>
+                                        <core:CustomData
+                                            key="Property"
+                                            value='TaxCode'
+                                        />
+                                    </customData>
+                                </Input>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
                 </smartTable:SmartTable>
             </VBox>
         </f:content>
+        <f:footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    id="idSave"
+                    type="Accept"
+                    text="Save"
+                    press="onSaveTaxDetails"
+                />
+            </OverflowToolbar>
+        </f:footer>
     </f:DynamicPage>
 </mvc:View>

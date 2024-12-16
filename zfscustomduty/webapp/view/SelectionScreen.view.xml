@@ -304,6 +304,16 @@
                                 />
 											</customData>
 										</Input>
+
+                                    	<Label id="_IDGenLabel54" text="Invoice Date" labelFor="idInvoiceDateDis"/>
+				<DatePicker
+					id="idInvoiceDateDis"
+                    width="50%"
+					placeholder="Enter Invoice Date"
+					change="onInputChange"
+                    value="{ManageData>/InvoicedateHDR}"
+					class="sapUiSmallMarginBottom"/>
+
 									</form:content>
 								</form:SimpleForm>
 								
@@ -887,6 +897,23 @@
                                 />
 										</customData>
 									</Input>
+                            <Label id="_IDGenLabel542" text="Invoice Date" labelFor="idInvoiceDate"/>
+				<DatePicker
+					id="idInvoiceDate"
+                    width="50%"
+					placeholder="Enter Invoice Date"
+                    valueState="{= ${uploadChaFileModel>/isInvoiceDateFilled} ? 'None' : 'Error'}"
+                    valueStateText="{i18n>FieldcanNotBeEmptyMsg}"
+					change="onInputChange"
+					class="sapUiSmallMarginBottom">
+                        <customData>
+											<core:CustomData
+                                    key="CHAModelProperty"
+                                    value="isInvoiceDateFilled"
+                                />
+										</customData>
+                    </DatePicker>                    
+
 									<!--  CHA File Browse  -->
 									<Label
                             id="idSSVCHAFileLabel"
@@ -905,7 +932,7 @@
                             sameFilenameAllowed="true"
                             iconOnly="true"
                             buttonOnly="false" 
-                            fileType="XLSX,xlsx,JSON"
+                            fileType="XLSX,xlsx,JSON,xls,XLS"
                             icon="sap-icon://upload"
                             iconFirst="true"
                             style="Emphasized"
@@ -933,7 +960,7 @@
                             class="sapUiSmallMarginEnd"
                             width="50%"
                             enabled="{= ${uploadChaFileModel>/isChaFileFilled} &amp;&amp; ${uploadChaFileModel>/isPlantFilled}
-                            &amp;&amp; ${uploadChaFileModel>/isCustomVendorFilled}}"
+                            &amp;&amp; ${uploadChaFileModel>/isCustomVendorFilled} &amp;&amp; ${uploadChaFileModel>/isInvoiceDateFilled}}"
                         />
 									<!--  <Button
                                 id="idUploadCHAFileViewDownloadTemplateButton"

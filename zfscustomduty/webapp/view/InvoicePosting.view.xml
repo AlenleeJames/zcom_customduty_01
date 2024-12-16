@@ -146,6 +146,7 @@
         <OverflowToolbar id="_IDGenOverflowToolbar3" style="Clear">
             <Title class="sapUiTinyMargin" id="title099" text="{i18n>PostingTitle}" />
             <ToolbarSpacer id="_IDGenToolbarSpacer4" />
+            <Button id="_IDGenButton4" icon="sap-icon://excel-attachment" press="onExport"/>
             <Button
                 id="idSettings"
                 class="sapUiTinyMargin"
@@ -216,7 +217,7 @@
         <t:Column width="8rem" id="_IDGenColumn13">
             <Label id="_IDGenLabel24" text="RITC" />
             <t:template>
-                <Text id="_IDGenText18" text="{RITC}" />
+                <Text id="_IDGenText18" text="{HSNCodefromCHA}" />
             </t:template>
         </t:Column>
 
@@ -421,28 +422,7 @@
             <t:template>
                 <Text id="_IDGenText47" text="{DomesticFreightperitem2}" />
             </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn43">
-            <Label id="_IDGenLabel54" text="Inschargesperitem1" />
-            <t:template>
-                <Text id="_IDGenText48" text="{Inschargesperitem1}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn44">
-            <Label id="_IDGenLabel55" text="Inschargesperitem2" />
-            <t:template>
-                <Text id="_IDGenText49" text="{Inschargesperitem2}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn45">
-            <Label id="_IDGenLabel56" text="Miscchargesperitem" />
-            <t:template>
-                <Text id="_IDGenText50" text="{Miscchargesperitem}" />
-            </t:template>
-        </t:Column>
+        </t:Column>       
 
         <t:Column width="8rem" id="_IDGenColumn46">
             <Label id="_IDGenLabel57" text="CustomInvoiceVendor" />
@@ -484,35 +464,7 @@
             <t:template>
                 <Text id="_IDGenText56" text="{DomFreightInvoice}" />
             </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn52">
-            <Label id="_IDGenLabel63" text="InsuranceVendor" />
-            <t:template>
-                <Text id="_IDGenText57" text="{InsuranceVendor}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn53">
-            <Label id="_IDGenLabel64" text="InsInvoNum" />
-            <t:template>
-                <Text id="_IDGenText58" text="{InsInvoNum}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn54">
-            <Label id="_IDGenLabel65" text="MiscChargesVen" />
-            <t:template>
-                <Text id="_IDGenText59" text="{MiscChargesVen}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn55">
-            <Label id="_IDGenLabel66" text="MiscChargeInvoice" />
-            <t:template>
-                <Text id="_IDGenText60" text="{MiscChargeInvoice}" />
-            </t:template>
-        </t:Column>
+        </t:Column>       
 
         <t:Column width="8rem" id="_IDGenColumn56">
             <Label id="_IDGenLabel67" text="OverseasFrtAmtCALC1" />
@@ -604,48 +556,7 @@
                 <Text id="_IDGenText73" text="{OpenPOQty}" />
             </t:template>
         </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn69">
-            <Label id="_IDGenLabel80" text="InsurancePercentage" />
-            <t:template>
-                <Text id="_IDGenText74" text="{InsurancePercentage}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn70">
-            <Label id="_IDGenLabel81" text="InsuranceExrate" />
-            <t:template>
-                <Text id="_IDGenText75" text="{InsuranceExrate}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn71">
-            <Label id="_IDGenLabel82" text="MiscAmountCALC1" />
-            <t:template>
-                <Text id="_IDGenText76" text="{MiscAmountCALC1}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn72">
-            <Label id="_IDGenLabel83" text="MiscAmountCALC2" />
-            <t:template>
-                <Text id="_IDGenText77" text="{MiscAmountCALC2}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn73">
-            <Label id="_IDGenLabel84" text="InsuranceAmTCALC1" />
-            <t:template>
-                <Text id="_IDGenText78" text="{InsuranceAmTCALC1}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn74">
-            <Label id="_IDGenLabel85" text="InsuranceAmTCALC2" />
-            <t:template>
-                <Text id="_IDGenText79" text="{InsuranceAmTCALC2}" />
-            </t:template>
-        </t:Column>
+        
 
         <t:Column width="8rem" id="_IDGenColumn75">
             <Label id="_IDGenLabel86" text="OverseasFrtAmtTAX1" />
@@ -673,35 +584,7 @@
             <t:template>
                 <Text id="_IDGenText83" text="{DomesticFrtAmtTAX2}" />
             </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn79">
-            <Label id="_IDGenLabel90" text="MiscAmountTAX1" />
-            <t:template>
-                <Text id="_IDGenText84" text="{MiscAmountTAX1}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn80">
-            <Label id="_IDGenLabel91" text="MiscAmountTAX2" />
-            <t:template>
-                <Text id="_IDGenText85" text="{MiscAmountTAX2}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn81">
-            <Label id="_IDGenLabel92" text="InsuranceAmTTAX1" />
-            <t:template>
-                <Text id="_IDGenText86" text="{InsuranceAmTTAX1}" />
-            </t:template>
-        </t:Column>
-
-        <t:Column width="8rem" id="_IDGenColumn82">
-            <Label id="_IDGenLabel93" text="InsuranceAmTTAX2" />
-            <t:template>
-                <Text id="_IDGenText87" text="{InsuranceAmTTAX2}" />
-            </t:template>
-        </t:Column>
+        </t:Column>      
     </t:columns>
 </t:Table>
 

@@ -14,11 +14,13 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/ui/core/Fragment",
     "customduty/ui/invoiceposting/utils/formatter",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    'sap/ui/export/library',
+	'sap/ui/export/Spreadsheet'
 ],
-    function (BaseController, JSONModel, BusyDialog, MessageItem, MessageView, Button, DateFormat, NumberFormat, Bar, Title, Popover, History, MessageToast, Fragment, formatter, MessageBox) {
+    function (BaseController, JSONModel, BusyDialog, MessageItem, MessageView, Button, DateFormat, NumberFormat, Bar, Title, Popover, History, MessageToast, Fragment, formatter, MessageBox, exportLibrary, Spreadsheet) {
         "use strict";
-
+        var EdmType = exportLibrary.EdmType;
         return BaseController.extend("customduty.ui.invoiceposting.controller.InvoicePosting", {
             formatter: formatter,
             onInit: function () {
@@ -138,6 +140,394 @@ sap.ui.define([
                     path: aSelectedInvoice
                 });
                 this.setHeaderInfo();
+            },
+
+            createColumnConfig: function() {
+                var aCols = [];
+    
+                aCols.push({
+                    property: 'BENo',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'BEDate',
+                    type: EdmType.Date
+                });
+
+                aCols.push({
+                    property: 'ASN',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'ProductDescription',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'InvoiceNumber',
+                    type: EdmType.String
+                });               
+
+                aCols.push({
+                    label: 'ExcRateforInvoice',
+                    type: EdmType.Number,
+                    property: 'ExcRateforInvoice',
+                    scale: 2
+                });
+
+                aCols.push({
+                    property: 'TermsofInvoice',
+                    type: EdmType.String
+                });  
+
+                aCols.push({
+                    label: 'InvoiceValueFC',
+                    type: EdmType.Number,
+                    property: 'InvoiceValueFC',
+                    scale: 2
+                });
+
+                aCols.push({
+                    property: 'HSNCodefromCHA',
+                    type: EdmType.String
+                }); 
+
+                aCols.push({
+                    label: 'Quantity',
+                    type: EdmType.Number,
+                    property: 'Quantity',
+                    scale: 2
+                });
+                
+                aCols.push({
+                    property: 'Unit',
+                    type: EdmType.String
+                }); 
+
+                aCols.push({
+                    label: 'UnitPrice',
+                    type: EdmType.Number,
+                    property: 'UnitPrice',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'AssessableValue',
+                    type: EdmType.Number,
+                    property: 'AssessableValue',
+                    scale: 2
+                });
+                
+    
+                aCols.push({
+                    property: 'ItemSrNo',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    label: 'RateofBCDPercent',
+                    type: EdmType.Number,
+                    property: 'RateofBCDPercent',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'BCDAmount',
+                    type: EdmType.Number,
+                    property: 'BCDAmount',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'SocWelSurDutyAmt',
+                    type: EdmType.Number,
+                    property: 'SocWelSurDutyAmt',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'IGSTRateDutyPer',
+                    type: EdmType.Number,
+                    property: 'IGSTRateDutyPer',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'IGST',
+                    type: EdmType.Number,
+                    property: 'IGST',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'TotalBCD',
+                    type: EdmType.Number,
+                    property: 'TotalBCD',
+                    scale: 2
+                });
+              
+                aCols.push({
+                    property: 'CountryOfOrigin',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'PortofOrigin',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'HAWB_HBLDate',
+                    type: EdmType.Date
+                });
+
+                aCols.push({
+                    property: 'Invoicedate',
+                    type: EdmType.Date
+                });
+
+                aCols.push({
+                    property: 'InvoiceCurrency',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'FreightCurrency',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    label: 'FreightAmount',
+                    type: EdmType.Number,
+                    property: 'FreightAmount',
+                    scale: 2
+                });
+
+                aCols.push({
+                    property: 'InsuranceCurrency',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    label: 'InsuranceAmtCHA',
+                    type: EdmType.Number,
+                    property: 'InsuranceAmtCHA',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'MiscAmountCHA',
+                    type: EdmType.Number,
+                    property: 'MiscAmountCHA',
+                    scale: 2
+                });
+
+                aCols.push({
+                    property: 'Material',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'PurchaseOrder',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'PurchaseorderItem',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    label: 'OverFreightperitem1',
+                    type: EdmType.Number,
+                    property: 'OverFreightperitem1',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'OverFreightperitem2',
+                    type: EdmType.Number,
+                    property: 'OverFreightperitem2',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'DomesticFreightperitem1',
+                    type: EdmType.Number,
+                    property: 'DomesticFreightperitem1',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'DomesticFreightperitem2',
+                    type: EdmType.Number,
+                    property: 'DomesticFreightperitem2',
+                    scale: 2
+                });
+
+                
+                aCols.push({
+                    property: 'CustomInvoiceVendor',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'CustomInvoice',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'OverFreightVendor',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'OverFreighInvoice',
+                    type: EdmType.String
+                });
+
+
+                aCols.push({
+                    property: 'DomFreightVendor',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'DomFreightInvoice',
+                    type: EdmType.String
+                });
+
+               
+                aCols.push({
+                    label: 'OverseasFrtAmtCALC1',
+                    type: EdmType.Number,
+                    property: 'OverseasFrtAmtCALC1',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'OverseasFrtAmtCALC2',
+                    type: EdmType.Number,
+                    property: 'OverseasFrtAmtCALC2',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'DomesticFrtAmtCALC1',
+                    type: EdmType.Number,
+                    property: 'DomesticFrtAmtCALC1',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'DomesticFrtAmtCALC2',
+                    type: EdmType.Number,
+                    property: 'DomesticFrtAmtCALC2',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'TotalIGST',
+                    type: EdmType.Number,
+                    property: 'TotalIGST',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'TotalAmount',
+                    type: EdmType.Number,
+                    property: 'TotalAmount',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'InvoiceValueINR',
+                    type: EdmType.Number,
+                    property: 'InvoiceValueINR',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'FreightPercentage',
+                    type: EdmType.Number,
+                    property: 'FreightPercentage',
+                    scale: 2
+                });
+
+                aCols.push({
+                    label: 'FreightExrate',
+                    type: EdmType.Number,
+                    property: 'FreightExrate',
+                    scale: 2
+                });
+
+                aCols.push({
+                    property: 'HSNCodefromCHA',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'HSNCodeSystem',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    label: 'OpenPOQty',
+                    type: EdmType.Number,
+                    property: 'OpenPOQty',
+                    scale: 2
+                });
+
+                aCols.push({
+                    property: 'OverseasFrtAmtTAX1',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'OverseasFrtAmtTAX2',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'DomesticFrtAmtTAX1',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'DomesticFrtAmtTAX2',
+                    type: EdmType.String
+                });
+    
+                return aCols;
+            },
+    
+            onExport: function() {
+                var aCols, oRowBinding, oSettings, oSheet, oTable;
+    
+                if (!this._oTable) {
+                    this._oTable = this.byId('idInvoicePostingTable');
+                }
+    
+                oTable = this._oTable;
+                oRowBinding = oTable.getBinding('rows');
+                aCols = this.createColumnConfig();
+    
+                oSettings = {
+                    workbook: {
+                        columns: aCols,
+                        hierarchyLevel: 'Level'
+                    },
+                    dataSource: oRowBinding,
+                    fileName: 'Table export sample.xlsx',
+                    worker: false // We need to disable worker because we are using a MockServer as OData Service
+                };
+    
+                oSheet = new Spreadsheet(oSettings);
+                oSheet.build().finally(function() {
+                    oSheet.destroy();
+                });
             },
 
             onDisplayLog: function () {

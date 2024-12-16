@@ -27,7 +27,8 @@ sap.ui.define([
                         isCustomVendorFilled: false,
                         isLocalVendorFilled: true,
                         isInsuranceVendorFilled: true,
-                        isMiscVendorFilled: true
+                        isMiscVendorFilled: true,
+                        isInvoiceDateFilled: false
                     }),
                     "uploadChaFileModel"
                 );
@@ -122,7 +123,7 @@ sap.ui.define([
 
                 // Return a promise to handle the asynchronous operation              
                 oModel.bindList(selectedHdr, undefined, undefined, [oInvoiceFilter])
-                    .requestContexts(0, 1000) // Fetch the first 10 records
+                    .requestContexts(0, 1000000) // Fetch the first 10 records
                     .then((aContexts) => {
                         // Map the contexts to data objects 
                         const aData = aContexts.map((oContext) => oContext.getObject());
@@ -201,7 +202,9 @@ sap.ui.define([
                     let reader = new FileReader(), excelSheetsData = [];
                     reader.onload = (e) => {
 
-                        if (this.file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                        if (this.file.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                            this.file.type == 'application/vnd.ms-excel'
+                        ) {
                             // getting the array buffer excel file content
                             let xlsx_content = e.currentTarget.result;
 
@@ -276,10 +279,14 @@ sap.ui.define([
                             //filteredData[field.OutputFields] = excelDetails[field.InputFields];                        
                             formatedData = this.formatData(columnTypeScale, excelDetails[field.InputFields]);
                             if (field.OutputFields == 'ProductDescription') {
-                                const match = excelDetails[field.InputFields].match(/\(([^)]+)\)/);
+                                //const match = excelDetails[field.InputFields].match(/\(([^)]+)\)/);
                                 // If match is found, log the content inside the first parentheses
+                                //if (match) {
+                                    //filteredData['Material'] = match[1];
+                                //}
+                                const match = excelDetails[field.InputFields].split(':');
                                 if (match) {
-                                    filteredData['Material'] = match[1];
+                                    filteredData['Material'] = match[0];
                                 }
                                 filteredData[field.OutputFields] = formatedData;
                             } else if (field.OutputFields == 'Material') {
@@ -362,7 +369,7 @@ sap.ui.define([
                 // Return a promise to handle the asynchronous operation
                 return new Promise((resolve, reject) => {
                     oModel.bindList(selectedHdr, undefined, undefined, [oInvoiceFilter])
-                        .requestContexts(0, 1000) // Fetch the first 10 records
+                        .requestContexts(0, 1000000) // Fetch the first 10 records
                         .then((aContexts) => {
                             // Close the busy dialog on success
                             this.busyDialog.close();
@@ -508,11 +515,14 @@ sap.ui.define([
                         aStringFilters.push(new Filter(filterProperty, FilterOperator.EQ, sValue))
                     }
                 });
-                this.uniqInvoices.forEach((invoiceNo) => {
-                    aStringFilters.push(new Filter("InvoiceNumber", FilterOperator.EQ, invoiceNo))
+                const invoiceData = this.getView().getModel("InvoiceModel").getData();
+                invoiceData.forEach((invoiceData) => {
+                    aStringFilters.push(new Filter("InvoiceNumber", FilterOperator.EQ, invoiceData.InvoiceNumber));
                 });
-                const CustInvMMContext = oModel.bindList("/ZA_MM_CustomDutyInvDetails").filter(aStringFilters);
-                CustInvMMContext.requestContexts().then((sReponse) => {
+
+                //const CustInvMMContext = oModel.bindList("/ZA_MM_CustomDutyInvDetails").filter(aStringFilters);
+                const CustInvMMContext = oModel.bindList("/ZA_MM_CustomDutyInvDetails", undefined, undefined, aStringFilters)
+                CustInvMMContext.requestContexts(0, 1000000).then((sReponse) => {
                     if (sReponse.length > 0) {
                         const CustInvData = [], chaFileMatchedRecords = [];
                         sReponse.forEach((sContext) => {
@@ -551,16 +561,39 @@ sap.ui.define([
                     } else
                         MessageBox.information("No data matched for the provided values")
                     this.busyDialog.close();
+                }).catch((oError) => {
+                    MessageBox.error(oError.message);
+                    this.busyDialog.close();
                 });
             },
 
             buildValidationLog: function (chafileData, S4Data) {
-                return new Promise((resolve, reject) => {
+                return new Promise((resolve, reject) => {                    
+
+                    const aStringFilters = S4Data.map(HSNData => {
+                        // Create filters for HSNCode and SupplierCountry
+                        const HSNFilter = new Filter("HSNCode", FilterOperator.EQ, HSNData.HSNCode);
+                        const countryFilter = new Filter("SupplierCountry", FilterOperator.EQ, HSNData.Country);
+                    
+                        // Combine the filters using AND for each pair
+                        return new Filter({
+                            filters: [HSNFilter, countryFilter],
+                            and: true // Ensures both conditions must be true (AND operator)
+                        });
+                    });
+                    
+                    // Combine all the individual filters using OR (any pair of HSNCode and CountryCode must match)
+                    const combinedFilter = new Filter({
+                        filters: aStringFilters,
+                        and: false // OR between different pairs
+                    });
+                    
+                    // You can now use combinedFilter with your OData model  
                     this.busyDialog.open();
                     const oModel = this.getView().getModel();
                     var selectedHdr = "/UploadHSN";
-                    oModel.bindList(selectedHdr, undefined, undefined, undefined)
-                        .requestContexts(0, 10)
+                    oModel.bindList(selectedHdr, undefined, undefined, combinedFilter)
+                        .requestContexts(0, 1000000)
                         .then((aContexts) => {
                             this.busyDialog.close();
                             const aData = aContexts.map((oContext) => oContext.getObject());
@@ -575,9 +608,9 @@ sap.ui.define([
                                         validation.type = 'Error';
                                         if (chaFileRecord.Material) {
                                             validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. No matching purchase order found for Material: ' + chaFileRecord.Material;
-                                        }else{
+                                        } else {
                                             validation.message = 'ItemSrNo: ' + chaFileRecord.ItemSrNo + '. No matching purchase order found';
-                                        }                                        
+                                        }
                                         validationLog.push(validation);
                                     } else {
 
@@ -833,6 +866,16 @@ sap.ui.define([
                             BEobject.OverSeasVendInvStat == ''
                         }
 
+                        if (BEobject.InvoicedateHDR) {
+                            BEobject.InvoicedateHDR = sap.ui.core.format.DateFormat.getInstance({
+                                pattern: "yyyy-MM-dd"
+                            }).format(new Date(BEobject.InvoicedateHDR));
+                        } else {
+                            BEobject.InvoicedateHDR = sap.ui.core.format.DateFormat.getInstance({
+                                pattern: "yyyy-MM-dd"
+                            }).format(new Date());
+                        } 
+
                         BEobject.to_CustomDutyItem = [];
                         BEobject.to_CustomDutyItem = aData;
                         delete BEobject.createdAt;
@@ -878,7 +921,7 @@ sap.ui.define([
                     value1: BENo
                 });
                 oModel.bindList(selectedHdr, undefined, undefined, [oInvoiceFilter])
-                    .requestContexts(0, 10)
+                    .requestContexts(0, 1000000)
                     .then((aContexts) => {
                         this.busyDialog.close();
                         const aData = aContexts.map((oContext) => oContext.getObject());
@@ -913,6 +956,9 @@ sap.ui.define([
                                                 CustomDutyData.OverSeasVendInvStat = 'Saved';
                                             }
                                             CustomDutyData.OverSeasInvHdr = this.getById("idSSVOverSeasInvHdrInvInput").getValue();
+                                            CustomDutyData.InvoicedateHDR = sap.ui.core.format.DateFormat.getInstance({
+                                                pattern: "yyyy-MM-dd"
+                                            }).format(this.getById("idInvoiceDate").getDateValue());
                                             CustomDutyData.DomesticVendInv = '';
                                             CustomDutyData.DomesticVendor = this.getById("idSSVLocalVendortInput").getValue();
                                             if (CustomDutyData.DomesticVendor) {
@@ -1138,6 +1184,8 @@ sap.ui.define([
             onClearForm: function () {
 
                 // Clearing all the forms
+                this.getView().byId("idInvoiceDate").setValue("");
+                this.getView().byId("idInvoiceDateDis").setValue("")
                 this.getById("idSSVPlantInput").setValue("");
                 this.getById("idSSVBENumberMultiInput").setTokens([]);
                 //this.getById("idSSVBENumberInputTo").setValue("");
@@ -1160,6 +1208,7 @@ sap.ui.define([
                 this.getById("idBEInputDis").setValue("");
                 this.getById("fileUploader").setValue("");
                 // Setting the model for Upload Button Active or not
+                this.setModelProperty("uploadChaFileModel", "isInvoiceDateFilled", false);
                 this.setModelProperty("uploadChaFileModel", "isChaFileFilled", false);
                 this.setModelProperty("uploadChaFileModel", "isPlantFilled", false);
                 this.setModelProperty("uploadChaFileModel", "isPOVendorFilled", false);

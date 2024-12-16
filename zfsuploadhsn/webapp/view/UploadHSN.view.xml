@@ -102,7 +102,7 @@
                     class="sapUiTinyMarginTop"
                 >
                     <smartTable:customToolbar>
-                        <OverflowToolbar>
+                        <OverflowToolbar> 
                             <ToolbarSpacer />
                             <OverflowToolbarButton id="idEditTaxToggle"
                                 icon="sap-icon://edit"
